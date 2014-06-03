@@ -1,0 +1,202 @@
+{
+    "terminal": "gnome-terminal",
+    "modkey": "Mod4",
+
+    "theme":
+    {
+        "file": "/usr/share/awesome/themes/default/theme.lua",
+        "font": "sans 10"
+    },
+
+    "titlebar":
+    {
+        "enabled": true,
+        "height": 15
+    },
+
+    "layouts":
+    [
+      "awful.layout.suit.max",
+      "awful.layout.suit.tile",
+      "awful.layout.suit.tile.left",
+      "awful.layout.suit.tile.bottom",
+      "awful.layout.suit.tile.top",
+      "awful.layout.suit.fair",
+      "awful.layout.suit.fair.horizontal"
+    ],
+
+    "screens":
+    {
+        "default":
+        {
+            "defaultLayout": "awful.layout.suit.fair",
+            "tags": ["1", "2", "3", "4", "5", "6", "7", "8"]
+        },
+
+        "last":
+        {
+            "defaultLayout": "awful.layout.suit.max",
+            "tagSettings":
+            {
+                "2":
+                {
+                    "layout": "awful.layout.suit.tile"
+                }
+            }
+        }
+    },
+
+    "rules": [
+        {
+            "rule":
+            {
+                "class": "MPlayer"
+            },
+
+            "properties":
+            {
+                "floating": true
+            }
+        },
+        {
+            "rule":
+            {
+                "class": "pinentry"
+            },
+
+            "properties":
+            {
+                "floating": true
+            }
+        },
+        {
+            "rule":
+            {
+                "class": "sun-awt-X11-XDialogPeer"
+            },
+
+            "properties":
+            {
+                "floating": true,
+                "size_hints_honor": true
+            }
+        }
+    ],
+
+    "buttons":
+    {
+        "root": {
+            "3": "crappy.functions.menu.toggle",
+            "4": "awful.tag.viewnext",
+            "5": "awful.tag.viewprev"
+        },
+
+        "client": {
+            "1": "crappy.functions.client.focus",
+            "2": "crappy.functions.client.focus",
+            "3": "crappy.functions.client.focus",
+            "M-1": "awful.mouse.client.move",
+            "M-3": "awful.mouse.client.resize"
+        }
+    },
+
+    "keys":
+    {
+        "global":
+        {
+            "M-<Left>": "awful.tag.viewprev",
+            "M-<Right>": "awful.tag.viewnext",
+            "M-<Escape>": "awful.tag.history.restore",
+
+            "M-j": "crappy.functions.global.focusNext",
+            "M-k": "crappy.functions.global.focusPrev",
+            "M-w": "crappy.functions.global.showMenu",
+            "M-<Tab>": "crappy.functions.global.focusNext",
+            "M-`": "crappy.functions.global.focusPrevHist",
+
+            "M-S-j": "crappy.functions.global.swapNext",
+            "M-S-k": "crappy.functions.global.swapPrev",
+            "M-C-j": "crappy.functions.global.focusNextScreen",
+            "M-C-k": "crappy.functions.global.focusPrevScreen",
+            "M-u": "awful.client.urgent.jumpto",
+
+            "M-<Return>": "crappy.functions.global.spawnTerminal",
+            "M-x": "crappy.functions.global.spawnTerminal",
+            "M-S-x": "crappy.functions.global.spawnTerminal",
+            "M-C-r": "awesome.restart",
+            "M-S-q": "awesome.quit",
+
+            "M-l": "crappy.functions.global.wmfactInc",
+            "M-h": "crappy.functions.global.wmfactDec",
+            "M-S-h": "crappy.functions.global.nmasterInc",
+            "M-S-l": "crappy.functions.global.nmasterDec",
+            "M-C-h": "crappy.functions.global.ncolInc",
+            "M-C-l": "crappy.functions.global.ncolDec",
+            "M-<space>": "crappy.functions.global.layoutInc",
+            "M-S-<space>": "crappy.functions.global.layoutDec",
+
+            "M-r": "crappy.functions.global.showRunPrompt",
+            "M-C-x": "crappy.functions.global.showLuaPrompt",
+
+            "M-<F1>": "function() crappy.functions.tag.show(1) end",
+            "M-<F2>": "function() crappy.functions.tag.show(2) end",
+            "M-<F3>": "function() crappy.functions.tag.show(3) end",
+            "M-<F4>": "function() crappy.functions.tag.show(4) end",
+            "M-<F5>": "function() crappy.functions.tag.show(5) end",
+            "M-<F6>": "function() crappy.functions.tag.show(6) end",
+            "M-<F7>": "function() crappy.functions.tag.show(7) end",
+            "M-<F8>": "function() crappy.functions.tag.show(8) end",
+            "M-<F9>": "function() crappy.functions.tag.show(9) end",
+
+            "M-C-<F1>": "function() crappy.functions.tag.toggle(1) end",
+            "M-C-<F2>": "function() crappy.functions.tag.toggle(2) end",
+            "M-C-<F3>": "function() crappy.functions.tag.toggle(3) end",
+            "M-C-<F4>": "function() crappy.functions.tag.toggle(4) end",
+            "M-C-<F5>": "function() crappy.functions.tag.toggle(5) end",
+            "M-C-<F6>": "function() crappy.functions.tag.toggle(6) end",
+            "M-C-<F7>": "function() crappy.functions.tag.toggle(7) end",
+            "M-C-<F8>": "function() crappy.functions.tag.toggle(8) end",
+            "M-C-<F9>": "function() crappy.functions.tag.toggle(9) end",
+
+            "M-S-<F1>": "function() crappy.functions.tag.clientMoveTo(1) end",
+            "M-S-<F2>": "function() crappy.functions.tag.clientMoveTo(2) end",
+            "M-S-<F3>": "function() crappy.functions.tag.clientMoveTo(3) end",
+            "M-S-<F4>": "function() crappy.functions.tag.clientMoveTo(4) end",
+            "M-S-<F5>": "function() crappy.functions.tag.clientMoveTo(5) end",
+            "M-S-<F6>": "function() crappy.functions.tag.clientMoveTo(6) end",
+            "M-S-<F7>": "function() crappy.functions.tag.clientMoveTo(7) end",
+            "M-S-<F8>": "function() crappy.functions.tag.clientMoveTo(8) end",
+            "M-S-<F9>": "function() crappy.functions.tag.clientMoveTo(9) end",
+
+            "M-S-C-<F1>": "function() crappy.functions.tag.clientToggle(1) end",
+            "M-S-C-<F2>": "function() crappy.functions.tag.clientToggle(2) end",
+            "M-S-C-<F3>": "function() crappy.functions.tag.clientToggle(3) end",
+            "M-S-C-<F4>": "function() crappy.functions.tag.clientToggle(4) end",
+            "M-S-C-<F5>": "function() crappy.functions.tag.clientToggle(5) end",
+            "M-S-C-<F6>": "function() crappy.functions.tag.clientToggle(6) end",
+            "M-S-C-<F7>": "function() crappy.functions.tag.clientToggle(7) end",
+            "M-S-C-<F8>": "function() crappy.functions.tag.clientToggle(8) end",
+            "M-S-C-<F9>": "function() crappy.functions.tag.clientToggle(9) end"
+        },
+
+        "client":
+        {
+            "M-<f>": "crappy.functions.client.fullscreen",
+            "M-S-c": "crappy.functions.client.kill",
+            "M-C-<space>": "awful.client.floating.toggle",
+            "M-C-<return>": "crappy.functions.client.swapMaster",
+            "M-o": "awful.client.movetoscreen",
+            "M-r": "crappy.functions.client.redraw",
+            "M-t": "crappy.functions.client.ontop",
+            "M-n": "crappy.functions.client.minimized",
+            "M-m": "crappy.functions.client.maximized"
+        }
+    },
+
+    "signals":
+    {
+        "manage": "crappy.functions.signals.manage",
+        "focus": "crappy.functions.signals.focus",
+        "unfocus": "crappy.functions.signals.unfocus"
+    }
+}
