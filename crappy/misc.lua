@@ -1,7 +1,7 @@
-crappy.misc = {}
+local misc = {}
 
 -- http://snippets.luacode.org/snippets/Simple_Table_Dump_7
-function crappy.misc.dump(o)
+function misc.dump(o)
    if type(o) == 'table' then
       local s = '{ '
       for k, v in pairs(o) do
@@ -15,7 +15,7 @@ function crappy.misc.dump(o)
 end
 
 -- http://stackoverflow.com/a/7470789
-function crappy.misc.mergeTable(t1, t2)
+function misc.mergeTable(t1, t2)
    for k, v in pairs(t2) do
       if (type(v) == "table") and (type(t1[k] or false) == "table") then
          crappy.misc.mergeTable(t1[k], t2[k])
@@ -27,7 +27,8 @@ function crappy.misc.mergeTable(t1, t2)
 end
 
 -- http://www.lua.org/pil/14.1.html
-function crappy.misc.getFunction (f)
+-- TODO: Can I make this not require globals?  I'm thinking not.
+function misc.getFunction (f)
    local v 
 
    -- TODO: Fix RE...  Can't seem to use "^function *\(", it always
@@ -49,4 +50,4 @@ function crappy.misc.getFunction (f)
    return v
 end
 
-return crappy.misc
+return misc
