@@ -40,7 +40,6 @@ function functions.signals.manage (c, startup)
 
    -- Add a titlebar
    if crappy.config.titlebar.enabled and (c.type == "normal" or c.type == "dialog") then
-      print("Yay titlebar!")
       -- buttons for the titlebar
       local buttons = awful.util.table.join(
          awful.button({ }, 1, function()
