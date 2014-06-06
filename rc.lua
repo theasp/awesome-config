@@ -1,4 +1,5 @@
+-- These need to be global
 awful = require("awful")
-
 crappy = require('crappy')
-crappy.start("/home/testuser/.config/awesome/crappy.json")
+
+crappy.start()

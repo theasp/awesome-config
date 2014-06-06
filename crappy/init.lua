@@ -4,6 +4,8 @@
 -- TODO:
 -- Error checking
 
+local util = require('awful.util')
+
 local crappy = {}
 
 crappy.json = require('crappy.JSON')
@@ -21,9 +23,13 @@ crappy.config.debug = 1
 
 function crappy.start(file)
    print("Initializing crappy...")
+
+   if file == nil then
+      file = util.getdir("config") .. "/crappy.json"
+   end
+
    crappy.setDefaults()
    crappy.loadConfig(file)
-
    crappy.init.layoutRefs()
    crappy.init.theme()          -- Done
    crappy.init.tags()           -- Done
