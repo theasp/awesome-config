@@ -4,24 +4,22 @@
 -- TODO:
 -- Error checking
 
-crappy = {};
+local crappy = {}
 
 crappy.json = require('crappy.JSON')
 crappy.ezconfig = require('crappy.ezconfig')
 crappy.misc = require('crappy.misc')
 
+local ver = awesome.version:match('%d.%d'):gsub('%.', '-')
+crappy.init = require('crappy.init-' .. ver)
+crappy.functions = require('crappy.functions-' .. ver)
+assert(crappy.functions ~= nil)
+assert(crappy.init ~= nil)
+
 crappy.config = {}
 crappy.config.debug = 1
 
 function crappy.start(file)
-   local ver = awesome.version:match('%d.%d'):gsub('%.', '-')
-
-   crappy.init = require('crappy.init-' .. ver)
-   crappy.functions = require('crappy.functions-' .. ver)
-
-   assert(crappy.functions ~= nil)
-   assert(crappy.init ~= nil)
-
    print("Initializing crappy...")
    crappy.setDefaults()
    crappy.loadConfig(file)
@@ -38,8 +36,9 @@ function crappy.start(file)
 end
 
 function crappy.loadConfig(file)
-   print("Loading crappy file...")
+   print("Loading crappy file " .. file .. "...")
 
+   -- TODO: Error handling
    local f = assert(io.open(file, "r"))
    local configJson = f:read("*all")
    f:close()
