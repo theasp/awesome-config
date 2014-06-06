@@ -1,2 +1,4 @@
+awful = require("awful")
+
 crappy = require('crappy')
-crappy.start("/home/localuser/.config/awesome/crappy.json")
+crappy.start("/home/testuser/.config/awesome/crappy.json")
