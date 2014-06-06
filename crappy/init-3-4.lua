@@ -10,9 +10,9 @@ require("naughty")
 -- Load Debian menu entries
 require("debian.menu")
 
-crappy.init = {}
+local init = {}
 
-function crappy.init.layoutRefs ()
+function init.layoutRefs ()
    crappy.config.layoutRefs = {}
 
    for i, layoutName in ipairs(crappy.config.layouts) do
@@ -20,7 +20,7 @@ function crappy.init.layoutRefs ()
    end
 end
 
-function crappy.init.theme ()
+function init.theme ()
    print("Initializing crappy theme...")
 
    beautiful.init(crappy.config.theme.file)
@@ -29,7 +29,7 @@ function crappy.init.theme ()
    beautiful.get().font = crappy.config.theme.font
 end
 
-function crappy.init.tags ()
+function init.tags ()
    print("Initializing crappy tags...")
 
    crappy.tags = {}
@@ -57,7 +57,7 @@ function crappy.init.tags ()
    end
 end
 
-function crappy.init.menu ()
+function init.menu ()
    print("Initializing crappy menu...")
 
    local myawesomemenu = {
@@ -77,7 +77,7 @@ function crappy.init.menu ()
                                                menu = crappy.mymainmenu })
 end
 
-function crappy.init.wibox ()
+function init.wibox ()
    print("Initializing crappy wibox...")
    --  Wibox
    -- Create a textclock widget
@@ -157,7 +157,7 @@ function crappy.init.wibox ()
 end
 
 
-function crappy.init.signals ()
+function init.signals ()
    print("Initializing crappy signals...")
    assert(crappy.config.modkey ~= nil)
    assert(crappy.config.titlebar.height ~= nil)
@@ -170,7 +170,7 @@ function crappy.init.signals ()
    client.add_signal("unfocus", crappy.misc.getFunction(crappy.config.signals.unfocus))
 end
 
-function crappy.init.bindings ()
+function init.bindings ()
    print("Initializing crappy bindings...")
    assert(crappy.config.modkey ~= nil)
    assert(crappy.config.terminal ~= nil)
@@ -206,7 +206,7 @@ function crappy.init.bindings ()
    crappy.clientbuttons = awful.util.table.join(unpack(clientButtons))
 end
 
-function crappy.init.rules ()
+function init.rules ()
    print("Initializing crappy rules...")
 
    assert(crappy.clientkeys ~= nil)
@@ -228,4 +228,4 @@ function crappy.init.rules ()
    awful.rules.rules = rules
 end
 
-return crappy.init
+return init
