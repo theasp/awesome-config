@@ -186,7 +186,7 @@
             "M-<f>": "crappy.functions.client.fullscreen",
             "M-S-c": "crappy.functions.client.kill",
             "M-C-<space>": "awful.client.floating.toggle",
-            "M-C-<return>": "crappy.functions.client.swapMaster",
+            "M-C-<Return>": "crappy.functions.client.swapMaster",
             "M-o": "awful.client.movetoscreen",
             "M-r": "crappy.functions.client.redraw",
             "M-t": "crappy.functions.client.ontop",
