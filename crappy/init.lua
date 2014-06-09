@@ -13,10 +13,8 @@ crappy.ezconfig = require('crappy.ezconfig')
 crappy.misc = require('crappy.misc')
 
 local ver = awesome.version:match('%d.%d'):gsub('%.', '-')
-crappy.init = require('crappy.init-' .. ver)
+crappy.startup = require('crappy.startup-' .. ver)
 crappy.functions = require('crappy.functions-' .. ver)
-assert(crappy.functions ~= nil)
-assert(crappy.init ~= nil)
 
 crappy.config = {}
 crappy.config.debug = 1
@@ -30,14 +28,14 @@ function crappy.start(file)
 
    crappy.setDefaults()
    crappy.loadConfig(file)
-   crappy.init.layoutRefs()
-   crappy.init.theme()          -- Done
-   crappy.init.tags()           -- Done
-   crappy.init.menu()
-   crappy.init.wibox()
-   crappy.init.signals()        -- Done
-   crappy.init.bindings()       -- Done
-   crappy.init.rules()          -- Done
+   crappy.startup.layoutRefs()
+   crappy.startup.theme()          -- Done
+   crappy.startup.tags()           -- Done
+   crappy.startup.menu()
+   crappy.startup.wibox()
+   crappy.startup.signals()        -- Done
+   crappy.startup.bindings()       -- Done
+   crappy.startup.rules()          -- Done
    print("Done initializing crappy.")
 end
 
