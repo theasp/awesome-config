@@ -9,7 +9,7 @@ local wibox = require("wibox")
 -- Load Debian menu entries
 require("debian.menu")
 
-local functions = {}
+local functions = require("crappy.functions")
 
 function functions.signals.manage (c, startup)
    -- Enable sloppy focus
