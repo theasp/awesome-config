@@ -45,6 +45,8 @@ Code Used
 
 *  crappy
  *  ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> (GPLv2)
-   *  https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua
+  *  https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua
  *  JSON by Jeffrey Friedl (CC-BY)
-   *  http://regex.info/blog/lua/json
+  *  http://regex.info/blog/lua/json
+ *  rc.lua from Awesome by the awesome project (GPLv2)
+  *  http://awesome.naquadah.org/
