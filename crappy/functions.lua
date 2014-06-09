@@ -14,7 +14,6 @@ function functions.signals.unfocus(c)
    c.border_color = beautiful.border_normal
 end
 
-
 functions.client = {}
 function functions.client.fullscreen(c)
    c.fullscreen = not c.fullscreen
