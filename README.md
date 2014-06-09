@@ -1,7 +1,7 @@
 awesome-config
 ==============
 
-This package includes the following:
+This repository includes the following:
 * crappy - A library for reading configuration files for Awesome
 
 Crappy
