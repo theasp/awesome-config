@@ -15,7 +15,7 @@ Installation
 
 Backup your configuration directory:
 
-    cp -a ~/.config/awesome ~/.config.awesome.bak-$(date +%F-%T)
+    cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
 
 Clone the repository anywhere you want:
 
@@ -44,9 +44,7 @@ Code Used
 =========
 
 *  crappy
- *  ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com>
+ *  ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> (GPLv2)
    *  https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua
-   *  GPLv2
- *  JSON by Jeffrey Friedl
+ *  JSON by Jeffrey Friedl (CC-BY)
    *  http://regex.info/blog/lua/json
-   *  CC-BY
