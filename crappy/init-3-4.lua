@@ -67,18 +67,21 @@ function init.menu ()
       { "quit", awesome.quit }
    }
 
-   crappy.mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+   crappy.mainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                        { "Debian", debian.menu.Debian_menu.Debian },
                                        { "open terminal", crappy.config.terminal }
    }
                                  })
 
    crappy.mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
-                                               menu = crappy.mymainmenu })
+                                               menu = crappy.mainmenu })
 end
 
 function init.wibox ()
    print("Initializing crappy wibox...")
+
+   crappy.wibox = {}
+
    --  Wibox
    -- Create a textclock widget
    -- mytextclock = awful.widget.textclock({ align = "right" })
@@ -88,7 +91,7 @@ function init.wibox ()
 
    -- Create a wibox for each screen and add it
    local mywibox = {}
-   local mypromptbox = {}
+   crappy.wibox.promptbox = {}
    local mylayoutbox = {}
    local mytaglist = {}
    mytaglist.buttons = awful.util.table.join(
@@ -121,7 +124,7 @@ function init.wibox ()
 
    for s = 1, screen.count() do
       -- Create a promptbox for each screen
-      mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
+      crappy.wibox.promptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
       -- Create an imagebox widget which will contains an icon indicating which layout we're using.
       -- We need one layoutbox per screen.
       mylayoutbox[s] = awful.widget.layoutbox(s)
@@ -143,7 +146,7 @@ function init.wibox ()
          {
             crappy.mylauncher,
             mytaglist[s],
-            mypromptbox[s],
+            crappy.wibox.promptbox[s],
             layout = awful.widget.layout.horizontal.leftright
          },
          crappy.mylauncher,
@@ -174,7 +177,7 @@ function init.bindings ()
    print("Initializing crappy bindings...")
    assert(crappy.config.modkey ~= nil)
    assert(crappy.config.terminal ~= nil)
-   assert(crappy.mymainmenu ~= nil)
+   assert(crappy.mainmenu ~= nil)
    assert(crappy.config.layoutRefs ~= nil)
    assert(crappy.config.buttons.root ~= nil)
    assert(crappy.config.keys.global ~= nil)

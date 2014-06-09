@@ -2,6 +2,8 @@
     "terminal": "gnome-terminal",
     "modkey": "Mod4",
 
+    "sloppyfocus": false,
+
     "theme":
     {
         "file": "/usr/share/awesome/themes/default/theme.lua",

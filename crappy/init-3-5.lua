@@ -69,18 +69,21 @@ function init.menu ()
       { "quit", awesome.quit }
    }
 
-   crappy.mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+   crappy.mainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                        { "Debian", debian.menu.Debian_menu.Debian },
                                        { "open terminal", crappy.config.terminal }
    }
                                  })
 
-   crappy.mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                               menu = crappy.mymainmenu })
+   crappy.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
+                                               menu = crappy.mainmenu })
 end
 
 function init.wibox ()
    print("Initializing crappy wibox...")
+
+   crappy.wibox = {}
+
    --  Wibox
    -- Create a textclock widget
    -- mytextclock = awful.widget.textclock({ align = "right" })
@@ -90,7 +93,7 @@ function init.wibox ()
 
    -- Create a wibox for each screen and add it
    local mywibox = {}
-   local mypromptbox = {}
+   crappy.wibox.promptbox = {}
    local mylayoutbox = {}
    local mytaglist = {}
    mytaglist.buttons = awful.util.table.join(
@@ -140,7 +143,7 @@ function init.wibox ()
 
    for s = 1, screen.count() do
       -- Create a promptbox for each screen
-      mypromptbox[s] = awful.widget.prompt()
+      crappy.wibox.promptbox[s] = awful.widget.prompt()
       -- Create an imagebox widget which will contains an icon indicating which layout we're using.
       -- We need one layoutbox per screen.
       mylayoutbox[s] = awful.widget.layoutbox(s)
@@ -161,9 +164,9 @@ function init.wibox ()
 
       -- Widgets that are aligned to the left
       local left_layout = wibox.layout.fixed.horizontal()
-      left_layout:add(crappy.mylauncher)
+      left_layout:add(crappy.launcher)
       left_layout:add(mytaglist[s])
-      left_layout:add(mypromptbox[s])
+      left_layout:add(crappy.wibox.promptbox[s])
 
       -- Widgets that are aligned to the right
       local right_layout = wibox.layout.fixed.horizontal()
@@ -199,7 +202,7 @@ function init.bindings ()
    print("Initializing crappy bindings...")
    assert(crappy.config.modkey ~= nil)
    assert(crappy.config.terminal ~= nil)
-   assert(crappy.mymainmenu ~= nil)
+   assert(crappy.mainmenu ~= nil)
    assert(crappy.config.layoutRefs ~= nil)
    assert(crappy.config.buttons.root ~= nil)
    assert(crappy.config.keys.global ~= nil)
@@ -214,7 +217,6 @@ function init.bindings ()
 
    local globalKeys = {}
    for k, v in pairs(crappy.config.keys.global) do
-      print("Adding global key " .. k .. " " .. v)
       table.insert(globalKeys, crappy.ezconfig.key(k, crappy.misc.getFunction(v), awful.key))
    end
    root.keys(awful.util.table.join(unpack(globalKeys)))
