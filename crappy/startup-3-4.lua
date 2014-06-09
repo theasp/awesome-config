@@ -79,12 +79,12 @@ function startup.wibox ()
       -- Add widgets to the wibox - order matters
       mywibox[s].widgets = {
          {
-            crappy.mylauncher,
+            crappy.launcher,
             mytaglist[s],
             crappy.wibox.promptbox[s],
             layout = awful.widget.layout.horizontal.leftright
          },
-         crappy.mylauncher,
+         -- crappy.launcher,
          mylayoutbox[s],
          -- mytextclock,
          -- s == 1 and mysystray or nil,
