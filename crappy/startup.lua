@@ -1,5 +1,16 @@
 local startup = {}
 
+function startup.awesome ()
+   crappy.startup.layoutRefs()
+   crappy.startup.theme()          -- Done
+   crappy.startup.tags()           -- Done
+   crappy.startup.menu()
+   crappy.startup.wibox()
+   crappy.startup.signals()        -- Done
+   crappy.startup.bindings()       -- Done
+   crappy.startup.rules()          -- Done
+end
+
 function startup.layoutRefs ()
    crappy.config.layoutRefs = {}
 
@@ -79,24 +90,28 @@ function startup.bindings ()
 
    local rootButtons = {}
    for k, v in pairs(crappy.config.buttons.root) do
+      print("Adding root button " .. k .. " -> " .. v)
       table.insert(rootButtons, crappy.ezconfig.btn(k, crappy.misc.getFunction(v), awful.button))
    end
    root.buttons(awful.util.table.join(unpack(rootButtons)))
 
    local globalKeys = {}
    for k, v in pairs(crappy.config.keys.global) do
+      print("Adding global key " .. k .. " -> " .. v)
       table.insert(globalKeys, crappy.ezconfig.key(k, crappy.misc.getFunction(v), awful.key))
    end
    root.keys(awful.util.table.join(unpack(globalKeys)))
 
    local clientKeys = {}
    for k, v in pairs(crappy.config.keys.client) do
-      table.insert(clientKeys, crappy.ezconfig.btn(k, crappy.misc.getFunction(v), awful.key))
+      print("Adding client key " .. k .. " -> " .. v)
+      table.insert(clientKeys, crappy.ezconfig.key(k, crappy.misc.getFunction(v), awful.key))
    end
    crappy.clientkeys = awful.util.table.join(unpack(clientKeys))
 
    local clientButtons = {}
    for k, v in pairs(crappy.config.buttons.client) do
+      print("Adding client button " .. k .. " -> " .. v)
       table.insert(clientButtons, crappy.ezconfig.btn(k, crappy.misc.getFunction(v), awful.button))
    end
    crappy.clientbuttons = awful.util.table.join(unpack(clientButtons))
@@ -115,8 +130,8 @@ function startup.rules ()
                        focus = true,
                        maximized_vertical   = false,
                        maximized_horizontal = false,
-                       keys = crappy.clientkeys,
                        size_hints_honor = false,
+                       keys = crappy.clientkeys,
                        buttons = crappy.clientbuttons } }}
 
    table.foreach(crappy.config.rules, function(i,v) table.insert(rules,v) end)

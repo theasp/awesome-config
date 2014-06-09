@@ -28,14 +28,8 @@ function crappy.start(file)
 
    crappy.setDefaults()
    crappy.loadConfig(file)
-   crappy.startup.layoutRefs()
-   crappy.startup.theme()          -- Done
-   crappy.startup.tags()           -- Done
-   crappy.startup.menu()
-   crappy.startup.wibox()
-   crappy.startup.signals()        -- Done
-   crappy.startup.bindings()       -- Done
-   crappy.startup.rules()          -- Done
+   crappy.startup.awesome()
+
    print("Done initializing crappy.")
 end
 
