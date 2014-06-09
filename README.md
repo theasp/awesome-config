@@ -14,16 +14,20 @@ Installation
 ------------
 
 Backup your configuration directory:
-<code>cp -a ~/.config/awesome ~/.config.awesome.bak-$(date +%F-%T)</code>
+
+    cp -a ~/.config/awesome ~/.config.awesome.bak-$(date +%F-%T)
 
 Clone the repository anywhere you want:
-<code>git clone https://github.com/theasp/awesome-config.git</code>
+
+    git clone https://github.com/theasp/awesome-config.git
 
 Make a symlink from your awesome config directory for the library:
-<code>ln -s $(pwd)/awesome-config/crappy ~/.config/awesome/</code>
+
+	ln -s $(pwd)/awesome-config/crappy ~/.config/awesome/
 
 Copy the example rc.lua and crappy.json:
-<code>cp awesome-config/{crappy.json,rc.lua} ~/.config/awesome/</code>
+
+	cp awesome-config/{crappy.json,rc.lua} ~/.config/awesome/
 
 Start awesome.
 
@@ -39,10 +43,10 @@ or functions you define in ~/.config/awesome/rc.lua.
 Code Used
 =========
 
-* crappy
- * ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com>
-   * https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua
-   * GPLv2
- * JSON by Jeffrey Friedl
-   * http://regex.info/blog/lua/json
-   * CC-BY
+*  crappy
+ *  ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com>
+   *  https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua
+   *  GPLv2
+ *  JSON by Jeffrey Friedl
+   *  http://regex.info/blog/lua/json
+   *  CC-BY
