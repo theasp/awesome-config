@@ -1,21 +1,30 @@
 {
-    "terminal": "gnome-terminal",
+    // The terminal to use
+    "terminal": "x-terminal-emulator",
+
+    // The key which is used for the "M" key in the key mappings.
+    // Mod4 is your "windows" key.
     "modkey": "Mod4",
 
-    "sloppyfocus": false,
+    // When moving the mouse into a window, foucs that window.
+    "sloppyfocus": true,
 
+    // Set the theme file to use.  You can also override the font.
     "theme":
     {
         "file": "/usr/share/awesome/themes/default/theme.lua",
         "font": "sans 10"
     },
 
+    // Enable titlebars?
     "titlebar":
     {
         "enabled": true,
         "height": 15
     },
 
+    // This is the list of enabled layouts.  You can add your own to
+    // your rc.lua and then name them here.
     "layouts":
     [
       "awful.layout.suit.max",
@@ -27,17 +36,28 @@
       "awful.layout.suit.fair.horizontal"
     ],
 
+    // Define how screens and tags are configured.  Screens are
+    // numbered 1 starting at 1.  You can also define the screens
+    // "default", and "last".
     "screens":
     {
+        // The default screen gets applied first
         "default":
         {
+            // Tags will use the "defaultLayout" unless one is overridden by the "tagSettings".
             "defaultLayout": "awful.layout.suit.fair",
+
+            // Create the following tags.
             "tags": ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
         },
 
+        // Apply the following ontop of "default" if it is the last
+        // screen.
         "last":
         {
             "defaultLayout": "awful.layout.suit.max",
+
+            // Override the layout for a specific tag on this screen.
             "tagSettings":
             {
                 "2":
@@ -48,7 +68,19 @@
         }
     },
 
-    "rules": [
+    // Rules map to the same structure as in a normal rc.lua.  See the
+    // wiki page on rules for more information:
+    // http://awesome.naquadah.org/wiki/Understanding_Rules
+    //
+    // Crappy has the following differences:
+    //
+    // tag - To have a client moved to a specific tag you need to
+    // specify "screen" and "tag".
+    //
+    // callback - Callback cannot be an array, if you wish to use
+    // multiple callbacks, use an anonymous function to call them.
+    "rules": 
+    [
         {
             "rule":
             {
@@ -71,28 +103,33 @@
                 "floating": true
             }
         },
+
+        // Set Firefox to always map on tags number 2 of screen 1.
         {
             "rule":
             {
-                "class": "sun-awt-X11-XDialogPeer"
+                "class": "Firefox"
             },
 
             "properties":
             {
-                "floating": true,
-                "size_hints_honor": true
+                "screen": 1,
+                "tag": 2
             }
         }
     ],
 
+    // Buttons are a combination of modifiers and mouse buttons.
     "buttons":
     {
+        // Buttons used on the root window
         "root": {
             "3": "crappy.functions.menu.toggle",
             "4": "awful.tag.viewnext",
             "5": "awful.tag.viewprev"
         },
 
+        // Buttons used on client windows
         "client": {
             "1": "crappy.functions.client.focus",
             "2": "crappy.functions.client.focus",
@@ -102,8 +139,11 @@
         }
     },
 
+    // Keys are a combination of modifiers and keybord keys.
     "keys":
     {
+        // Global keys work everywhere.  The functions are called with
+        // no arguments.
         "global":
         {
             "M-<Left>": "awful.tag.viewprev",
@@ -181,9 +221,12 @@
             "M-S-C-<F9>": "function() crappy.functions.tag.clientToggle(9) end"
         },
 
+        // Client keybindings work on the currently focused client
+        // window.  The functions are called with the client as the
+        // argument.
         "client":
         {
-            "M-<f>": "crappy.functions.client.fullscreen",
+            "M-f": "crappy.functions.client.fullscreen",
             "M-S-c": "crappy.functions.client.kill",
             "M-C-<space>": "awful.client.floating.toggle",
             "M-C-<Return>": "crappy.functions.client.swapMaster",
@@ -195,6 +238,7 @@
         }
     },
 
+    // Define the functions that handle signals
     "signals":
     {
         "manage": "crappy.functions.signals.manage",
