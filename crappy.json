@@ -38,7 +38,7 @@
 
     // Define how screens and tags are configured.  Screens are
     // numbered 1 starting at 1.  You can also define the screens
-    // "default", and "last".
+    // "default", and "last".  Screen "1" is the first screen.
     "screens":
     {
         // The default screen gets applied first
@@ -75,7 +75,8 @@
     // Crappy has the following differences:
     //
     // tag - To have a client moved to a specific tag you need to
-    // specify "screen" and "tag".
+    // specify "screen" and "tag".  If the tag doesn't exist, it is
+    // not applied.
     //
     // callback - Callback cannot be an array, if you wish to use
     // multiple callbacks, use an anonymous function to call them.
