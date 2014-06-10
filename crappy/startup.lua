@@ -36,14 +36,17 @@ function startup.tags ()
    crappy.tags = {}
 
    for s = 1, screen.count() do
+      -- Start with the "default" settings
       local screenSettings = crappy.config.screens.default;
 
-      if (type(crappy.config.screens[tostring(s)]) or false) == "table" then
-         screenSettings = crappy.misc.mergeTable(screenSettings, crappy.config.screens[tostring(s)])
-      end
-
+      -- If this is the last screen, apply the "last" settings
       if s == screen.count() and (type(crappy.config.screens.last) or false) == "table" then
          screenSettings = crappy.misc.mergeTable(screenSettings, crappy.config.screens.last)
+      end
+
+      -- Finally apply the specific screen settings
+      if (type(crappy.config.screens[tostring(s)]) or false) == "table" then
+         screenSettings = crappy.misc.mergeTable(screenSettings, crappy.config.screens[tostring(s)])
       end
 
       crappy.tags[s] = awful.tag(screenSettings.tags, s, crappy.misc.getFunction(screenSettings.defaultLayout))
@@ -141,10 +144,16 @@ function startup.rules ()
          -- to find it.  If tag is supplied without screen, set it to nil.
          if rule.properties.tag ~= nil then
             if rule.properties.screen ~= nil then
-               print("Rule to set client to screen " .. rule.properties.screen .. " tag " .. rule.properties.tag)
-               rule.properties.tag = crappy.tags[rule.properties.screen][rule.properties.tag]
+               tag = crappy.tags[rule.properties.screen][rule.properties.tag]
+
+               if tag ~= nil then
+                  print("Rule to set client to screen " .. rule.properties.screen .. " tag " .. rule.properties.tag)
+                  rule.properties.tag = tag
+               else
+                  rule.properties.tag = nil
+               end
             else
-               rule[tag] = nil
+               rule.properties.tag = nil
             end
          end
       end
