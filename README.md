@@ -8,7 +8,7 @@ Crappy
 ======
 
 Crappy reads a configuration file to configure Awesome.  Compatible
-with Awesome 3.4 or 3.5.
+with Awesome 3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.
 
 Installation
 ------------
@@ -21,11 +21,11 @@ Clone the repository anywhere you want:
 
     git clone https://github.com/theasp/awesome-config.git
 
-Make a symlink from your awesome config directory for the library:
+Make a symlink from your awesome config directory to the library:
 
 	ln -s $(pwd)/awesome-config/crappy ~/.config/awesome/
 
-Copy the example rc.lua and crappy.json:
+Copy the example "rc.lua" and "crappy.json" to your config directory:
 
 	cp awesome-config/{crappy.json,rc.lua} ~/.config/awesome/
 
@@ -34,11 +34,11 @@ Start awesome.
 Configuration
 -------------
 
-Edit ~/.config/awesome/config.json.
+Edit "~/.config/awesome/config.json".
 
 The syntax for keys and mouse buttons is described in the comments for
 ezconfig, linked below.  You can use anonymous functions for bindings,
-or functions you define in ~/.config/awesome/rc.lua.
+or functions you define in "~/.config/awesome/rc.lua".
 
 Code Used
 =========
