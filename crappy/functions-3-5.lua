@@ -1,13 +1,7 @@
 -- Standard awesome library
 local awful = require("awful")
-require("awful.autofocus")
-awful.rules = require("awful.rules")
--- Theme handling library
 beautiful = require("beautiful")
 local wibox = require("wibox")
-
--- Load Debian menu entries
-require("debian.menu")
 
 local functions = require("crappy.functions")
 

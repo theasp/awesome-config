@@ -1,14 +1,7 @@
 -- Standard awesome library
 require("awful")
-require("awful.autofocus")
-require("awful.rules")
 -- Theme handling library
 require("beautiful")
--- Notification library
-require("naughty")
-
--- Load Debian menu entries
-require("debian.menu")
 
 local functions = require("crappy.functions")
 
