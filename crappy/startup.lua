@@ -2,6 +2,7 @@ local startup = {}
 
 function startup.awesome ()
    crappy.startup.layoutRefs()
+
    crappy.startup.theme()          -- Done
    crappy.startup.tags()           -- Done
    crappy.startup.menu()
@@ -134,7 +135,26 @@ function startup.rules ()
                        keys = crappy.clientkeys,
                        buttons = crappy.clientbuttons } }}
 
-   table.foreach(crappy.config.rules, function(i,v) table.insert(rules,v) end)
+   for i,rule in ipairs(crappy.config.rules) do
+      if rule.properties ~= nil then
+         -- As we need to find a reference to the tag, use tag and screen
+         -- to find it.  If tag is supplied without screen, set it to nil.
+         if rule.properties.tag ~= nil then
+            if rule.properties.screen ~= nil then
+               print("Rule to set client to screen " .. rule.properties.screen .. " tag " .. rule.properties.tag)
+               rule.properties.tag = crappy.tags[rule.properties.screen][rule.properties.tag]
+            else
+               rule[tag] = nil
+            end
+         end
+      end
+
+      if rule.callback ~= nil then
+         rule.callback = crappy.misc.getFunction(rule.callback)
+      end
+
+      table.insert(rules, rule)
+   end
 
    awful.rules.rules = rules
 end
