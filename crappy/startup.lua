@@ -143,11 +143,10 @@ function startup.rules ()
          -- As we need to find a reference to the tag, use tag and screen
          -- to find it.  If tag is supplied without screen, set it to nil.
          if rule.properties.tag ~= nil then
-            if rule.properties.screen ~= nil then
+            if rule.properties.screen ~= nil and crappy.tags[rule.properties.screen] ~= nil then
                tag = crappy.tags[rule.properties.screen][rule.properties.tag]
 
                if tag ~= nil then
-                  print("Rule to set client to screen " .. rule.properties.screen .. " tag " .. rule.properties.tag)
                   rule.properties.tag = tag
                else
                   rule.properties.tag = nil
