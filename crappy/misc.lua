@@ -27,7 +27,6 @@ function misc.mergeTable(t1, t2)
 end
 
 -- http://www.lua.org/pil/14.1.html
--- TODO: Can I make this not require globals?  I'm thinking not.
 function misc.getFunction (f)
    local v 
 
@@ -38,13 +37,11 @@ function misc.getFunction (f)
    else
       v = _G    -- start with the table of globals
       for w in string.gfind(f, "[%w_]+") do
-         v = v[w]
+         --print("w: " .. w)
+         if v ~= nil then
+            v = v[w]
+         end
       end
-   end
-
-   if v == nil then
-      print("Unable to find function: " .. f)
-      assert(v ~= nil)
    end
 
    return v
