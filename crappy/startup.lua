@@ -77,22 +77,50 @@ function startup.tags ()
    end
 end
 
+-- Build a menu table for awful to work with
+local function buildMenuTable (menu)
+   local m = {}
+
+   for i, entry in ipairs(menu) do
+      local e = {}
+
+      print("Making menu item " .. entry.name)
+
+      table.insert(e, entry.name)
+
+      if entry.table ~= nil then
+         table.insert(e, buildMenuTable(entry.table))
+      elseif entry.result ~= nil then
+         table.insert(e, crappy.misc.getFunction(entry.result)())
+      elseif entry.func ~= nil then
+         table.insert(e, crappy.misc.getFunction(entry.func))
+      elseif entry.string ~= nil then
+         table.insert(e, entry.string)
+      else
+         print("Unknown menu type!")
+         table.insert(e, nil)
+      end
+
+      if entry.iconresult ~= nil then
+         table.insert(e, crappy.misc.getFunction(entry.iconresult)())
+      elseif entry.iconfile ~= nil then
+         table.insert(e, entry.iconfile)
+      else
+         table.insert(e, nil)
+      end
+
+      table.insert(m, e)
+   end
+
+   return m
+end
+
 -- Set up the menu
 function startup.menu ()
    print("Initializing crappy menu...")
 
-   local myawesomemenu = {
-      { "manual", crappy.config.terminal .. " -e man awesome" },
-      { "edit config", crappy.config.editor .. " " .. awful.util.getdir("config") .. "/rc.lua" },
-      { "restart", awesome.restart },
-      { "quit", awesome.quit }
-   }
-
-   crappy.mainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                       { "Debian", debian.menu.Debian_menu.Debian },
-                                       { "open terminal", crappy.config.terminal }
-   }
-                                 })
+   local menu = buildMenuTable(crappy.config.menu)
+   crappy.mainmenu = awful.menu({ items = menu })
 
    crappy.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                                menu = crappy.mainmenu })

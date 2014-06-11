@@ -80,7 +80,7 @@
     //
     // callback - Callback cannot be an array, if you wish to use
     // multiple callbacks, use an anonymous function to call them.
-    "rules": 
+    "rules":
     [
         {
             "rule":
@@ -117,6 +117,55 @@
                 "screen": 1,
                 "tag": 2
             }
+        }
+    ],
+
+    // The structure of the main menu.  Each item has
+    // 1) name - Name of the menu item, using the standard menu markup
+    // 2) One of table, result, func, or string:
+    //    table - An array of menu items
+    //    result - A function which will result in a string
+    //    func - A function, anonymous or otherwise
+    //    string - A string for a command to run
+    // 3) [optional] One of iconresult or iconfile
+    //    iconresult - A function that will return an iconfile
+    //    iconfile - A string with the name of an icon file
+    "menu": [
+        { "name": "awesome",
+          "iconresult": "function() return beautiful.awesome_icon end",
+          "table": [
+              {
+                  "name": "manual",
+                  "result": "function() return crappy.config.terminal .. \" -e man awesome\" end"
+              },
+              {
+                  "name":"edit config",
+                  "result": "function() return crappy.config.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
+              },
+              {
+                  "name": "restart",
+                  "func": "awesome.restart"
+              },
+              {
+                  "name": "quit",
+                  "func": "awesome.quit"
+              }
+          ]
+        },
+        // If you wish to use the debian menu, you need to uncomment
+        // the require line in rc.lua as well as the the following:
+        //
+        // {
+        //     "name": "Debian",
+        //     "result": "function() return debian.menu.Debian_menu.Debian end"
+        // },
+        {
+            "name": "open terminal",
+            "result": "function() return crappy.config.terminal end"
+        },
+        {
+            "name": "firefox",
+            "string": "firefox"
         }
     ],
 
