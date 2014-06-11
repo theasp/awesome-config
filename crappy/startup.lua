@@ -14,22 +14,19 @@ startup.functions = {"crappy.startup.theme",
 -- Start configuring awesome by iterating over
 -- crappy.startup.functions.
 function startup.awesome ()
-   startup.layouts()
-
-   for i, startupFunction in ipairs(crappy.startup.functions) do
-      crappy.misc.getFunction(startupFunction)()
-   end
-end
-
--- Need to convert the layout functions from strings to actual
--- functions.  This is used in in the functions to switch between
--- layouts.
-function startup.layouts ()
+   -- Need to convert the layout functions from strings to actual
+   -- functions.  This is used in in the functions to switch between
+   -- layouts.
    crappy.layouts = {}
 
    for i, layoutName in ipairs(crappy.config.layouts) do
       print("Adding layout " .. layoutName)
       crappy.layouts[i] = crappy.misc.getFunction(layoutName)
+   end
+
+   -- Iterate over the list of functions ot start
+   for i, startupFunction in ipairs(crappy.startup.functions) do
+      crappy.misc.getFunction(startupFunction)()
    end
 end
 
@@ -123,7 +120,7 @@ function startup.menu ()
    crappy.mainmenu = awful.menu({ items = menu })
 
    crappy.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                               menu = crappy.mainmenu })
+                                             menu = crappy.mainmenu })
 end
 
 -- Set up the key/mouse bindings
