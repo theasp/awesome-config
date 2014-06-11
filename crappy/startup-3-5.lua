@@ -1,12 +1,12 @@
 -- Standard awesome library
 local gears = require("gears")
-local awful = require("awful")
+awful = require("awful") -- Needs to be global
 awful.rules = require("awful.rules")
 require("awful.autofocus")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
-local menubar = require("menubar")
+menubar = require("menubar") -- Needs to be global
 
 local startup = require("crappy.startup")
 
@@ -127,6 +127,13 @@ function startup.signals ()
    client.connect_signal("manage", crappy.misc.getFunction(crappy.config.signals.manage))
    client.connect_signal("focus", crappy.misc.getFunction(crappy.config.signals.focus))
    client.connect_signal("unfocus", crappy.misc.getFunction(crappy.config.signals.unfocus))
+end
+
+table.insert(startup.functions, "crappy.startup.menubar")
+function startup.menubar()
+   print("Initializing crappy menubar...")   
+   menubar.utils.terminal = crappy.config.terminal
+   menubar.menu_gen.all_menu_dirs = { "/usr/share/applications/", "/usr/local/share/applications", "~/.local/share/applications" }
 end
 
 return startup
