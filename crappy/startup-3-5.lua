@@ -8,9 +8,6 @@ local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
--- Load Debian menu entries
-require("debian.menu")
-
 local startup = require("crappy.startup")
 
 function startup.wibox ()

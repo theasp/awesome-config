@@ -7,9 +7,6 @@ require("beautiful")
 -- Notification library
 require("naughty")
 
--- Load Debian menu entries
-require("debian.menu")
-
 local startup = require("crappy.startup")
 
 function startup.wibox ()
