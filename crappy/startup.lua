@@ -1,35 +1,51 @@
 local startup = {}
 
+-- This table can be modified to allow further modification by the
+-- user or other packages.  Uses strings so that it's easily readable
+-- to position other startup functions outside of crappy.
+startup.functions = {"crappy.startup.theme",
+                     "crappy.startup.tags",
+                     "crappy.startup.menu",
+                     "crappy.startup.wibox",
+                     "crappy.startup.signals",
+                     "crappy.startup.bindings",
+                     "crappy.startup.rules"}
+
+-- Start configuring awesome by iterating over
+-- crappy.startup.functions.
 function startup.awesome ()
-   crappy.startup.layoutRefs()
+   startup.layouts()
 
-   crappy.startup.theme()          -- Done
-   crappy.startup.tags()           -- Done
-   crappy.startup.menu()
-   crappy.startup.wibox()
-   crappy.startup.signals()        -- Done
-   crappy.startup.bindings()       -- Done
-   crappy.startup.rules()          -- Done
-end
-
-function startup.layoutRefs ()
-   crappy.config.layoutRefs = {}
-
-   for i, layoutName in ipairs(crappy.config.layouts) do
-      print("Adding layout " .. layoutName)
-      crappy.config.layoutRefs[i] = crappy.misc.getFunction(layoutName)
+   for i, startupFunction in ipairs(crappy.startup.functions) do
+      crappy.misc.getFunction(startupFunction)()
    end
 end
 
+-- Need to convert the layout functions from strings to actual
+-- functions.  This is used in in the functions to switch between
+-- layouts.
+function startup.layouts ()
+   crappy.layouts = {}
+
+   for i, layoutName in ipairs(crappy.config.layouts) do
+      print("Adding layout " .. layoutName)
+      crappy.layouts[i] = crappy.misc.getFunction(layoutName)
+   end
+end
+
+-- Initialize beautiful
 function startup.theme ()
    print("Initializing crappy theme...")
 
    beautiful.init(crappy.config.theme.file)
 
-   awesome.font = crappy.config.theme.font
-   beautiful.get().font = crappy.config.theme.font
+   if crappy.config.theme.font ~= nil then
+      awesome.font = crappy.config.theme.font
+      beautiful.get().font = crappy.config.theme.font
+   end
 end
 
+-- Set up the tags table
 function startup.tags ()
    print("Initializing crappy tags...")
 
@@ -61,6 +77,7 @@ function startup.tags ()
    end
 end
 
+-- Set up the menu
 function startup.menu ()
    print("Initializing crappy menu...")
 
@@ -81,12 +98,13 @@ function startup.menu ()
                                                menu = crappy.mainmenu })
 end
 
+-- Set up the key/mouse bindings
 function startup.bindings ()
    print("Initializing crappy bindings...")
    assert(crappy.config.modkey ~= nil)
    assert(crappy.config.terminal ~= nil)
    assert(crappy.mainmenu ~= nil)
-   assert(crappy.config.layoutRefs ~= nil)
+   assert(crappy.layouts ~= nil)
    assert(crappy.config.buttons.root ~= nil)
    assert(crappy.config.keys.global ~= nil)
    assert(crappy.config.keys.client ~= nil)
@@ -121,6 +139,7 @@ function startup.bindings ()
    crappy.clientbuttons = awful.util.table.join(unpack(clientButtons))
 end
 
+-- Set up the client rules
 function startup.rules ()
    print("Initializing crappy rules...")
 
@@ -144,13 +163,7 @@ function startup.rules ()
          -- to find it.  If tag is supplied without screen, set it to nil.
          if rule.properties.tag ~= nil then
             if rule.properties.screen ~= nil and crappy.tags[rule.properties.screen] ~= nil then
-               tag = crappy.tags[rule.properties.screen][rule.properties.tag]
-
-               if tag ~= nil then
-                  rule.properties.tag = tag
-               else
-                  rule.properties.tag = nil
-               end
+               rule.properties.tag = crappy.tags[rule.properties.screen][rule.properties.tag]
             else
                rule.properties.tag = nil
             end

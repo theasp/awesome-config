@@ -122,11 +122,11 @@ function functions.global.ncolDec()
 end
 
 function functions.global.layoutInc() 
-   awful.layout.inc(crappy.config.layoutRefs,  1) 
+   awful.layout.inc(crappy.layouts,  1) 
 end
 
 function functions.global.layoutDec() 
-   awful.layout.inc(crappy.config.layoutRefs,  -1) 
+   awful.layout.inc(crappy.layouts,  -1) 
 end
 
 function functions.global.showRunPrompt() 
