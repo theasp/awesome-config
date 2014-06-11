@@ -137,29 +137,49 @@ function startup.bindings ()
 
    local rootButtons = {}
    for k, v in pairs(crappy.config.buttons.root) do
-      print("Adding root button " .. k .. " -> " .. v)
-      table.insert(rootButtons, crappy.ezconfig.btn(k, crappy.misc.getFunction(v), awful.button))
+      local f = crappy.misc.getFunction(v)
+      if f ~= nil then
+         print("Adding root button " .. k .. " -> " .. v)
+         table.insert(rootButtons, crappy.ezconfig.btn(k, f, awful.button))
+      else
+         print("Not adding root button " .. k .. " -> " .. v .. ": Unable to find function")
+      end
    end
    root.buttons(awful.util.table.join(unpack(rootButtons)))
 
    local globalKeys = {}
    for k, v in pairs(crappy.config.keys.global) do
-      print("Adding global key " .. k .. " -> " .. v)
-      table.insert(globalKeys, crappy.ezconfig.key(k, crappy.misc.getFunction(v), awful.key))
+      local f = crappy.misc.getFunction(v)
+      if f ~= nil then
+         print("Adding global key " .. k .. " -> " .. v)
+         table.insert(globalKeys, crappy.ezconfig.key(k, f, awful.key))
+      else
+         print("Not adding global key " .. k .. " -> " .. v .. ": Unable to find function")
+      end
    end
    root.keys(awful.util.table.join(unpack(globalKeys)))
 
    local clientKeys = {}
    for k, v in pairs(crappy.config.keys.client) do
-      print("Adding client key " .. k .. " -> " .. v)
-      table.insert(clientKeys, crappy.ezconfig.key(k, crappy.misc.getFunction(v), awful.key))
+      local f = crappy.misc.getFunction(v)
+      if f ~= nil then
+         print("Adding client key " .. k .. " -> " .. v)
+         table.insert(clientKeys, crappy.ezconfig.key(k, f, awful.key))
+      else
+         print("Not adding client key " .. k .. " -> " .. v .. ": Unable to find function")
+      end
    end
    crappy.clientkeys = awful.util.table.join(unpack(clientKeys))
 
    local clientButtons = {}
    for k, v in pairs(crappy.config.buttons.client) do
-      print("Adding client button " .. k .. " -> " .. v)
-      table.insert(clientButtons, crappy.ezconfig.btn(k, crappy.misc.getFunction(v), awful.button))
+      local f = crappy.misc.getFunction(v)
+      if f ~= nil then
+         print("Adding client button " .. k .. " -> " .. v)
+         table.insert(clientButtons, crappy.ezconfig.btn(k, f, awful.button))
+      else
+         print("Not adding client button " .. k .. " -> " .. v .. ": Unable to find function")
+      end
    end
    crappy.clientbuttons = awful.util.table.join(unpack(clientButtons))
 end
