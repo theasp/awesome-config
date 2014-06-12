@@ -6,10 +6,10 @@ local startup = {}
 startup.functions = {"crappy.startup.theme",
                      "crappy.startup.tags",
                      "crappy.startup.menu",
-                     "crappy.startup.wibox",
                      "crappy.startup.signals",
                      "crappy.startup.bindings",
-                     "crappy.startup.rules"}
+                     "crappy.startup.rules",
+                     "crappy.startup.wibox"}
 
 -- Start configuring awesome by iterating over
 -- crappy.startup.functions.
