@@ -111,9 +111,16 @@ function startup.wibox ()
    crappy.wibox = {}
    crappy.wibox.promptbox = {}
 
+   local position = crappy.config.wibox.position
+   if position == nil then
+      position = "top"
+   end
+
+   local bgcolor = crappy.config.wibox.bgcolor
+
    for s = 1, screen.count() do
       local layouts = {}
-      local mywibox = awful.wibox({ position = "bottom", screen = s, bg = "#000000" })
+      local mywibox = awful.wibox({ position = position, screen = s, bg = bgcolor })
       print ("Making wibox on screen " .. s)
 
       for x, side in ipairs({"left", "middle", "right"}) do

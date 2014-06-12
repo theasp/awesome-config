@@ -172,7 +172,7 @@
     // Configuration of the wibox
     "wibox": {
         "enabled": true,
-        "location": "top",
+        "position": "top",
         "bgcolor": null,
 
         // widgets has 3 members: left, middle and right.  Each is a
