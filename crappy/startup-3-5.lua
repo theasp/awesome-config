@@ -10,34 +10,6 @@ menubar = require("menubar") -- Needs to be global
 
 local startup = require("crappy.startup")
 
-startup.widget = {}
-
-function startup.widget.launcher(s)
-   return crappy.launcher
-end
-
-function startup.widget.taglist(s)
-   local mytaglist = {}
-   mytaglist.buttons = awful.util.table.join(
-      awful.button({ }, 1, awful.tag.viewonly),
-      awful.button({ crappy.config.modkey }, 1, awful.client.movetotag),
-      awful.button({ }, 3, awful.tag.viewtoggle),
-      awful.button({ crappy.config.modkey }, 3, awful.client.toggletag),
-      awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-      awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
-   )
-
-   return awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
-end
-
-function startup.widget.prompt(s)
-   if crappy.wibox.promptbox[s] == nil then
-      crappy.wibox.promptbox[s] = awful.widget.prompt()
-   end
-
-   return crappy.wibox.promptbox[s]
-end
-
 function startup.widget.tasklist(s)
    local mytasklist = {}
    mytasklist.buttons = awful.util.table.join(
@@ -79,27 +51,18 @@ function startup.widget.tasklist(s)
    return awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 end
 
-function startup.widget.systray(s)
-   if crappy.wibox.systray == nil then
-      crappy.wibox.systray = wibox.widget.systray()
-      return crappy.wibox.systray
-   end
+function startup.widget.taglist(s)
+   local mytaglist = {}
+   mytaglist.buttons = awful.util.table.join(
+      awful.button({ }, 1, awful.tag.viewonly),
+      awful.button({ crappy.config.modkey }, 1, awful.client.movetotag),
+      awful.button({ }, 3, awful.tag.viewtoggle),
+      awful.button({ crappy.config.modkey }, 3, awful.client.toggletag),
+      awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
+      awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
+   )
 
-   return nil
-end
-
-function startup.widget.textclock(s)
-   return awful.widget.textclock()
-end
-
-function startup.widget.layout(s)
-   local layoutbox = awful.widget.layoutbox(s)
-   layoutbox:buttons(awful.util.table.join(
-                         awful.button({ }, 1, crappy.functions.global.layoutInc),
-                         awful.button({ }, 3, crappy.functions.global.layoutDec),
-                         awful.button({ }, 4, crappy.functions.global.layoutInc),
-                         awful.button({ }, 5, crappy.functions.global.layoutDec)))
-   return layoutbox
+   return awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 end
 
 function startup.wibox ()

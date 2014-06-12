@@ -9,88 +9,125 @@ require("naughty")
 
 local startup = require("crappy.startup")
 
-function startup.wibox ()
-   print("Initializing crappy wibox...")
-
-   crappy.wibox = {}
-
-   --  Wibox
-   -- Create a textclock widget
-   -- mytextclock = awful.widget.textclock({ align = "right" })
-
-   -- Create a systray
-   -- mysystray = widget({ type = "systray" })
-
-   -- Create a wibox for each screen and add it
-   local mywibox = {}
-   crappy.wibox.promptbox = {}
-   local mylayoutbox = {}
-   local mytaglist = {}
-   mytaglist.buttons = awful.util.table.join(
-      awful.button({ }, 1, awful.tag.viewonly),
-      awful.button({ crappy.config.modkey }, 1, awful.client.movetotag),
-      awful.button({ }, 3, awful.tag.viewtoggle),
-      awful.button({ crappy.config.modkey }, 3, awful.client.toggletag),
-      awful.button({ }, 4, awful.tag.viewnext),
-      awful.button({ }, 5, awful.tag.viewprev)
-   )
+function startup.widget.tasklist(s)
    local mytasklist = {}
    mytasklist.buttons = awful.util.table.join(
       awful.button({ }, 1, function (c)
-            if not c:isvisible() then
-               awful.tag.viewonly(c:tags()[1])
+            if c == client.focus then
+               c.minimized = true
+            else
+               -- Without this, the following
+               -- :isvisible() makes no sense
+               c.minimized = false
+               if not c:isvisible() then
+                  awful.tag.viewonly(c:tags()[1])
+               end
+               -- This will also un-minimize
+               -- the client, if needed
+               client.focus = c
+               c:raise()
             end
-            client.focus = c
-            c:raise()
       end),
       awful.button({ }, 3, function ()
             if instance then
                instance:hide()
                instance = nil
             else
-               instance = awful.menu.clients({ width=250 })
+               instance = awful.menu.clients({
+                     theme = { width = 250 }
+               })
             end
       end),
-      awful.button({ }, 4, crappy.functions.global.focusNext),
-      awful.button({ }, 5, crappy.functions.global.focusPrev))
+      awful.button({ }, 4, function ()
+            awful.client.focus.byidx(1)
+            if client.focus then client.focus:raise() end
+      end),
+      awful.button({ }, 5, function ()
+            awful.client.focus.byidx(-1)
+            if client.focus then client.focus:raise() end
+   end))
 
-   for s = 1, screen.count() do
-      -- Create a promptbox for each screen
-      crappy.wibox.promptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
-      -- Create an imagebox widget which will contains an icon indicating which layout we're using.
-      -- We need one layoutbox per screen.
-      mylayoutbox[s] = awful.widget.layoutbox(s)
-      mylayoutbox[s]:buttons(awful.util.table.join(
-                                awful.button({ }, 1, crappy.functions.global.layoutInc),
-                                awful.button({ }, 3, crappy.functions.global.layoutDec),
-                                awful.button({ }, 4, crappy.functions.global.layoutInc),
-                                awful.button({ }, 5, crappy.functions.global.layoutDec)))
-      -- Create a taglist widget
-      mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
-
-      -- Create a tasklist widget
-      mytasklist[s] = awful.widget.tasklist(function(c) return awful.widget.tasklist.label.currenttags(c, s)  end, mytasklist.buttons)
-
-      -- Create the wibox
-      mywibox[s] = awful.wibox({ position = "bottom", screen = s, bg = "#000000" })
-      -- Add widgets to the wibox - order matters
-      mywibox[s].widgets = {
-         {
-            crappy.launcher,
-            mytaglist[s],
-            crappy.wibox.promptbox[s],
-            layout = awful.widget.layout.horizontal.leftright
-         },
-         -- crappy.launcher,
-         mylayoutbox[s],
-         -- mytextclock,
-         -- s == 1 and mysystray or nil,
-         mytasklist[s],
-         layout = awful.widget.layout.horizontal.rightleft
-      }
-   end
+   return awful.widget.tasklist(function(c) return awful.widget.tasklist.label.currenttags(c, s)  end, mytasklist.buttons)
 end
 
+function startup.widget.taglist(s)
+   local mytaglist = {}
+   mytaglist.buttons = awful.util.table.join(
+      awful.button({ }, 1, awful.tag.viewonly),
+      awful.button({ crappy.config.modkey }, 1, awful.client.movetotag),
+      awful.button({ }, 3, awful.tag.viewtoggle),
+      awful.button({ crappy.config.modkey }, 3, awful.client.toggletag),
+      awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
+      awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
+   )
+
+   return awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
+end
+
+function startup.wibox ()
+   if crappy.config.wibox.enabled == false or crappy.config.wibox.enabled == nil then
+      return
+   end
+   print("Initializing crappy wibox...")
+
+   crappy.wibox = {}
+   crappy.wibox.promptbox = {}
+
+   local position = crappy.config.wibox.position
+   if position == nil then
+      position = "top"
+   end
+
+   local bgcolor = crappy.config.wibox.bgcolor
+
+   for s = 1, screen.count() do
+      local layouts = {}
+      local mywibox = awful.wibox({ position = position, screen = s, bg = bgcolor })
+      print ("Making wibox on screen " .. s)
+
+      for x, side in ipairs({"left", "middle", "right"}) do
+         print("Adding widgets for side " .. side)
+         local layout = {}
+
+         if crappy.config.wibox.widgets[side] ~= nil then
+            for i, widget in ipairs(crappy.config.wibox.widgets[side]) do
+               f = crappy.misc.getFunction(widget)
+               if f ~= nil then
+                  print("Adding widget " .. widget)
+
+                  local w = f(s)
+                  if w ~= nil then
+                     table.insert(layout, w)
+                  else
+                     print("Can't create widget " .. widget .. ": function returned nil")
+                  end
+               else
+                  print("Can't create widget " .. widget .. ": function not found")
+               end
+            end
+         end
+         layouts[side] = layout
+      end
+
+      layouts.left.layout = awful.widget.layout.horizontal.leftright
+
+      local wiboxlayout = {}
+      table.insert(wiboxlayout, layouts.left)
+
+      for i=#layouts.right, 1, -1 do
+         table.insert(wiboxlayout, layouts.right[i])
+      end
+
+      for i=#layouts.middle, 1, -1 do
+         table.insert(wiboxlayout, layouts.middle[i])
+      end
+
+      wiboxlayout.layout = awful.widget.layout.horizontal.rightleft
+
+      mywibox.widgets = wiboxlayout
+      crappy.wibox[s] = mywibox
+   end
+end
 
 function startup.signals ()
    print("Initializing crappy signals...")
