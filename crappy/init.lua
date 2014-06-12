@@ -106,4 +106,24 @@ function crappy.setDefaults()
    crappy.config.signals.unfocus = "crappy.functions.signals.unfocus"
 end
 
+function crappy.json:onDecodeError(message, text, location, etc)
+   if text then
+      if location then
+         message = string.format("Error reading JSON at char %d: %s", location, message)
+      else
+         message = string.format("Error reading JSON: %s", message)
+      end
+   end
+
+   if etc ~= nil then
+      message = message .. " (" .. OBJDEF:encode(etc) .. ")"
+   end
+
+   if self.assert then
+      self.assert(false, message)
+   else
+      assert(false, message)
+   end
+end
+
 return crappy
