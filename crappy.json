@@ -10,40 +10,40 @@
     "sloppyfocus": true,
 
     // Set the theme file to use.  You can also override the font.
-    "theme":
-    {
+    "theme": {
         "file": "/usr/share/awesome/themes/default/theme.lua",
         "font": "sans 10"
     },
 
     // Enable titlebars?
-    "titlebar":
-    {
+    "titlebar": {
         "enabled": true,
         "height": 15
     },
 
     // This is the list of enabled layouts.  You can add your own to
     // your rc.lua and then name them here.
-    "layouts":
-    [
-      "awful.layout.suit.max",
-      "awful.layout.suit.tile",
-      "awful.layout.suit.tile.left",
-      "awful.layout.suit.tile.bottom",
-      "awful.layout.suit.tile.top",
-      "awful.layout.suit.fair",
-      "awful.layout.suit.fair.horizontal"
+    "layouts": [
+        "awful.layout.suit.floating",
+        "awful.layout.suit.tile",
+        "awful.layout.suit.tile.left",
+        "awful.layout.suit.tile.bottom",
+        "awful.layout.suit.tile.top",
+        "awful.layout.suit.fair",
+        "awful.layout.suit.fair.horizontal",
+        "awful.layout.suit.spiral",
+        "awful.layout.suit.spiral.dwindle",
+        "awful.layout.suit.max",
+        "awful.layout.suit.max.fullscreen",
+        "awful.layout.suit.magnifier"
     ],
 
     // Define how screens and tags are configured.  Screens are
     // numbered 1 starting at 1.  You can also define the screens
     // "default", and "last".  Screen "1" is the first screen.
-    "screens":
-    {
+    "screens": {
         // The default screen gets applied first
-        "default":
-        {
+        "default": {
             // Tags will use the "defaultLayout" unless one is overridden by the "tagSettings".
             "defaultLayout": "awful.layout.suit.fair",
 
@@ -53,15 +53,12 @@
 
         // Apply the following ontop of "default" if it is the last
         // screen.
-        "last":
-        {
+        "last": {
             "defaultLayout": "awful.layout.suit.max",
 
             // Override the layout for a specific tag on this screen.
-            "tagSettings":
-            {
-                "2":
-                {
+            "tagSettings": {
+                "2": {
                     "layout": "awful.layout.suit.tile"
                 }
             }
@@ -80,38 +77,29 @@
     //
     // callback - Callback cannot be an array, if you wish to use
     // multiple callbacks, use an anonymous function to call them.
-    "rules":
-    [
+    "rules": [
         {
-            "rule":
-            {
+            "rule": {
                 "class": "MPlayer"
             },
-
-            "properties":
-            {
+            "properties": {
                 "floating": true
             }
         },
         {
-            "rule":
-            {
+            "rule": {
                 "class": "pinentry"
             },
-
-            "properties":
-            {
+            "properties": {
                 "floating": true
             }
         },
 
         // Set Firefox to always map on tags number 2 of screen 1.
         {
-            "rule":
-            {
+            "rule": {
                 "class": "Firefox"
             },
-
             "properties":
             {
                 "screen": 1,
@@ -159,13 +147,13 @@
         //     "name": "Debian",
         //     "result": "function() return debian.menu.Debian_menu.Debian end"
         // },
-        {
+        { 
             "name": "open terminal",
-            "result": "function() return crappy.config.terminal end"
+            "result": "function() return crappy.config.terminal end" 
         },
-        {
+        { 
             "name": "firefox",
-            "string": "firefox"
+            "string": "firefox" 
         }
     ],
 
@@ -195,8 +183,7 @@
     },
 
     // Buttons are a combination of modifiers and mouse buttons.
-    "buttons":
-    {
+    "buttons": {
         // Buttons used on the root window
         "root": {
             "3": "crappy.functions.menu.toggle",
@@ -215,12 +202,10 @@
     },
 
     // Keys are a combination of modifiers and keybord keys.
-    "keys":
-    {
+    "keys": {
         // Global keys work everywhere.  The functions are called with
         // no arguments.
-        "global":
-        {
+        "global": {
             "M-<Left>": "awful.tag.viewprev",
             "M-<Right>": "awful.tag.viewnext",
             "M-<Escape>": "awful.tag.history.restore",
@@ -299,8 +284,7 @@
         // Client keybindings work on the currently focused client
         // window.  The functions are called with the client as the
         // argument.
-        "client":
-        {
+        "client": {
             "M-f": "crappy.functions.client.fullscreen",
             "M-S-c": "crappy.functions.client.kill",
             "M-C-<space>": "awful.client.floating.toggle",
@@ -314,8 +298,7 @@
     },
 
     // Define the functions that handle signals
-    "signals":
-    {
+    "signals": {
         "manage": "crappy.functions.signals.manage",
         "focus": "crappy.functions.signals.focus",
         "unfocus": "crappy.functions.signals.unfocus"
