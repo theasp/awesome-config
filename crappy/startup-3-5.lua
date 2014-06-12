@@ -10,22 +10,13 @@ menubar = require("menubar") -- Needs to be global
 
 local startup = require("crappy.startup")
 
-function startup.wibox ()
-   print("Initializing crappy wibox...")
+startup.widget = {}
 
-   crappy.wibox = {}
+function startup.widget.launcher(s)
+   return crappy.launcher
+end
 
-   --  Wibox
-   -- Create a textclock widget
-   -- mytextclock = awful.widget.textclock({ align = "right" })
-
-   -- Create a systray
-   -- mysystray = widget({ type = "systray" })
-
-   -- Create a wibox for each screen and add it
-   local mywibox = {}
-   crappy.wibox.promptbox = {}
-   local mylayoutbox = {}
+function startup.widget.taglist(s)
    local mytaglist = {}
    mytaglist.buttons = awful.util.table.join(
       awful.button({ }, 1, awful.tag.viewonly),
@@ -35,6 +26,19 @@ function startup.wibox ()
       awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
       awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
    )
+
+   return awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+end
+
+function startup.widget.prompt(s)
+   if crappy.wibox.promptbox[s] == nil then
+      crappy.wibox.promptbox[s] = awful.widget.prompt()
+   end
+
+   return crappy.wibox.promptbox[s]
+end
+
+function startup.widget.tasklist(s)
    local mytasklist = {}
    mytasklist.buttons = awful.util.table.join(
       awful.button({ }, 1, function (c)
@@ -72,46 +76,77 @@ function startup.wibox ()
             if client.focus then client.focus:raise() end
    end))
 
+   return awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
+end
+
+function startup.widget.systray(s)
+   if crappy.wibox.systray == nil then
+      crappy.wibox.systray = wibox.widget.systray()
+      return crappy.wibox.systray
+   end
+
+   return nil
+end
+
+function startup.widget.textclock(s)
+   return awful.widget.textclock()
+end
+
+function startup.widget.layout(s)
+   local layoutbox = awful.widget.layoutbox(s)
+   layoutbox:buttons(awful.util.table.join(
+                         awful.button({ }, 1, crappy.functions.global.layoutInc),
+                         awful.button({ }, 3, crappy.functions.global.layoutDec),
+                         awful.button({ }, 4, crappy.functions.global.layoutInc),
+                         awful.button({ }, 5, crappy.functions.global.layoutDec)))
+   return layoutbox
+end
+
+function startup.wibox ()
+   if crappy.config.wibox.enabled == false or crappy.config.wibox.enabled == nil then
+      return
+   end
+   print("Initializing crappy wibox...")
+
+   crappy.wibox = {}
+   crappy.wibox.promptbox = {}
+
    for s = 1, screen.count() do
-      -- Create a promptbox for each screen
-      crappy.wibox.promptbox[s] = awful.widget.prompt()
-      -- Create an imagebox widget which will contains an icon indicating which layout we're using.
-      -- We need one layoutbox per screen.
-      mylayoutbox[s] = awful.widget.layoutbox(s)
-      mylayoutbox[s]:buttons(awful.util.table.join(
-                                awful.button({ }, 1, crappy.functions.global.layoutInc),
-                                awful.button({ }, 3, crappy.functions.global.layoutDec),
-                                awful.button({ }, 4, crappy.functions.global.layoutInc),
-                                awful.button({ }, 5, crappy.functions.global.layoutDec)))
-      -- Create a taglist widget
-      mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+      local layouts = {}
+      local mywibox = awful.wibox({ position = "bottom", screen = s, bg = "#000000" })
+      print ("Making wibox on screen " .. s)
 
-      -- Create a tasklist widget
-      mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
+      for x, side in ipairs({"left", "middle", "right"}) do
+         print("Adding widgets for side " .. side)
+         local layout = wibox.layout.fixed.horizontal()
 
-      -- Create the wibox
-      -- TODO: wibox position, bg
-      mywibox[s] = awful.wibox({ position = "bottom", screen = s, bg = "#000000" })
+         if crappy.config.wibox.widgets[side] ~= nil then
+            for i, widget in ipairs(crappy.config.wibox.widgets[side]) do
+               f = crappy.misc.getFunction(widget)
+               if f ~= nil then
+                  print("Adding widget " .. widget)
 
-      -- Widgets that are aligned to the left
-      local left_layout = wibox.layout.fixed.horizontal()
-      left_layout:add(crappy.launcher)
-      left_layout:add(mytaglist[s])
-      left_layout:add(crappy.wibox.promptbox[s])
+                  local w = f(s)
+                  if w ~= nil then
+                     layout:add(w)
+                  else
+                     print("Can't create widget " .. widget .. ": function returned nil")
+                  end
+               else
+                  print("Can't create widget " .. widget .. ": function not found")
+               end
+            end
+         end
+         layouts[side] = layout
+      end
 
-      -- Widgets that are aligned to the right
-      local right_layout = wibox.layout.fixed.horizontal()
-      --if s == 1 then right_layout:add(wibox.widget.systray()) end
-      --right_layout:add(mytextclock)
-      right_layout:add(mylayoutbox[s])
+      local wiboxlayout = wibox.layout.align.horizontal()
+      wiboxlayout:set_left(layouts.left)
+      wiboxlayout:set_middle(layouts.middle)
+      wiboxlayout:set_right(layouts.right)
 
-      -- Now bring it all together (with the tasklist in the middle)
-      local layout = wibox.layout.align.horizontal()
-      layout:set_left(left_layout)
-      layout:set_middle(mytasklist[s])
-      layout:set_right(right_layout)
-
-      mywibox[s]:set_widget(layout)
+      mywibox:set_widget(wiboxlayout)
+      crappy.wibox[s] = mywibox
    end
 end
 
@@ -131,7 +166,7 @@ end
 
 table.insert(startup.functions, "crappy.startup.menubar")
 function startup.menubar()
-   print("Initializing crappy menubar...")   
+   print("Initializing crappy menubar...")
    menubar.utils.terminal = crappy.config.terminal
    menubar.menu_gen.all_menu_dirs = { "/usr/share/applications/", "/usr/local/share/applications", "~/.local/share/applications" }
 end

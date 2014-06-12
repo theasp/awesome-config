@@ -169,6 +169,31 @@
         }
     ],
 
+    // Configuration of the wibox
+    "wibox": {
+        "enabled": true,
+        "location": "top",
+        "bgcolor": null,
+
+        // widgets has 3 members: left, middle and right.  Each is a
+        // list of functions which return a widget.
+        "widgets": {
+            "left": [
+                "crappy.startup.widget.launcher",
+                "crappy.startup.widget.taglist",
+                "crappy.startup.widget.prompt"
+            ],
+            "middle": [
+                "crappy.startup.widget.tasklist"
+            ],
+            "right": [
+                "crappy.startup.widget.systray", // This will only be added once
+                "crappy.startup.widget.textclock",
+                "crappy.startup.widget.layout"
+            ]
+        }
+    },
+
     // Buttons are a combination of modifiers and mouse buttons.
     "buttons":
     {
