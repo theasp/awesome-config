@@ -94,7 +94,7 @@ function functions.global.focusPrevScreen()
 end
 
 function functions.global.spawnTerminal()
-   awful.util.spawn(crappy.config.terminal)
+   awful.util.spawn(crappy.config.settings.terminal)
 end
 
 function functions.global.wmfactInc()
