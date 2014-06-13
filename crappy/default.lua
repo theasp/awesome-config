@@ -20,16 +20,16 @@ function default.config()
          ["settings"] = crappy.default.startup.theme({})
       },
       {
-         ["func"] = "crappy.startup.wibox",
-         ["settings"] = crappy.default.startup.wibox({})
-      },
-      {
          ["func"] = "crappy.startup.rules",
          ["settings"] = crappy.default.startup.signals({})
       },
       {
          ["func"] = "crappy.startup.signals",
          ["settings"] = crappy.default.startup.signals({})
+      },
+      {
+         ["func"] = "crappy.startup.wibox",
+         ["settings"] = crappy.default.startup.wibox({})
       },
    }
 
