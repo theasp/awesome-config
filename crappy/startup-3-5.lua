@@ -7,8 +7,19 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 menubar = require("menubar") -- Needs to be global
+menubar.menu_gen.all_menu_dirs = { "/usr/share/applications/", "/usr/local/share/applications", "~/.local/share/applications" }
+
 
 local startup = require("crappy.startup")
+
+function startup.widget.systray(s)
+   if crappy.wibox.systray == nil then
+      crappy.wibox.systray = wibox.widget.systray()
+      return crappy.wibox.systray
+   end
+
+   return nil
+end
 
 function startup.widget.tasklist(s)
    local mytasklist = {}
@@ -65,33 +76,25 @@ function startup.widget.taglist(s)
    return awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 end
 
-function startup.wibox ()
-   if crappy.config.wibox.enabled == false or crappy.config.wibox.enabled == nil then
-      return
-   end
+function startup.wibox(settings)
    print("Initializing crappy wibox...")
+
+   crappy.default.startup.wibox(settings)
 
    crappy.wibox = {}
    crappy.wibox.promptbox = {}
 
-   local position = crappy.config.wibox.position
-   if position == nil then
-      position = "top"
-   end
-
-   local bgcolor = crappy.config.wibox.bgcolor
-
    for s = 1, screen.count() do
       local layouts = {}
-      local mywibox = awful.wibox({ position = position, screen = s, bg = bgcolor })
+      local mywibox = awful.wibox({ position = settings.position, screen = s, bg = settings.bgcolor })
       print ("Making wibox on screen " .. s)
 
       for x, side in ipairs({"left", "middle", "right"}) do
          print("Adding widgets for side " .. side)
          local layout = wibox.layout.fixed.horizontal()
 
-         if crappy.config.wibox.widgets[side] ~= nil then
-            for i, widget in ipairs(crappy.config.wibox.widgets[side]) do
+         if settings.widgets[side] ~= nil then
+            for i, widget in ipairs(settings.widgets[side]) do
                f = crappy.misc.getFunction(widget)
                if f ~= nil then
                   print("Adding widget " .. widget)
@@ -121,23 +124,20 @@ function startup.wibox ()
 end
 
 
-function startup.signals ()
+function startup.signals(settings)
    print("Initializing crappy signals...")
-   assert(crappy.config.modkey ~= nil)
-   assert(crappy.config.titlebar.height ~= nil)
-   assert(crappy.config.signals.manage ~= nil)
-   assert(crappy.config.signals.focus ~= nil)
-   assert(crappy.config.signals.unfocus ~= nil)
 
-   client.connect_signal("manage", crappy.misc.getFunction(crappy.config.signals.manage))
-   client.connect_signal("focus", crappy.misc.getFunction(crappy.config.signals.focus))
-   client.connect_signal("unfocus", crappy.misc.getFunction(crappy.config.signals.unfocus))
+   crappy.default.startup.signals(settings)
+
+   client.connect_signal("manage", crappy.misc.getFunction(settings.manage))
+   client.connect_signal("focus", crappy.misc.getFunction(settings.focus))
+   client.connect_signal("unfocus", crappy.misc.getFunction(settings.unfocus))
 end
 
-table.insert(startup.functions, "crappy.startup.menubar")
-function startup.menubar()
+--table.insert(startup.functions, "crappy.startup.menubar")
+function startup.menubar(settings)
    print("Initializing crappy menubar...")
-   menubar.utils.terminal = crappy.config.terminal
+   menubar.utils.terminal = crappy.settings.config.terminal
    menubar.menu_gen.all_menu_dirs = { "/usr/share/applications/", "/usr/local/share/applications", "~/.local/share/applications" }
 end
 

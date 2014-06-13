@@ -1,68 +1,80 @@
 local startup = {}
 
--- This table can be modified to allow further modification by the
--- user or other packages.  Uses strings so that it's easily readable
--- to position other startup functions outside of crappy.
-startup.functions = {"crappy.startup.theme",
-                     "crappy.startup.tags",
-                     "crappy.startup.menu",
-                     "crappy.startup.signals",
-                     "crappy.startup.bindings",
-                     "crappy.startup.rules",
-                     "crappy.startup.wibox"}
-
 -- Start configuring awesome by iterating over
 -- crappy.startup.functions.
-function startup.awesome ()
+function startup.awesome()
    -- Need to convert the layout functions from strings to actual
    -- functions.  This is used in in the functions to switch between
    -- layouts.
+
+   print(crappy.misc.dump(crappy.config))
+   
+   if crappy.config.settings == nil then
+      crappy.config.settings = {}
+   end
+
+   crappy.default.settings(crappy.config.settings)
+
    crappy.layouts = {}
 
-   for i, layoutName in ipairs(crappy.config.layouts) do
+   for i, layoutName in ipairs(crappy.config.settings.layouts) do
       print("Adding layout " .. layoutName)
       crappy.layouts[i] = crappy.misc.getFunction(layoutName)
    end
 
-   -- Iterate over the list of functions ot start
-   for i, startupFunction in ipairs(crappy.startup.functions) do
-      crappy.misc.getFunction(startupFunction)()
+   -- Iterate over the list of functions of start
+   for i, startupDef in ipairs(crappy.config.startup) do
+      if startupDef.enabled == nil or startupDef then
+         if (startupDef.func ~= nil) then
+            if (startupDef.settings == nil) then
+               startupDef.settings = {}
+            end
+   
+            crappy.misc.getFunction(startupDef.func)(startupDef.settings)
+         else
+            print("Warning: No startup function defined")
+         end
+      end
    end
 end
 
 -- Initialize beautiful
-function startup.theme ()
+function startup.theme(settings)
    print("Initializing crappy theme...")
 
-   beautiful.init(crappy.config.theme.file)
+   crappy.default.startup.theme(settings)
 
-   if crappy.config.theme.font ~= nil then
-      awesome.font = crappy.config.theme.font
-      beautiful.get().font = crappy.config.theme.font
+   beautiful.init(settings.file)
+
+   if settings.font ~= nil then
+      awesome.font = settings.font
+      beautiful.get().font = settings.font
    end
 end
 
 -- Set up the tags table
-function startup.tags ()
+function startup.tags(settings)
    print("Initializing crappy tags...")
+   
+   crappy.default.startup.tags(settings)
 
    crappy.tags = {}
 
    for s = 1, screen.count() do
       -- Start with the "default" settings
-      local screenSettings = crappy.config.screens.default;
+      local screenSettings = settings.default;
 
       -- If this is the last screen, apply the "last" settings
-      if s == screen.count() and (type(crappy.config.screens.last) or false) == "table" then
-         screenSettings = crappy.misc.mergeTable(screenSettings, crappy.config.screens.last)
+      if s == screen.count() and settings.last ~= nil then
+         screenSettings = crappy.misc.mergeTable(screenSettings, settings.last)
       end
 
       -- Finally apply the specific screen settings
-      if (type(crappy.config.screens[tostring(s)]) or false) == "table" then
-         screenSettings = crappy.misc.mergeTable(screenSettings, crappy.config.screens[tostring(s)])
+      if settings[tostring(s)] ~= nil then
+         screenSettings = crappy.misc.mergeTable(screenSettings, settings[tostring(s)])
       end
 
-      crappy.tags[s] = awful.tag(screenSettings.tags, s, crappy.misc.getFunction(screenSettings.defaultLayout))
+      crappy.tags[s] = awful.tag(screenSettings.tags, s, crappy.misc.getFunction(screenSettings.layout))
 
       if screenSettings.tagSettings ~= nil then
          for tagName, tagSettings in pairs(screenSettings.tagSettings) do
@@ -75,7 +87,7 @@ function startup.tags ()
 end
 
 -- Build a menu table for awful to work with
-local function buildMenuTable (menu)
+local function buildMenuTable(menu)
    local m = {}
 
    for i, entry in ipairs(menu) do
@@ -113,10 +125,12 @@ local function buildMenuTable (menu)
 end
 
 -- Set up the menu
-function startup.menu ()
+function startup.menu(settings)
    print("Initializing crappy menu...")
 
-   local menu = buildMenuTable(crappy.config.menu)
+   crappy.default.startup.menu(settings)
+
+   local menu = buildMenuTable(settings)
    crappy.mainmenu = awful.menu({ items = menu })
 
    crappy.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
@@ -124,19 +138,17 @@ function startup.menu ()
 end
 
 -- Set up the key/mouse bindings
-function startup.bindings ()
+function startup.bindings(settings)
    print("Initializing crappy bindings...")
-   assert(crappy.config.modkey ~= nil)
-   assert(crappy.config.terminal ~= nil)
+
+   settings = crappy.default.startup.bindings(settings)
+
+   assert(crappy.config.settings.terminal ~= nil)
    assert(crappy.mainmenu ~= nil)
    assert(crappy.layouts ~= nil)
-   assert(crappy.config.buttons.root ~= nil)
-   assert(crappy.config.keys.global ~= nil)
-   assert(crappy.config.keys.client ~= nil)
-   assert(crappy.config.buttons.client ~= nil)
 
    local rootButtons = {}
-   for k, v in pairs(crappy.config.buttons.root) do
+   for k, v in pairs(settings.buttons.root) do
       local f = crappy.misc.getFunction(v)
       if f ~= nil then
          print("Adding root button " .. k .. " -> " .. v)
@@ -148,7 +160,7 @@ function startup.bindings ()
    root.buttons(awful.util.table.join(unpack(rootButtons)))
 
    local globalKeys = {}
-   for k, v in pairs(crappy.config.keys.global) do
+   for k, v in pairs(settings.keys.global) do
       local f = crappy.misc.getFunction(v)
       if f ~= nil then
          print("Adding global key " .. k .. " -> " .. v)
@@ -160,7 +172,7 @@ function startup.bindings ()
    root.keys(awful.util.table.join(unpack(globalKeys)))
 
    local clientKeys = {}
-   for k, v in pairs(crappy.config.keys.client) do
+   for k, v in pairs(settings.keys.client) do
       local f = crappy.misc.getFunction(v)
       if f ~= nil then
          print("Adding client key " .. k .. " -> " .. v)
@@ -172,7 +184,7 @@ function startup.bindings ()
    crappy.clientkeys = awful.util.table.join(unpack(clientKeys))
 
    local clientButtons = {}
-   for k, v in pairs(crappy.config.buttons.client) do
+   for k, v in pairs(settings.buttons.client) do
       local f = crappy.misc.getFunction(v)
       if f ~= nil then
          print("Adding client button " .. k .. " -> " .. v)
@@ -185,8 +197,10 @@ function startup.bindings ()
 end
 
 -- Set up the client rules
-function startup.rules ()
+function startup.rules(settings)
    print("Initializing crappy rules...")
+
+   crappy.default.startup.rules(settings)
 
    assert(crappy.clientkeys ~= nil)
    assert(crappy.clientbuttons ~= nil)
@@ -195,14 +209,14 @@ function startup.rules ()
       { rule = { },
         properties = { border_width = beautiful.border_width,
                        border_color = beautiful.border_normal,
-                       focus = true,
+                       focus = awful.client.focus.filter,
                        maximized_vertical   = false,
                        maximized_horizontal = false,
                        size_hints_honor = false,
                        keys = crappy.clientkeys,
                        buttons = crappy.clientbuttons } }}
 
-   for i,rule in ipairs(crappy.config.rules) do
+   for i,rule in ipairs(settings) do
       if rule.properties ~= nil then
          -- As we need to find a reference to the tag, use tag and screen
          -- to find it.  If tag is supplied without screen, set it to nil.
@@ -240,15 +254,6 @@ function startup.widget.prompt(s)
    return crappy.wibox.promptbox[s]
 end
 
-function startup.widget.systray(s)
-   if crappy.wibox.systray == nil then
-      crappy.wibox.systray = wibox.widget.systray()
-      return crappy.wibox.systray
-   end
-
-   return nil
-end
-
 function startup.widget.textclock(s)
    return awful.widget.textclock()
 end
@@ -262,6 +267,5 @@ function startup.widget.layout(s)
                          awful.button({ }, 5, crappy.functions.global.layoutDec)))
    return layoutbox
 end
-
 
 return startup

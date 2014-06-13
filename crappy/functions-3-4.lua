@@ -7,7 +7,7 @@ local functions = require("crappy.functions")
 
 function functions.signals.manage (c, startup)
    -- Enable sloppy focus
-   if crappy.config.sloppyfocus == true then
+   if crappy.config.settings.sloppyfocus == true then
       c:add_signal("mouse::enter", function(c)
                       if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
                       and awful.client.focus.filter(c) then

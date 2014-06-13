@@ -7,7 +7,7 @@ local functions = require("crappy.functions")
 
 function functions.signals.manage (c, startup)
    -- Enable sloppy focus
-   if crappy.config.sloppyfocus == true then
+   if crappy.config.settings.sloppyfocus == true then
       c:connect_signal("mouse::enter", function(c)
                           if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
                           and awful.client.focus.filter(c) then
@@ -29,7 +29,7 @@ function functions.signals.manage (c, startup)
    end
 
    -- Add a titlebar
-   if crappy.config.titlebar.enabled and (c.type == "normal" or c.type == "dialog") then
+   if crappy.config.settings.titlebar and (c.type == "normal" or c.type == "dialog") then
       -- buttons for the titlebar
       local buttons = awful.util.table.join(
          awful.button({ }, 1, function()

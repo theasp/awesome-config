@@ -1,306 +1,249 @@
 {
-    // The terminal to use
-    "terminal": "x-terminal-emulator",
+    "configver": 0.1,
 
-    // The key which is used for the "M" key in the key mappings.
-    // Mod4 is your "windows" key.
-    "modkey": "Mod4",
-
-    // When moving the mouse into a window, foucs that window.
-    "sloppyfocus": true,
-
-    // Set the theme file to use.  You can also override the font.
-    "theme": {
-        "file": "/usr/share/awesome/themes/default/theme.lua",
-        "font": "sans 10"
+    "settings": {
+        "terminal": "x-terminal-emulator",
+        "sloppyfocus": true,
+        "layouts": [
+            "awful.layout.suit.floating",
+            "awful.layout.suit.tile",
+            "awful.layout.suit.tile.left",
+            "awful.layout.suit.tile.bottom",
+            "awful.layout.suit.tile.top",
+            "awful.layout.suit.fair",
+            "awful.layout.suit.fair.horizontal",
+            "awful.layout.suit.spiral",
+            "awful.layout.suit.spiral.dwindle",
+            "awful.layout.suit.max",
+            "awful.layout.suit.max.fullscreen",
+            "awful.layout.suit.magnifier"
+        ],
     },
-
-    // Enable titlebars?
-    "titlebar": {
-        "enabled": true,
-        "height": 15
-    },
-
-    // This is the list of enabled layouts.  You can add your own to
-    // your rc.lua and then name them here.
-    "layouts": [
-        "awful.layout.suit.floating",
-        "awful.layout.suit.tile",
-        "awful.layout.suit.tile.left",
-        "awful.layout.suit.tile.bottom",
-        "awful.layout.suit.tile.top",
-        "awful.layout.suit.fair",
-        "awful.layout.suit.fair.horizontal",
-        "awful.layout.suit.spiral",
-        "awful.layout.suit.spiral.dwindle",
-        "awful.layout.suit.max",
-        "awful.layout.suit.max.fullscreen",
-        "awful.layout.suit.magnifier"
-    ],
-
-    // Define how screens and tags are configured.  Screens are
-    // numbered 1 starting at 1.  You can also define the screens
-    // "default", and "last".  Screen "1" is the first screen.
-    "screens": {
-        // The default screen gets applied first
-        "default": {
-            // Tags will use the "defaultLayout" unless one is overridden by the "tagSettings".
-            "defaultLayout": "awful.layout.suit.fair",
-
-            // Create the following tags.
-            "tags": ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+    "startup": [
+        {
+            "func": "crappy.startup.theme",
+            "enabled": true,
+            "settings": {
+                "file": "/usr/share/awesome/themes/default/theme.lua",
+                "font": "sans 10",
+                "titlebar": true
+            }
         },
-
-        // Apply the following ontop of "default" if it is the last
-        // screen.
-        "last": {
-            "defaultLayout": "awful.layout.suit.max",
-
-            // Override the layout for a specific tag on this screen.
-            "tagSettings": {
-                "2": {
-                    "layout": "awful.layout.suit.tile"
+        {
+            "func": "crappy.startup.tags",
+            "enabled": true,
+            "settings": {
+                "default": {
+                    "layout": "awful.layout.suit.fair",
+                    "tags": ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+                },
+                "last": {
+                    "layout": "awful.layout.suit.max",
+                    "tagSettings": {
+                        "2": {
+                            "layout": "awful.layout.suit.tile"
+                        }
+                    }
                 }
             }
-        }
-    },
-
-    // Rules map to the same structure as in a normal rc.lua.  See the
-    // wiki page on rules for more information:
-    // http://awesome.naquadah.org/wiki/Understanding_Rules
-    //
-    // Crappy has the following differences:
-    //
-    // tag - To have a client moved to a specific tag you need to
-    // specify "screen" and "tag".  If the tag doesn't exist, it is
-    // not applied.
-    //
-    // callback - Callback cannot be an array, if you wish to use
-    // multiple callbacks, use an anonymous function to call them.
-    "rules": [
-        {
-            "rule": {
-                "class": "MPlayer"
-            },
-            "properties": {
-                "floating": true
-            }
         },
         {
-            "rule": {
-                "class": "pinentry"
-            },
-            "properties": {
-                "floating": true
-            }
-        },
-
-        // Set Firefox to always map on tags number 2 of screen 1.
-        {
-            "rule": {
-                "class": "Firefox"
-            },
-            "properties":
-            {
-                "screen": 1,
-                "tag": 2
-            }
-        }
-    ],
-
-    // The structure of the main menu.  Each item has
-    // 1) name - Name of the menu item, using the standard menu markup
-    // 2) One of table, result, func, or string:
-    //    table - An array of menu items
-    //    result - A function which will result in a string
-    //    func - A function, anonymous or otherwise
-    //    string - A string for a command to run
-    // 3) [optional] One of iconresult or iconfile
-    //    iconresult - A function that will return an iconfile
-    //    iconfile - A string with the name of an icon file
-    "menu": [
-        { "name": "awesome",
-          "iconresult": "function() return beautiful.awesome_icon end",
-          "table": [
-              {
-                  "name": "manual",
-                  "result": "function() return crappy.config.terminal .. \" -e man awesome\" end"
-              },
-              {
-                  "name":"edit config",
-                  "result": "function() return crappy.config.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
-              },
-              {
-                  "name": "restart",
-                  "func": "awesome.restart"
-              },
-              {
-                  "name": "quit",
-                  "func": "awesome.quit"
-              }
-          ]
-        },
-        // If you wish to use the debian menu, you need to uncomment
-        // the require line in rc.lua as well as the the following:
-        //
-        // {
-        //     "name": "Debian",
-        //     "result": "function() return debian.menu.Debian_menu.Debian end"
-        // },
-        { 
-            "name": "open terminal",
-            "result": "function() return crappy.config.terminal end" 
-        },
-        { 
-            "name": "firefox",
-            "string": "firefox" 
-        }
-    ],
-
-    // Configuration of the wibox
-    "wibox": {
-        "enabled": true,
-        "position": "top",
-        "bgcolor": null,
-
-        // widgets has 3 members: left, middle and right.  Each is a
-        // list of functions which return a widget.
-        "widgets": {
-            "left": [
-                "crappy.startup.widget.launcher",
-                "crappy.startup.widget.taglist",
-                "crappy.startup.widget.prompt"
+            "func": "crappy.startup.rules",
+            "enabled": true,
+            "settings": [
+                {
+                    "rule": {
+                        "class": "MPlayer"
+                    },
+                    "properties": {
+                        "floating": true
+                    }
+                },
+                {
+                    "rule": {
+                        "class": "pinentry"
+                    },
+                    "properties": {
+                        "floating": true
+                    }
+                },
             ],
-            "middle": [
-                "crappy.startup.widget.tasklist"
+        },
+        {
+            "func": "crappy.startup.menu":
+            "enabled": true,
+            "settings": [
+                { "name": "awesome",
+                  "iconresult": "function() return beautiful.awesome_icon end",
+                  "table": [
+                      {
+                          "name": "manual",
+                          "result": "function() return crappy.config.settings.terminal .. \" -e man awesome\" end"
+                      },
+                      {
+                          "name":"edit config",
+                          "result": "function() return crappy.config.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
+                      },
+                      {
+                          "name": "restart",
+                          "func": "awesome.restart"
+                      },
+                      {
+                          "name": "quit",
+                          "func": "awesome.quit"
+                      }
+                  ]
+                },
+                {
+                    "name": "open terminal",
+                    "result": "function() return crappy.config.settings.terminal end"
+                },
+                {
+                    "name": "firefox",
+                    "string": "firefox"
+                }
             ],
-            "right": [
-                "crappy.startup.widget.systray", // This will only be added once
-                "crappy.startup.widget.textclock",
-                "crappy.startup.widget.layout"
-            ]
-        }
-    },
-
-    // Buttons are a combination of modifiers and mouse buttons.
-    "buttons": {
-        // Buttons used on the root window
-        "root": {
-            "3": "crappy.functions.menu.toggle",
-            "4": "awful.tag.viewnext",
-            "5": "awful.tag.viewprev"
         },
-
-        // Buttons used on client windows
-        "client": {
-            "1": "crappy.functions.client.focus",
-            "2": "crappy.functions.client.focus",
-            "3": "crappy.functions.client.focus",
-            "M-1": "awful.mouse.client.move",
-            "M-3": "awful.mouse.client.resize"
-        }
-    },
-
-    // Keys are a combination of modifiers and keybord keys.
-    "keys": {
-        // Global keys work everywhere.  The functions are called with
-        // no arguments.
-        "global": {
-            "M-<Left>": "awful.tag.viewprev",
-            "M-<Right>": "awful.tag.viewnext",
-            "M-<Escape>": "awful.tag.history.restore",
-
-            "M-j": "crappy.functions.global.focusNext",
-            "M-k": "crappy.functions.global.focusPrev",
-            "M-w": "crappy.functions.global.showMenu",
-            "M-<Tab>": "crappy.functions.global.focusNext",
-            "M-`": "crappy.functions.global.focusPrevHist",
-
-            "M-S-j": "crappy.functions.global.swapNext",
-            "M-S-k": "crappy.functions.global.swapPrev",
-            "M-C-j": "crappy.functions.global.focusNextScreen",
-            "M-C-k": "crappy.functions.global.focusPrevScreen",
-            "M-u": "awful.client.urgent.jumpto",
-
-            "M-<Return>": "crappy.functions.global.spawnTerminal",
-            "M-x": "crappy.functions.global.spawnTerminal",
-            "M-S-x": "crappy.functions.global.spawnTerminal",
-            "M-C-r": "awesome.restart",
-            "M-S-q": "awesome.quit",
-
-            "M-l": "crappy.functions.global.wmfactInc",
-            "M-h": "crappy.functions.global.wmfactDec",
-            "M-S-h": "crappy.functions.global.nmasterInc",
-            "M-S-l": "crappy.functions.global.nmasterDec",
-            "M-C-h": "crappy.functions.global.ncolInc",
-            "M-C-l": "crappy.functions.global.ncolDec",
-            "M-<space>": "crappy.functions.global.layoutInc",
-            "M-S-<space>": "crappy.functions.global.layoutDec",
-
-            "M-r": "crappy.functions.global.showRunPrompt",
-            "M-C-x": "crappy.functions.global.showLuaPrompt",
-
-            "M-<F1>": "function() crappy.functions.tag.show(1) end",
-            "M-<F2>": "function() crappy.functions.tag.show(2) end",
-            "M-<F3>": "function() crappy.functions.tag.show(3) end",
-            "M-<F4>": "function() crappy.functions.tag.show(4) end",
-            "M-<F5>": "function() crappy.functions.tag.show(5) end",
-            "M-<F6>": "function() crappy.functions.tag.show(6) end",
-            "M-<F7>": "function() crappy.functions.tag.show(7) end",
-            "M-<F8>": "function() crappy.functions.tag.show(8) end",
-            "M-<F9>": "function() crappy.functions.tag.show(9) end",
-
-            "M-C-<F1>": "function() crappy.functions.tag.toggle(1) end",
-            "M-C-<F2>": "function() crappy.functions.tag.toggle(2) end",
-            "M-C-<F3>": "function() crappy.functions.tag.toggle(3) end",
-            "M-C-<F4>": "function() crappy.functions.tag.toggle(4) end",
-            "M-C-<F5>": "function() crappy.functions.tag.toggle(5) end",
-            "M-C-<F6>": "function() crappy.functions.tag.toggle(6) end",
-            "M-C-<F7>": "function() crappy.functions.tag.toggle(7) end",
-            "M-C-<F8>": "function() crappy.functions.tag.toggle(8) end",
-            "M-C-<F9>": "function() crappy.functions.tag.toggle(9) end",
-
-            "M-S-<F1>": "function() crappy.functions.tag.clientMoveTo(1) end",
-            "M-S-<F2>": "function() crappy.functions.tag.clientMoveTo(2) end",
-            "M-S-<F3>": "function() crappy.functions.tag.clientMoveTo(3) end",
-            "M-S-<F4>": "function() crappy.functions.tag.clientMoveTo(4) end",
-            "M-S-<F5>": "function() crappy.functions.tag.clientMoveTo(5) end",
-            "M-S-<F6>": "function() crappy.functions.tag.clientMoveTo(6) end",
-            "M-S-<F7>": "function() crappy.functions.tag.clientMoveTo(7) end",
-            "M-S-<F8>": "function() crappy.functions.tag.clientMoveTo(8) end",
-            "M-S-<F9>": "function() crappy.functions.tag.clientMoveTo(9) end",
-
-            "M-S-C-<F1>": "function() crappy.functions.tag.clientToggle(1) end",
-            "M-S-C-<F2>": "function() crappy.functions.tag.clientToggle(2) end",
-            "M-S-C-<F3>": "function() crappy.functions.tag.clientToggle(3) end",
-            "M-S-C-<F4>": "function() crappy.functions.tag.clientToggle(4) end",
-            "M-S-C-<F5>": "function() crappy.functions.tag.clientToggle(5) end",
-            "M-S-C-<F6>": "function() crappy.functions.tag.clientToggle(6) end",
-            "M-S-C-<F7>": "function() crappy.functions.tag.clientToggle(7) end",
-            "M-S-C-<F8>": "function() crappy.functions.tag.clientToggle(8) end",
-            "M-S-C-<F9>": "function() crappy.functions.tag.clientToggle(9) end"
+        {
+            "func": "crappy.startup.wibox",
+            "enabled": true,
+            "settings": {
+                "position": "top",
+                "bgcolor": null,
+                "widgets": {
+                    "left": [
+                        "crappy.startup.widget.launcher",
+                        "crappy.startup.widget.taglist",
+                        "crappy.startup.widget.prompt"
+                    ],
+                    "middle": [
+                        "crappy.startup.widget.tasklist"
+                    ],
+                    "right": [
+                        "crappy.startup.widget.systray",
+                        "crappy.startup.widget.textclock",
+                        "crappy.startup.widget.layout"
+                    ]
+                }
+            }
         },
+        {
+            "func": "crappy.startup.bindings",
+            "enabled": true,
+            "settings": {
+                "modkey": "Mod4",
+                "buttons": {
+                    "root": {
+                        "3": "crappy.functions.menu.toggle",
+                        "4": "awful.tag.viewnext",
+                        "5": "awful.tag.viewprev"
+                    },
+                    "client": {
+                        "1": "crappy.functions.client.focus",
+                        "2": "crappy.functions.client.focus",
+                        "3": "crappy.functions.client.focus",
+                        "M-1": "awful.mouse.client.move",
+                        "M-3": "awful.mouse.client.resize"
+                    }
+                },
+                "keys": {
+                    "global": {
+                        "M-<Left>": "awful.tag.viewprev",
+                        "M-<Right>": "awful.tag.viewnext",
+                        "M-<Escape>": "awful.tag.history.restore",
 
-        // Client keybindings work on the currently focused client
-        // window.  The functions are called with the client as the
-        // argument.
-        "client": {
-            "M-f": "crappy.functions.client.fullscreen",
-            "M-S-c": "crappy.functions.client.kill",
-            "M-C-<space>": "awful.client.floating.toggle",
-            "M-C-<Return>": "crappy.functions.client.swapMaster",
-            "M-o": "awful.client.movetoscreen",
-            "M-r": "crappy.functions.client.redraw",
-            "M-t": "crappy.functions.client.ontop",
-            "M-n": "crappy.functions.client.minimized",
-            "M-m": "crappy.functions.client.maximized"
+                        "M-j": "crappy.functions.global.focusNext",
+                        "M-k": "crappy.functions.global.focusPrev",
+                        "M-w": "crappy.functions.global.showMenu",
+                        "M-<Tab>": "crappy.functions.global.focusNext",
+                        "M-`": "crappy.functions.global.focusPrevHist",
+
+                        "M-S-j": "crappy.functions.global.swapNext",
+                        "M-S-k": "crappy.functions.global.swapPrev",
+                        "M-C-j": "crappy.functions.global.focusNextScreen",
+                        "M-C-k": "crappy.functions.global.focusPrevScreen",
+                        "M-u": "awful.client.urgent.jumpto",
+
+                        "M-<Return>": "crappy.functions.global.spawnTerminal",
+                        "M-x": "crappy.functions.global.spawnTerminal",
+                        "M-S-x": "crappy.functions.global.spawnTerminal",
+                        "M-C-r": "awesome.restart",
+                        "M-S-q": "awesome.quit",
+
+                        "M-l": "crappy.functions.global.wmfactInc",
+                        "M-h": "crappy.functions.global.wmfactDec",
+                        "M-S-h": "crappy.functions.global.nmasterInc",
+                        "M-S-l": "crappy.functions.global.nmasterDec",
+                        "M-C-h": "crappy.functions.global.ncolInc",
+                        "M-C-l": "crappy.functions.global.ncolDec",
+                        "M-<space>": "crappy.functions.global.layoutInc",
+                        "M-S-<space>": "crappy.functions.global.layoutDec",
+
+                        "M-r": "crappy.functions.global.showRunPrompt",
+                        "M-C-x": "crappy.functions.global.showLuaPrompt",
+
+                        "M-<F1>": "function() crappy.functions.tag.show(1) end",
+                        "M-<F2>": "function() crappy.functions.tag.show(2) end",
+                        "M-<F3>": "function() crappy.functions.tag.show(3) end",
+                        "M-<F4>": "function() crappy.functions.tag.show(4) end",
+                        "M-<F5>": "function() crappy.functions.tag.show(5) end",
+                        "M-<F6>": "function() crappy.functions.tag.show(6) end",
+                        "M-<F7>": "function() crappy.functions.tag.show(7) end",
+                        "M-<F8>": "function() crappy.functions.tag.show(8) end",
+                        "M-<F9>": "function() crappy.functions.tag.show(9) end",
+
+                        "M-C-<F1>": "function() crappy.functions.tag.toggle(1) end",
+                        "M-C-<F2>": "function() crappy.functions.tag.toggle(2) end",
+                        "M-C-<F3>": "function() crappy.functions.tag.toggle(3) end",
+                        "M-C-<F4>": "function() crappy.functions.tag.toggle(4) end",
+                        "M-C-<F5>": "function() crappy.functions.tag.toggle(5) end",
+                        "M-C-<F6>": "function() crappy.functions.tag.toggle(6) end",
+                        "M-C-<F7>": "function() crappy.functions.tag.toggle(7) end",
+                        "M-C-<F8>": "function() crappy.functions.tag.toggle(8) end",
+                        "M-C-<F9>": "function() crappy.functions.tag.toggle(9) end",
+
+                        "M-S-<F1>": "function() crappy.functions.tag.clientMoveTo(1) end",
+                        "M-S-<F2>": "function() crappy.functions.tag.clientMoveTo(2) end",
+                        "M-S-<F3>": "function() crappy.functions.tag.clientMoveTo(3) end",
+                        "M-S-<F4>": "function() crappy.functions.tag.clientMoveTo(4) end",
+                        "M-S-<F5>": "function() crappy.functions.tag.clientMoveTo(5) end",
+                        "M-S-<F6>": "function() crappy.functions.tag.clientMoveTo(6) end",
+                        "M-S-<F7>": "function() crappy.functions.tag.clientMoveTo(7) end",
+                        "M-S-<F8>": "function() crappy.functions.tag.clientMoveTo(8) end",
+                        "M-S-<F9>": "function() crappy.functions.tag.clientMoveTo(9) end",
+
+                        "M-S-C-<F1>": "function() crappy.functions.tag.clientToggle(1) end",
+                        "M-S-C-<F2>": "function() crappy.functions.tag.clientToggle(2) end",
+                        "M-S-C-<F3>": "function() crappy.functions.tag.clientToggle(3) end",
+                        "M-S-C-<F4>": "function() crappy.functions.tag.clientToggle(4) end",
+                        "M-S-C-<F5>": "function() crappy.functions.tag.clientToggle(5) end",
+                        "M-S-C-<F6>": "function() crappy.functions.tag.clientToggle(6) end",
+                        "M-S-C-<F7>": "function() crappy.functions.tag.clientToggle(7) end",
+                        "M-S-C-<F8>": "function() crappy.functions.tag.clientToggle(8) end",
+                        "M-S-C-<F9>": "function() crappy.functions.tag.clientToggle(9) end"
+                    },
+                    "client": {
+                        "M-f": "crappy.functions.client.fullscreen",
+                        "M-S-c": "crappy.functions.client.kill",
+                        "M-C-<space>": "awful.client.floating.toggle",
+                        "M-C-<Return>": "crappy.functions.client.swapMaster",
+                        "M-o": "awful.client.movetoscreen",
+                        "M-r": "crappy.functions.client.redraw",
+                        "M-t": "crappy.functions.client.ontop",
+                        "M-n": "crappy.functions.client.minimized",
+                        "M-m": "crappy.functions.client.maximized"
+                    }
+                }
+            }
+        },
+        {
+            "func": "crappy.startup.signals"
+            "enabled": true,
+            "settings": {
+                "manage": "crappy.functions.signals.manage",
+                "focus": "crappy.functions.signals.focus",
+                "unfocus": "crappy.functions.signals.unfocus"
+            }
         }
-    },
-
-    // Define the functions that handle signals
-    "signals": {
-        "manage": "crappy.functions.signals.manage",
-        "focus": "crappy.functions.signals.focus",
-        "unfocus": "crappy.functions.signals.unfocus"
-    }
+    ]
 }
