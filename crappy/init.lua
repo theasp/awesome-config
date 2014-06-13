@@ -30,23 +30,7 @@ function crappy.start(file)
       file = util.getdir("config") .. "/crappy.json"
    end
 
-   crappy.loadConfig(file)
-   crappy.startup.awesome()
-
-   print("Done initializing crappy.")
-
-   --print(crappy.json:encode_pretty(crappy.config))
-end
-
-function crappy.loadConfig(file)
-   print("Loading crappy file " .. file .. "...")
-
-   -- TODO: Error handling
-   local f = assert(io.open(file, "r"), "Unable to open file: " .. file)
-   local configJson = f:read("*all")
-   f:close()
-
-   local config = crappy.json:decode(configJson)
+   config = crappy.load(file)
 
    if config.configver ~= crappy.configver then
       print("The configuration in " .. file .. " is not a supported, using default")
@@ -54,6 +38,23 @@ function crappy.loadConfig(file)
    end
 
    crappy.config = config
+
+   crappy.startup.awesome()
+
+   print("Done initializing crappy.")
+
+   --print(crappy.json:encode_pretty(crappy.config))
+end
+
+function crappy.load(file)
+   print("Loading crappy file " .. file .. "...")
+
+   -- TODO: Error handling
+   local f = assert(io.open(file, "r"), "Unable to open file: " .. file)
+   local configJson = f:read("*all")
+   f:close()
+
+   return crappy.json:decode(configJson)
 end
 
 function crappy.json:onDecodeError(message, text, location, etc)
