@@ -17,7 +17,7 @@
             "awful.layout.suit.max",
             "awful.layout.suit.max.fullscreen",
             "awful.layout.suit.magnifier"
-        ],
+        ]
     },
     "startup": [
         {
@@ -48,29 +48,7 @@
             }
         },
         {
-            "func": "crappy.startup.rules",
-            "enabled": true,
-            "settings": [
-                {
-                    "rule": {
-                        "class": "MPlayer"
-                    },
-                    "properties": {
-                        "floating": true
-                    }
-                },
-                {
-                    "rule": {
-                        "class": "pinentry"
-                    },
-                    "properties": {
-                        "floating": true
-                    }
-                },
-            ],
-        },
-        {
-            "func": "crappy.startup.menu":
+            "func": "crappy.startup.menu",
             "enabled": true,
             "settings": [
                 { "name": "awesome",
@@ -102,30 +80,7 @@
                     "name": "firefox",
                     "string": "firefox"
                 }
-            ],
-        },
-        {
-            "func": "crappy.startup.wibox",
-            "enabled": true,
-            "settings": {
-                "position": "top",
-                "bgcolor": null,
-                "widgets": {
-                    "left": [
-                        "crappy.startup.widget.launcher",
-                        "crappy.startup.widget.taglist",
-                        "crappy.startup.widget.prompt"
-                    ],
-                    "middle": [
-                        "crappy.startup.widget.tasklist"
-                    ],
-                    "right": [
-                        "crappy.startup.widget.systray",
-                        "crappy.startup.widget.textclock",
-                        "crappy.startup.widget.layout"
-                    ]
-                }
-            }
+            ]
         },
         {
             "func": "crappy.startup.bindings",
@@ -237,12 +192,57 @@
             }
         },
         {
-            "func": "crappy.startup.signals"
+            "func": "crappy.startup.signals",
             "enabled": true,
             "settings": {
                 "manage": "crappy.functions.signals.manage",
                 "focus": "crappy.functions.signals.focus",
                 "unfocus": "crappy.functions.signals.unfocus"
+            }
+        },
+        {
+            "func": "crappy.startup.rules",
+            "enabled": true,
+            "settings": [
+                {
+                    "rule": {
+                        "class": "MPlayer"
+                    },
+                    "properties": {
+                        "floating": true
+                    }
+                },
+                {
+                    "rule": {
+                        "class": "pinentry"
+                    },
+                    "properties": {
+                        "floating": true
+                    }
+                }
+            ]
+        },
+        {
+            "func": "crappy.startup.wibox",
+            "enabled": true,
+            "settings": {
+                "position": "top",
+                "bgcolor": null,
+                "widgets": {
+                    "left": [
+                        "crappy.startup.widget.launcher",
+                        "crappy.startup.widget.taglist",
+                        "crappy.startup.widget.prompt"
+                    ],
+                    "middle": [
+                        "crappy.startup.widget.tasklist"
+                    ],
+                    "right": [
+                        "crappy.startup.widget.systray",
+                        "crappy.startup.widget.textclock",
+                        "crappy.startup.widget.layout"
+                    ]
+                }
             }
         }
     ]
