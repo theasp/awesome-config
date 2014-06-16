@@ -137,7 +137,7 @@ end
 --table.insert(startup.functions, "crappy.startup.menubar")
 function startup.menubar(settings)
    print("Initializing crappy menubar...")
-   menubar.utils.terminal = crappy.settings.config.terminal
+   menubar.utils.terminal = crappy.config.settings.terminal
    menubar.menu_gen.all_menu_dirs = { "/usr/share/applications/", "/usr/local/share/applications", "~/.local/share/applications" }
 end
 
