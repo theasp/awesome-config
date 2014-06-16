@@ -73,6 +73,7 @@ Settings:
 * font (string) - Override the font in the theme file
 
 Example:
+
     {
         "func": "crappy.startup.theme",
         "enabled": true,
@@ -99,6 +100,7 @@ Each of the above, allows the following:
 * tagLayouts - A hash mapping a tag name to a named layout function
 
 Example:
+
     {
         "func": "crappy.startup.tags",
         "enabled": true,
@@ -133,6 +135,7 @@ The settings is an array of menu items, which can be nested.  Each element of th
 You should only apply one of table, result, func and string, as well one of icon and iconresult.
 
 Example:
+
     {
         "func": "crappy.startup.menu",
         "enabled": true,
@@ -184,6 +187,7 @@ Example:
 Enable the menubar provided in Awesome 3.5.
 
 Example:
+
     {
         "func": "crappy.startup.menubar",
         "enabled": true
