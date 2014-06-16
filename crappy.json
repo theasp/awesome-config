@@ -4,6 +4,7 @@
     "settings": {
         "terminal": "x-terminal-emulator",
         "sloppyfocus": true,
+        "titlebar": true,
         "layouts": [
             "awful.layout.suit.floating",
             "awful.layout.suit.tile",
@@ -25,8 +26,7 @@
             "enabled": true,
             "settings": {
                 "file": "/usr/share/awesome/themes/default/theme.lua",
-                "font": "sans 10",
-                "titlebar": true
+                "font": "sans 10"
             }
         },
         {
@@ -39,10 +39,8 @@
                 },
                 "last": {
                     "layout": "awful.layout.suit.max",
-                    "tagSettings": {
-                        "2": {
-                            "layout": "awful.layout.suit.tile"
-                        }
+                    "tagLayouts": {
+                        "2": "awful.layout.suit.tile"
                     }
                 }
             }
