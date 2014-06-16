@@ -78,7 +78,7 @@ function startup.wibox (settings)
 
    for s = 1, screen.count() do
       local layouts = {}
-      local mywibox = awful.wibox({ position = position, screen = s, bg = settings.bgcolor })
+      local mywibox = awful.wibox({ position = settings.position, screen = s, bg = settings.bgcolor })
       print ("Making wibox on screen " .. s)
 
       for x, side in ipairs({"left", "middle", "right"}) do
