@@ -73,14 +73,14 @@ Settings:
 * font (string) - Override the font in the theme file
 
 Example:
-	{
-		"func": "crappy.startup.theme",
-		"enabled": true,
-		"settings": {
-			"file": "/usr/share/awesome/themes/default/theme.lua",
-			"font": "sans 10"
-		}
-	}
+    {
+        "func": "crappy.startup.theme",
+        "enabled": true,
+        "settings": {
+            "file": "/usr/share/awesome/themes/default/theme.lua",
+            "font": "sans 10"
+        }
+    }
 
 #### crappy.startup.tags
 
@@ -99,20 +99,20 @@ Each of the above, allows the following:
 * tagLayouts - A hash mapping a tag name to a named layout function
 
 Example:
-	{
-		"func": "crappy.startup.tags",
-		"enabled": true,
-		"settings": {
-			"default": {
-			"layout": "awful.layout.suit.fair",
-				"tags": ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
-			},
-			"last": {
-				"layout": "awful.layout.suit.max",
-				"tagLayout": {
-					"2": "awful.layout.suit.tile"
-				}
-			}
+    {
+        "func": "crappy.startup.tags",
+        "enabled": true,
+        "settings": {
+            "default": {
+            "layout": "awful.layout.suit.fair",
+                "tags": ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+            },
+            "last": {
+                "layout": "awful.layout.suit.max",
+                "tagLayout": {
+                    "2": "awful.layout.suit.tile"
+                }
+            }
         }
     }
 
@@ -133,42 +133,42 @@ The settings is an array of menu items, which can be nested.  Each element of th
 You should only apply one of table, result, func and string, as well one of icon and iconresult.
 
 Example:
-        {
-            "func": "crappy.startup.menu",
-            "enabled": true,
-            "settings": [
-                { "name": "awesome",
-                  "iconresult": "function() return beautiful.awesome_icon end",
-                  "table": [
-                      {
-                          "name": "manual",
-                          "result": "function() return crappy.config.settings.terminal .. \" -e man awesome\" end"
-                      },
-                      {
-                          "name":"edit config",
-                          "result": "function() return crappy.config.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
-                      },
-                      {
-                          "name": "restart",
-                          "func": "awesome.restart"
-                      },
-                      {
-                          "name": "quit",
-                          "func": "awesome.quit"
-                      }
-                  ]
-                },
-                {
-                    "name": "open terminal",
-                    "result": "function() return crappy.config.settings.terminal end"
-                },
-                {
-                    "name": "firefox",
-                    "string": "firefox"
-                }
-            ]
-        },
-
+    {
+        "func": "crappy.startup.menu",
+        "enabled": true,
+        "settings": [
+            { "name": "awesome",
+              "iconresult": "function() return beautiful.awesome_icon end",
+              "table": [
+                  {
+                      "name": "manual",
+                      "result": "function() return crappy.config.settings.terminal .. \" -e man awesome\" end"
+                  },
+                  {
+                      "name":"edit config",
+                      "result": "function() return crappy.config.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
+                  },
+                  {
+                      "name": "restart",
+                      "func": "awesome.restart"
+                  },
+                  {
+                      "name": "quit",
+                      "func": "awesome.quit"
+                  }
+              ]
+            },
+            {
+                "name": "open terminal",
+                "result": "function() return crappy.config.settings.terminal end"
+            },
+            {
+                "name": "firefox",
+                "string": "firefox"
+            }
+        ]
+    }
+    
 #### crappy.startup.menu
 
 #### crappy.startup.bindings
@@ -184,10 +184,10 @@ Example:
 Enable the menubar provided in Awesome 3.5.
 
 Example:
-	{
-		"func": "crappy.startup.menubar",
-		"enabled": true
-	}
+    {
+        "func": "crappy.startup.menubar",
+        "enabled": true
+    }
 
 awesomeconf
 ===========
