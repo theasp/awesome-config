@@ -147,6 +147,8 @@ function startup.bindings(settings)
    assert(crappy.mainmenu ~= nil)
    assert(crappy.layouts ~= nil)
 
+   crappy.ezconfig.modkey = settings.modkey
+
    local rootButtons = {}
    for k, v in pairs(settings.buttons.root) do
       local f = crappy.misc.getFunction(v)

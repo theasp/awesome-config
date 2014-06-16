@@ -29,8 +29,8 @@ function functions.signals.manage (c, startup)
    end
 
    -- Add a titlebar
-   if crappy.config.titlebar.enabled then
-      awful.titlebar.add(c, { modkey = crappy.config.modkey, height = crappy.config.titlebar.height })
+   if crappy.config.settings.titlebar.enabled then
+      awful.titlebar.add(c, { modkey = crappy.ezconfig.modkey, height = crappy.config.settings.titlebar.height })
    end
 end
 
