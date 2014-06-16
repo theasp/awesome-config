@@ -23,11 +23,16 @@ function startup.awesome()
    for i, startupDef in ipairs(crappy.config.startup) do
       if startupDef.enabled == nil or startupDef then
          if (startupDef.func ~= nil) then
-            if (startupDef.settings == nil) then
-               startupDef.settings = {}
+            local func = crappy.misc.getFunction(startupDef.func)
+            if func ~= nil then
+               if (startupDef.settings == nil) then
+                  startupDef.settings = {}
+               end
+
+               crappy.misc.getFunction(startupDef.func)(startupDef.settings)
+            else
+               print("Warning: Unable to find startup function " .. startupDef.func)
             end
-   
-            crappy.misc.getFunction(startupDef.func)(startupDef.settings)
          else
             print("Warning: No startup function defined")
          end
@@ -52,7 +57,7 @@ end
 -- Set up the tags table
 function startup.tags(settings)
    print("Initializing crappy tags...")
-   
+
    crappy.default.startup.tags(settings)
 
    crappy.tags = {}
