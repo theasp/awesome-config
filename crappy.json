@@ -175,7 +175,9 @@
                         "M-S-C-<F6>": "function() crappy.functions.tag.clientToggle(6) end",
                         "M-S-C-<F7>": "function() crappy.functions.tag.clientToggle(7) end",
                         "M-S-C-<F8>": "function() crappy.functions.tag.clientToggle(8) end",
-                        "M-S-C-<F9>": "function() crappy.functions.tag.clientToggle(9) end"
+                        "M-S-C-<F9>": "function() crappy.functions.tag.clientToggle(9) end",
+
+                        "M-p": "menubar.show"
                     },
                     "client": {
                         "M-f": "crappy.functions.client.fullscreen",
