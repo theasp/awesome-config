@@ -77,11 +77,10 @@ function startup.tags(settings)
       end
 
       crappy.tags[s] = awful.tag(screenSettings.tags, s, crappy.misc.getFunction(screenSettings.layout))
-
-      if screenSettings.tagSettings ~= nil then
-         for tagName, tagSettings in pairs(screenSettings.tagSettings) do
-            if crappy.tags[s][nagName] ~= nil and tagSettings.layout ~= nil then
-               awful.layout.set(crappy.misc.getFunction(tagSettings.layout), crappy.tags[s][tagName])
+      if screenSettings.tagLayouts ~= nil then
+         for tagName, tagLayout in pairs(screenSettings.tagLayouts) do
+            if crappy.tags[s][tagName] ~= nil and tagLayout ~= nil then
+               awful.layout.set(crappy.misc.getFunction(tagLayout), crappy.tags[s][tagName])
             end
          end
       end
