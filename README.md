@@ -7,8 +7,12 @@ This repository includes the following:
 Crappy
 ======
 
-Crappy reads a configuration file to configure Awesome.  Compatible
-with Awesome 3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.
+Crappy reads a configuration file to configure Awesome  3.4.x
+or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.  The goal of this
+is to be able to move between multiple versions of Awesome and
+maintain the same basic configuration in a relatively easy to edit
+file.  JSON was chosen to allow for tools to be written in languages
+other than Lua to modify the configuration.
 
 Installation
 ------------
@@ -62,7 +66,9 @@ settings which is a hash that is passed to the function.
 
 As the order does matter, some startup functions create widgets used
 by others, the preferred order is as they appear in this document.
-You can intermix your own functions wherever you like though.
+You can intermix your own functions wherever you like though.  If a
+function cannot be found, a message will be printed, but crappy will
+continue on to the next.
 
 #### crappy.startup.theme
 
@@ -123,7 +129,8 @@ Example:
 Build the menu used for the launcher on the wibox or the menu on the
 root window.
 
-The settings is an array of menu items, which can be nested.  Each element of the array has the following hash:
+The settings is an array of menu items, which can be nested.  Each
+element of the array has the following hash:
 * name - Name of the menu item
 * icon - Path to the icon
 * iconresult - A function that returns the name of the icon
@@ -132,7 +139,8 @@ The settings is an array of menu items, which can be nested.  Each element of th
 * func - A function to run instead of a command
 * string - A command to run
 
-You should only apply one of table, result, func and string, as well one of icon and iconresult.
+You should only apply one of table, result, func and string, as well
+one of icon and iconresult.
 
 Example:
 
