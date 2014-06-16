@@ -6,9 +6,6 @@ function startup.awesome()
    -- Need to convert the layout functions from strings to actual
    -- functions.  This is used in in the functions to switch between
    -- layouts.
-
-   print(crappy.misc.dump(crappy.config))
-   
    if crappy.config.settings == nil then
       crappy.config.settings = {}
    end
