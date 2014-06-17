@@ -255,6 +255,7 @@ Example:
         "enabled": true,
         "settings": {
             "modkey": "Mod4",
+            "altkey": "Mod1",
             "buttons": {
                 "root": {
                     "3": "crappy.functions.menu.toggle",
