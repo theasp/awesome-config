@@ -27,21 +27,21 @@ Clone the repository anywhere you want:
 
 Make a symlink from your awesome config directory to the library:
 
-	ln -s $(pwd)/awesome-config/crappy ~/.config/awesome/
+    ln -s $(pwd)/awesome-config/crappy ~/.config/awesome/
 
 Copy the example "rc.lua" and "crappy.json" to your config directory:
 
-	cp awesome-config/{crappy.json,rc.lua} ~/.config/awesome/
+    cp awesome-config/{crappy.json,rc.lua} ~/.config/awesome/
 
 Start awesome.
 
 Configuration
 -------------
 
-Edit crappy.json as desired.  The configuration file is divided into
-"settings" and "startup".  You can use your own functions in the
-configuration file by defining or requiring them rc.lua before
-starting crappy, or using anonymous functions.
+Edit "~/.config/awesome/config.json". as desired.  The configuration
+file is divided into "settings" and "startup".  You can use your own
+functions in the configuration file by defining or requiring them
+rc.lua before starting crappy, or using anonymous functions.
 
 Note that JSON does not allow comments.
 
@@ -135,7 +135,8 @@ element of the array has the following hash:
 * icon - Path to the icon
 * iconresult - A function that returns the name of the icon
 * table - An array of the same form for a submenu
-* result - A function that returns the command to run
+* result - A function that returns the command to run, or a table of
+  menu items using the standard used by awful
 * func - A function to run instead of a command
 * string - A command to run
 
@@ -170,6 +171,10 @@ Example:
               ]
             },
             {
+                "name": "Debian",
+                "result": "function() return debian.menu.Debian_menu.Debian end"
+            },
+            {
                 "name": "open terminal",
                 "result": "function() return crappy.config.settings.terminal end"
             },
@@ -179,20 +184,176 @@ Example:
             }
         ]
     }
-    
-#### crappy.startup.menu
+
 
 #### crappy.startup.bindings
 
+Assign keyboard and mouse buttons to functions.  Uses the ezconfig
+library by Georgi Valkov to describe the binding using a string.  The modifiers "M" (modkey), "A" (alt), "S" (shift) and "C" (control) can be combined using a "-" with a key name for a key or mouse button combination.
+
+Settings:
+* modkey - The name of the key to use for "M", defaults to Mod4.
+* buttons - The mapping of mouse buttons to functions
+  * root - Mouse buttons that apply to the root window
+  * client - Mouse buttons that apply to client windows.  The
+    functions are called with the client as an argument.
+* keys - The mapping of keyboard keys to functions
+  * global - Keys that work everywhere
+  * client - Keys that work on client windows.  The functions are
+    called with the client as an argument.
+
+Example:
+
+    {
+        "func": "crappy.startup.bindings",
+        "enabled": true,
+        "settings": {
+            "modkey": "Mod4",
+            "buttons": {
+                "root": {
+                    "3": "crappy.functions.menu.toggle",
+                    "4": "awful.tag.viewnext",
+                    "5": "awful.tag.viewprev"
+                },
+                "client": {
+                    "1": "crappy.functions.client.focus",
+                    "2": "crappy.functions.client.focus",
+                    "3": "crappy.functions.client.focus",
+                    "M-1": "awful.mouse.client.move",
+                    "M-3": "awful.mouse.client.resize"
+                }
+            },
+            "keys": {
+                "global": {
+                    "M-<Left>": "awful.tag.viewprev",
+                    "M-<Right>": "awful.tag.viewnext",
+                    "M-<Escape>": "awful.tag.history.restore",
+
+                    "M-j": "crappy.functions.global.focusNext",
+                    "M-k": "crappy.functions.global.focusPrev",
+                    "M-w": "crappy.functions.global.showMenu",
+                    "M-<Tab>": "crappy.functions.global.focusNext",
+                    "M-`": "crappy.functions.global.focusPrevHist",
+
+                    ...
+
+                    "M-p": "menubar.show"
+                },
+                "client": {
+                    "M-f": "crappy.functions.client.fullscreen",
+                    "M-S-c": "crappy.functions.client.kill",
+                    "M-C-<space>": "awful.client.floating.toggle",
+                    "M-C-<Return>": "crappy.functions.client.swapMaster",
+                    "M-o": "awful.client.movetoscreen",
+                    "M-r": "crappy.functions.client.redraw",
+                    "M-t": "crappy.functions.client.ontop",
+                    "M-n": "crappy.functions.client.minimized",
+                    "M-m": "crappy.functions.client.maximized"
+                }
+            }
+        }
+    }
+
 #### crappy.startup.signals
+
+Set the functions to handle signals.
+
+Settings:
+* manage - The name of the function to run when clients are managed
+* focus - The name of the function to run when clients gain focus
+* focus - The name of the function to run when clients lose focus
+
+Example:
+
+    {
+        "func": "crappy.startup.signals",
+        "enabled": true,
+        "settings": {
+            "manage": "crappy.functions.signals.manage",
+            "focus": "crappy.functions.signals.focus",
+            "unfocus": "crappy.functions.signals.unfocus"
+        }
+    }
+
 
 #### crappy.startup.rules
 
+Rules map to the same structure as in a normal rc.lua.  See the wiki
+page on rules for more information:
+http://awesome.naquadah.org/wiki/Understanding_Rules
+
+Crappy has the following differences:
+* tag - To have a client moved to a specific tag you need to specify
+  "screen" and "tag".  If the tag doesn't exist, it is not applied.
+* callback - Callback cannot be an array, if you wish to use multiple
+  callbacks, use an anonymous function to call them.
+
+Example:
+
+    {
+        "func": "crappy.startup.rules",
+        "enabled": true,
+        "settings": [
+            {
+                "rule": {
+                    "class": "MPlayer"
+                },
+                "properties": {
+                    "floating": true
+                }
+            },
+            {
+                "rule": {
+                    "class": "pinentry"
+                },
+                "properties": {
+                    "floating": true
+                }
+            }
+        ]
+    }
+
 #### crappy.startup.wibox
+
+Set up the wibox for each screen.
+
+Settings:
+* position - Where the wibox is positioned, top or bottom.
+* bgcolor - Set background color, or null to use the theme's color.
+* widgets - A list of the three possible positions of widgets.
+  * left - The named function should turn something that can be added to an alignment, which will be aligned to the left.
+  * middle - Widgets aligned to the middle, or aligned right on 3.4.x.
+  * right - Widgets aligned to the right.
+
+Example:
+
+        {
+            "func": "crappy.startup.wibox",
+            "enabled": true,
+            "settings": {
+                "position": "top",
+                "bgcolor": null,
+                "widgets": {
+                    "left": [
+                        "crappy.startup.widget.launcher",
+                        "crappy.startup.widget.taglist",
+                        "crappy.startup.widget.prompt"
+                    ],
+                    "middle": [
+                        "crappy.startup.widget.tasklist"
+                    ],
+                    "right": [
+                        "crappy.startup.widget.systray",
+                        "crappy.startup.widget.textclock",
+                        "crappy.startup.widget.layout"
+                    ]
+                }
+            }
+        },
 
 #### crappy.startup.menubar
 
-Enable the menubar provided in Awesome 3.5.
+Enable the menubar provided in Awesome 3.5.  There are no settings.
 
 Example:
 
@@ -201,20 +362,14 @@ Example:
         "enabled": true
     }
 
+Extending
+---------
+
 awesomeconf
 ===========
 
 This is a program to manipulate the configuration file.  It currently
 does nothing useful.  Please ignore.
-
-Configuration
--------------
-
-Edit "~/.config/awesome/config.json".
-
-The syntax for keys and mouse buttons is described in the comments for
-ezconfig, linked below.  You can use anonymous functions for bindings,
-or functions you define in "~/.config/awesome/rc.lua".
 
 Code Used
 =========
