@@ -150,6 +150,10 @@ function default.startup.bindings(s)
       s.modkey = "Mod4"
    end
 
+   if s.altkey == nil then
+      s.altkey = "Mod1"
+   end
+
    if s.buttons == nil then
       s.buttons = {}
    end

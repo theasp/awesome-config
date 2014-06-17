@@ -149,6 +149,7 @@ function startup.bindings(settings)
    assert(crappy.layouts ~= nil)
 
    crappy.ezconfig.modkey = settings.modkey
+   crappy.ezconfig.altkey = settings.altkey
 
    local rootButtons = {}
    for k, v in pairs(settings.buttons.root) do

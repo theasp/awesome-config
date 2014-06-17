@@ -189,10 +189,16 @@ Example:
 #### crappy.startup.bindings
 
 Assign keyboard and mouse buttons to functions.  Uses the ezconfig
-library by Georgi Valkov to describe the binding using a string.  The modifiers "M" (modkey), "A" (alt), "S" (shift) and "C" (control) can be combined using a "-" with a key name for a key or mouse button combination.
+library by Georgi Valkov to describe the binding using a string.  The
+modifiers "M" (modkey), "A" (alt), "S" (shift) and "C" (control) can
+be combined using a "-" with a key name for a key or mouse button
+combination.
 
 Settings:
-* modkey - The name of the key to use for "M", defaults to Mod4.
+* modkey - The name of the key to use for "M", defaults to Mod4
+  (windows key).
+* modkey - The name of the key to use for "A", defaults to Mod1 (Alt
+  key).
 * buttons - The mapping of mouse buttons to functions
   * root - Mouse buttons that apply to the root window
   * client - Mouse buttons that apply to client windows.  The
