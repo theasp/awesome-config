@@ -55,6 +55,28 @@ Note that JSON does not allow comments.
 * layouts (list of strings) - A list of strings naming the enabled
    layout functions
 
+Example:
+
+    "settings": {
+        "terminal": "x-terminal-emulator",
+        "sloppyfocus": true,
+        "titlebar": true,
+        "layouts": [
+            "awful.layout.suit.floating",
+            "awful.layout.suit.tile",
+            "awful.layout.suit.tile.left",
+            "awful.layout.suit.tile.bottom",
+            "awful.layout.suit.tile.top",
+            "awful.layout.suit.fair",
+            "awful.layout.suit.fair.horizontal",
+            "awful.layout.suit.spiral",
+            "awful.layout.suit.spiral.dwindle",
+            "awful.layout.suit.max",
+            "awful.layout.suit.max.fullscreen",
+            "awful.layout.suit.magnifier"
+        ]
+    }
+
 ### startup
 
 Startup is an array of functions and their settings which will be
@@ -69,6 +91,24 @@ by others, the preferred order is as they appear in this document.
 You can intermix your own functions wherever you like though.  If a
 function cannot be found, a message will be printed, but crappy will
 continue on to the next.
+
+Example:
+
+    "startup": [
+        {
+            "func": "crappy.startup.theme",
+            "enabled": true,
+            "settings": {
+                "file": "/usr/share/awesome/themes/default/theme.lua",
+                "font": "sans 10"
+            }
+        },
+        ...
+        {
+            "func": "crappy.startup.menubar",
+            "enabled": true
+        }
+    ]
 
 #### crappy.startup.theme
 
