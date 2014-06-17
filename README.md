@@ -321,7 +321,8 @@ Settings:
 * position - Where the wibox is positioned, top or bottom.
 * bgcolor - Set background color, or null to use the theme's color.
 * widgets - A list of the three possible positions of widgets.
-  * left - The named function should turn something that can be added to an alignment, which will be aligned to the left.
+  * left - A list of named functions which should return a widget that
+    can be added to an alignment, which will be aligned to the left.
   * middle - Widgets aligned to the middle, or aligned right on 3.4.x.
   * right - Widgets aligned to the right.
 
@@ -374,10 +375,15 @@ does nothing useful.  Please ignore.
 Code Used
 =========
 
-*  crappy
-  *  ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> (GPLv2)
+* crappy by Andrew Phillips <theasp@gmail.com>
+   ([GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)) includes code
+   from:
+  * ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com>
+     ([GPLv2](http://www.gnu.org/licenses/gpl-2.0.html))
     *  https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua
-  *  JSON by Jeffrey Friedl (CC-BY)
+  * JSON Encode/Decode in Pure LUA by Jeffrey Friedl
+     ([CC-BY 3.0](http://creativecommons.org/licenses/by/3.0/))
     *  http://regex.info/blog/lua/json
-  *  rc.lua from Awesome by the awesome project (GPLv2)
+  * rc.lua from Awesome by the awesome project
+     ([GPLv2](http://www.gnu.org/licenses/gpl-2.0.html))
     *  http://awesome.naquadah.org/
