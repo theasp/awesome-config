@@ -401,13 +401,37 @@ Example:
 
 #### crappy.startup.menubar
 
-Enable the menubar provided in Awesome 3.5.  There are no settings.
+Enable the menubar provided in Awesome 3.5.
+
+Settings:
+* dirs - Directories to look for menu entries in
+* categories - An array of additional categories to look for.  Each entry points to a table with the following:
+  * app_type - The category in the menu item
+  * name - The name of the category to be displayed
+  * icon_name - The name of the file to use for the category icon
+  * use - Show the category or not
 
 Example:
 
     {
         "func": "crappy.startup.menubar",
         "enabled": true
+        "settings": {
+            "dirs": [
+                "/usr/share/applications/",
+                "/usr/local/share/applications/",
+                ".local/share/applications/",
+                ".local/share/applications/andrew/"
+            ],
+            "categories": {
+                "andrew": {
+                    "app_type": "Andrew",
+                    "name": "Andrew",
+                    "icon_name": "applications-accessories.png",
+                    "use": true
+                }
+            }
+        }
     }
 
 Extending

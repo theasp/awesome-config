@@ -248,6 +248,14 @@
         {
             "func": "crappy.startup.menubar",
             "enabled": true
+            "settings": {
+                "dirs": [
+                    "/usr/share/applications/",
+                    "/usr/local/share/applications/",
+                    ".local/share/applications/",
+                    ".local/share/applications/andrew/"
+                ]
+            }
         }
     ]
 }

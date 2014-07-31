@@ -138,7 +138,17 @@ end
 function startup.menubar(settings)
    print("Initializing crappy menubar...")
    menubar.utils.terminal = crappy.config.settings.terminal
-   menubar.menu_gen.all_menu_dirs = { "/usr/share/applications/", "/usr/local/share/applications", "~/.local/share/applications" }
+
+   if settings.dirs then
+      print("Setting dirs")
+      menubar.menu_gen.all_menu_dirs = settings.dirs
+   end
+
+   if settings.categories then
+      for category, options in pairs(settings.categories) do
+         menubar.menu_gen.all_categories[category] = options
+      end
+   end
 end
 
 return startup
