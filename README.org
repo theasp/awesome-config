@@ -5,42 +5,33 @@ This repository includes the following:
 ** Crappy
 Crappy reads a configuration file to configure Awesome  3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is to be able to move between multiple versions of Awesome and maintain
 the same basic configuration in a relatively easy to edit file.  JSON was chosen to allow for tools to be written in languages other than Lua to modify the configuration.
-
 *** Installation
-
 Backup your configuration directory:
-
 #+BEGIN_SRC sh
 cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
 #+END_SRC
 
 Clone the repository anywhere you want:
-
 #+BEGIN_SRC sh
 git clone https://github.com/theasp/awesome-config.git
 #+END_SRC
 
 Make a symlink from your awesome config directory to the library:
-
 #+BEGIN_SRC 
 ln -s $(pwd)/awesome-config/crappy ~/.config/awesome/
 #+END_SRC
 
 Copy the example "rc.lua" and "crappy.json" to your config directory:
-
 #+BEGIN_SRC 
 cp awesome-config/{crappy.json,rc.lua} ~/.config/awesome/
 #+END_SRC
 
 Start awesome.
-
 *** Configuration
-
 Edit "~/.config/awesome/config.json". as desired.  The configuration file is divided into "settings" and "startup".  You can use your own functions in the configuration file by defining or requiring them
 rc.lua before starting crappy, or using anonymous functions.
 
 Note that JSON does not allow comments.
-
 **** settings
 - terminal - The command to run for a terminal
 - sloppyfocus - A boolean which controls whether the focus will follow
@@ -72,9 +63,7 @@ Example:
         ]
     }
 #+END_SRC
-
 **** startup
-
 Startup is an array of functions and their settings which will be called in order during startup.
 
 Each function is defined by having a element called "func" which names the function, "enabled" which controls if it is enabled or not and settings which is a hash that is passed to the function. 
@@ -99,9 +88,7 @@ Example:
         }
     ]
 #+END_SRC
-
 ****** crappy.startup.theme
-
 Set up the theme using beautiful.
 
 Settings:
@@ -119,9 +106,7 @@ Example:
         }
     }
 #+END_SRC
-
 ***** crappy.startup.tags
-
 Build the tags table for each screen and assign their default layouts.
 
 The top level of the settings refers to the screen, and are applied in the order listed:
@@ -154,9 +139,7 @@ Example:
         }
     }
 #+END_SRC
-
 ***** crappy.startup.menu
-
 Build the menu used for the launcher on the wibox or the menu on the root window.
 
 The settings is an array of menu items, which can be nested.  Each element of the array has the following hash:
@@ -213,10 +196,7 @@ Example:
         ]
     }
 #+END_SRC
-
-
 ***** crappy.startup.bindings
-
 Assign keyboard and mouse buttons to functions.  Uses the ezconfig library by Georgi Valkov to describe the binding using a string.  The modifiers "M" (modkey), "A" (alt), "S" (shift) and "C" (control) can be combined using a "-" with a key name for a key or mouse button combination.
 
 Settings:
@@ -282,9 +262,7 @@ Example:
         }
     }
 #+END_SRC
-
 ***** crappy.startup.signals
-
 Set the functions to handle signals.
 
 Settings:
@@ -304,10 +282,7 @@ Example:
         }
     }
 #+END_SRC
-
-
 ***** crappy.startup.rules
-
 Rules map to the same structure as in a normal rc.lua.  See the wiki page on rules for more information:
 http://awesome.naquadah.org/wiki/Understanding_Rules
 
@@ -341,9 +316,7 @@ Example:
         ]
     }
 #+END_SRC
-
-#### crappy.startup.wibox
-
+***** crappy.startup.wibox
 Set up the wibox for each screen.
 
 Settings:
@@ -380,7 +353,6 @@ Example:
             }
         },
 #+END_SRC
-
 ***** crappy.startup.menubar
 Enable the menubar provided in Awesome 3.5.
 
@@ -417,17 +389,15 @@ Example:
 
 #+END_SRC
 *** Extending
-
+TODO
 ** awesomeconf
-
 This is a program to manipulate the configuration file.  It currently
 does nothing useful.  Please ignore.
-
 * Code Used
-- crappy by Andrew Phillips <theasp@gmail.com> ([GPLv2](http://www.gnu.org/licenses/gpl-2.0.html)) includes code from:
-  - ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> ([GPLv2](http://www.gnu.org/licenses/gpl-2.0.html))
+- crappy by Andrew Phillips <theasp@gmail.com> [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]] includes code from:
+  - ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]]
     -  https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua
-  - JSON Encode/Decode in Pure LUA by Jeffrey Friedl ([CC-BY 3.0](http://creativecommons.org/licenses/by/3.0/))
+  - JSON Encode/Decode in Pure LUA by Jeffrey Friedl  [[http://creativecommons.org/licenses/by/3.0/][CC-BY 3.0]]
     -  http://regex.info/blog/lua/json
-  - rc.lua from Awesome by the awesome project ([GPLv2](http://www.gnu.org/licenses/gpl-2.0.html))
+  - rc.lua from Awesome by the awesome project [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]]
     -  http://awesome.naquadah.org/
