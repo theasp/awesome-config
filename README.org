@@ -88,7 +88,7 @@ Example:
         }
     ]
 #+END_SRC
-****** crappy.startup.theme
+***** crappy.startup.theme
 Set up the theme using beautiful.
 
 Settings:
@@ -351,7 +351,7 @@ Example:
                     ]
                 }
             }
-        },
+        }
 #+END_SRC
 ***** crappy.startup.menubar
 Enable the menubar provided in Awesome 3.5.
@@ -386,7 +386,6 @@ Example:
             }
         }
     }
-
 #+END_SRC
 *** Extending
 TODO
