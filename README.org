@@ -1,5 +1,5 @@
 #+TITLE: Awesome Configuration
-#+OPTIONS: toc:2 H:2 p:t
+#+OPTIONS: toc:4 H:4 p:t
 
 This repository includes the following:
 - crappy - A library for reading configuration files for Awesome
