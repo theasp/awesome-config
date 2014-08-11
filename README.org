@@ -17,12 +17,12 @@ git clone https://github.com/theasp/awesome-config.git
 #+END_SRC
 
 Make a symlink from your awesome config directory to the library:
-#+BEGIN_SRC 
+#+BEGIN_SRC sh
 ln -s $(pwd)/awesome-config/crappy ~/.config/awesome/
 #+END_SRC
 
 Copy the example "rc.lua" and "crappy.json" to your config directory:
-#+BEGIN_SRC 
+#+BEGIN_SRC sh
 cp awesome-config/{crappy.json,rc.lua} ~/.config/awesome/
 #+END_SRC
 
