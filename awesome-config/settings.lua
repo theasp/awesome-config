@@ -39,20 +39,7 @@ local layoutsListStore = Gtk.ListStore.new {
    [layoutsColumns.FUNCTION] = GObject.Type.STRING
 }
 
-local layoutsNameCellRenderer = Gtk.CellRendererText {
-   editable = true,
-   placeholder_text = "Enter layout function name..."
-}
-
-function layoutsNameCellRenderer:on_edited(path, text)
-   local iter = layoutsListStore:get_iter(Gtk.TreePath.new_from_string(path))
-
-   if text ~= "" then
-      layoutsListStore[iter][layoutsColumns.FUNCTION] = text
-   else
-      layoutsListStore:remove(iter)
-   end
-end
+local layoutsNameCellRenderer = Gtk.CellRendererText { }
 
 local layoutsNameTreeViewColumn = Gtk.TreeViewColumn {
    title = 'Layout',
@@ -124,17 +111,59 @@ function settings.buildUi(window)
    }
 
    function addButton:on_clicked()
-      local iter
+      local functionEntry = Gtk.Entry {
+         id = 'function'
+      }
 
-      local model, selectedIter = layoutsSelection:get_selected()
-      if model and selectedIter then
-         iter = layoutsListStore:insert_before(selectedIter)
-         layoutsListStore[iter][layoutsColumns.FUNCTION] = ''
-      else
-         iter = layoutsListStore:append({[layoutsColumns.FUNCTION] = ''})
+      local content = Gtk.Box {
+         orientation = 'VERTICAL',
+         spacing = 6,
+         border_width = 6,
+         Gtk.Label {
+            label = 'Enter function name'
+         },
+         functionEntry
+      }
+
+      local dialog = Gtk.Dialog {
+         title = 'Add Layout Function',
+         transient_for = window,
+         buttons = {
+            { Gtk.STOCK_CANCEL, Gtk.ResponseType.CLOSE },
+            { Gtk.STOCK_ADD, Gtk.ResponseType.OK },
+         },
+      }
+
+      dialog:get_content_area():add(content)
+
+      functionEntry:set_activates_default(true)
+      dialog:set_default_response(Gtk.ResponseType.OK)
+
+      function dialog:on_response(response)
+         if response == Gtk.ResponseType.OK then
+            local func = functionEntry:get_text()
+
+            if func ~= '' then
+               local iter
+
+               local model, selectedIter = layoutsSelection:get_selected()
+               if model and selectedIter then
+                  iter = layoutsListStore:insert_after(selectedIter)
+               else
+                  iter = layoutsListStore:append()
+               end
+
+               layoutsListStore[iter][layoutsColumns.FUNCTION] = func
+
+               log.message("Added function %s", func)
+            end
+         end
+
+         dialog:destroy()
       end
 
-      layoutsTreeView:set_cursor(layoutsTreeModel:get_path(iter), layoutsNameTreeViewColumn, true)
+      dialog:show_all()
+      dialog:run()
    end
 
    local removeButton = Gtk.Button {

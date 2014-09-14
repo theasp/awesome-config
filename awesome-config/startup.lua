@@ -25,22 +25,7 @@ local startupFuncsListStore = Gtk.ListStore.new {
 }
 
 local startupFuncsNameCellRenderer = Gtk.CellRendererText {
-   editable = true,
-   placeholder_text = "Enter startup function name..."
 }
-
-function startupFuncsNameCellRenderer:editing_canceled(path, text)
-end
-
-function startupFuncsNameCellRenderer:on_edited(path, text)
-   local iter = startupFuncsListStore:get_iter(Gtk.TreePath.new_from_string(path))
-
-   if text ~= "" then
-      startupFuncsListStore[iter][startupFuncsColumns.FUNCTION] = text
-   else
-      startupFuncsListStore:remove(iter)
-   end
-end
 
 local startupFuncsNameTreeViewColumn = Gtk.TreeViewColumn {
    title = 'Function',
@@ -168,20 +153,61 @@ function startup.buildUi(window)
    }
 
    function addButton:on_clicked()
-      local iter
+      local functionEntry = Gtk.Entry {
+         id = 'function'
+      }
 
-      local model, selectedIter = startupFuncsSelection:get_selected()
-      if model and selectedIter then
-         iter = startupFuncsListStore:insert_before(selectedIter)
-      else
-         iter = startupFuncsListStore:append()
+      local content = Gtk.Box {
+         orientation = 'VERTICAL',
+         spacing = 6,
+         border_width = 6,
+         Gtk.Label {
+            label = 'Enter function name'
+         },
+         functionEntry
+      }
+
+      local dialog = Gtk.Dialog {
+         title = 'Add Startup Function',
+         transient_for = window,
+         buttons = {
+            { Gtk.STOCK_CANCEL, Gtk.ResponseType.CLOSE },
+            { Gtk.STOCK_ADD, Gtk.ResponseType.OK },
+         },
+      }
+
+      dialog:get_content_area():add(content)
+
+      functionEntry:set_activates_default(true)
+      dialog:set_default_response(Gtk.ResponseType.OK)
+
+      function dialog:on_response(response)
+         if response == Gtk.ResponseType.OK then
+            local func = functionEntry:get_text()
+
+            if func ~= '' then
+               local iter
+
+               local model, selectedIter = startupFuncsSelection:get_selected()
+               if model and selectedIter then
+                  iter = startupFuncsListStore:insert_after(selectedIter)
+               else
+                  iter = startupFuncsListStore:append()
+               end
+
+               startupFuncsListStore[iter][startupFuncsColumns.FUNCTION] = func
+               startupFuncsListStore[iter][startupFuncsColumns.ENABLED] = true
+               startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID] = storeSettings({})
+
+               log.message("Added function %s", func)
+            end
+         end
+
+         dialog:destroy()
       end
 
-      startupFuncsListStore[iter][startupFuncsColumns.FUNCTION] = ''
-      startupFuncsListStore[iter][startupFuncsColumns.ENABLED] = true
-      startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID] = storeSettings({})
-
-      startupFuncsTreeView:set_cursor(startupFuncsTreeModel:get_path(iter), startupFuncsNameTreeViewColumn, true)
+      dialog:show_all()
+      dialog:run()
    end
 
    local removeButton = Gtk.Button {
