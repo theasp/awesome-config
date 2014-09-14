@@ -186,78 +186,84 @@ local function nextRow()
    return row
 end
 
-settings.ui = Gtk.Grid {
-   row_spacing = 6,
-   column_spacing = 6,
+settings.ui = Gtk.ScrolledWindow {
+   shadow_type = 'ETCHED_IN',
    margin = 6,
    expand = true,
 
-   {
-      left_attach = 0, top_attach = nextRow(),
-      titlebarCheckButton
-   },
+   Gtk.Grid {
+      row_spacing = 6,
+      column_spacing = 6,
+      margin = 6,
+      expand = true,
 
-   {
-      left_attach = 0, top_attach = nextRow(),
-      sloppyfocusCheckButton
-   },
-
-   {
-      left_attach = 0, top_attach = nextRow(),
-      Gtk.Label {
-         label = 'Te_rminal Emulator:',
-         use_underline = true,
-         mnemonic_widget = terminalEntry
+      {
+         left_attach = 0, top_attach = nextRow(),
+         titlebarCheckButton
       },
-   },
-   {
-      left_attach = 1, top_attach = row,
-      terminalEntry
-   },
 
-   {
-      left_attach = 0, top_attach = nextRow(),
-      Gtk.Label {
-         label = '_Editor:',
-         use_underline = true,
-         mnemonic_widget = editorEntry
+      {
+         left_attach = 0, top_attach = nextRow(),
+         sloppyfocusCheckButton
       },
-   },
-   {
-      left_attach = 1, top_attach = row,
-      editorEntry
-   },
 
-   {
-      left_attach = 0, top_attach = nextRow(),
-      Gtk.Label {
-         label = '_Layouts:',
-         use_underline = true,
-         mnemonic_widget = layoutsTreeView,
-         valign = 'START',
-      },
-   },
-   {
-      left_attach = 1, top_attach = row,
-      Gtk.Box {
-         orientation = 'VERTICAL',
-         spacing = 6,
-         expand = true,
-
-         Gtk.ScrolledWindow {
-            shadow_type = 'ETCHED_IN',
-            expand = true,
-            layoutsTreeView
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = 'Te_rminal Emulator:',
+            use_underline = true,
+            mnemonic_widget = terminalEntry
          },
+      },
+      {
+         left_attach = 1, top_attach = row,
+         terminalEntry
+      },
 
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = '_Editor:',
+            use_underline = true,
+            mnemonic_widget = editorEntry
+         },
+      },
+      {
+         left_attach = 1, top_attach = row,
+         editorEntry
+      },
+
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = '_Layouts:',
+            use_underline = true,
+            mnemonic_widget = layoutsTreeView,
+            valign = 'START',
+         },
+      },
+      {
+         left_attach = 1, top_attach = row,
          Gtk.Box {
-            orientation = 'HORIZONTAL',
-            spacing = 4,
-            homogeneous = true,
-            upButton,
-            downButton,
-            addButton,
-            removeButton
+            orientation = 'VERTICAL',
+            spacing = 6,
+            expand = true,
+
+            Gtk.ScrolledWindow {
+               shadow_type = 'ETCHED_IN',
+               expand = true,
+               layoutsTreeView
+            },
+
+            Gtk.Box {
+               orientation = 'HORIZONTAL',
+               spacing = 4,
+               homogeneous = true,
+               upButton,
+               downButton,
+               addButton,
+               removeButton
+            }
          }
       }
    }
