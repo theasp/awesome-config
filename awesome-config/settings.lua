@@ -2,12 +2,12 @@ local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
 local GObject = lgi.require('GObject')
 
+local despicable = require('despicable/init')
+
 local log = lgi.log.domain('awesome-config/settings')
 
 local settings = {}
-
 local layouts = {}
-
 local row = -1;
 
 local titlebarCheckButton = Gtk.CheckButton {
@@ -147,6 +147,7 @@ function removeButton:on_clicked()
 end
 
 function settings.setConfig(config)
+   config.settings = despicable.default.settings(config.settings)
    titlebarCheckButton:set_active(config.settings.titlebar)
    sloppyfocusCheckButton:set_active(config.settings.sloppyfocus)
    terminalEntry:set_text(config.settings.terminal)
@@ -159,6 +160,7 @@ function settings.setConfig(config)
 end
 
 function settings.updateConfig(config)
+   config.settings = despicable.default.settings(config.settings)
    config.settings.titlebar = titlebarCheckButton:get_active()
    config.settings.sloppyfocus = sloppyfocusCheckButton:get_active()
    config.settings.terminal = terminalEntry:get_text()
