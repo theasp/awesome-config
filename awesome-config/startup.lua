@@ -3,11 +3,11 @@ local Gtk = lgi.require('Gtk')
 local GObject = lgi.require('GObject')
 
 local despicable = require('despicable/init')
+local fallback = require('awesome-config/startup/fallback')
 
 local log = lgi.log.domain('awesome-config/settings')
 
 local startup = {}
-
 
 local settingsRefs = {}
 local settingsCount = 0
@@ -15,12 +15,20 @@ local settingsCount = 0
 local function storeSettings(settings)
    settingsCount = settingsCount + 1
    settingsRefs[settingsCount] = settings
+
    return settingsCount
 end
 
 local function removeSettings(settingsId)
    table.remove(settingsRefs, settingsId)
 end
+
+local settingsScrolledWindow =  Gtk.ScrolledWindow {
+   shadow_type = 'ETCHED_IN',
+   expand = true,
+}
+
+local settingsUi = nil
 
 local startupFuncsColumns = {
    FUNCTION = 1,
@@ -77,6 +85,7 @@ local startupFuncsTreeView = Gtk.TreeView {
    model = startupFuncsListStore,
    id = 'settings.startupFuncs',
    reorderable = true,
+   activate_on_single_click = true,
    startupFuncsEnabledTreeViewColumn,
    startupFuncsNameTreeViewColumn
 }
@@ -85,6 +94,24 @@ local startupFuncsTreeModel = startupFuncsTreeView:get_model()
 
 local startupFuncsSelection = startupFuncsTreeView:get_selection()
 startupFuncsSelection.mode = 'SINGLE'
+
+function startupFuncsTreeView:on_row_activated()
+   local model, iter = startupFuncsSelection:get_selected()
+   local settingsId = startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID]
+   local settings = settingsRefs[settingsId]
+
+   log.message("Switching settings to %s (%d)", startupFuncsListStore[iter][startupFuncsColumns.FUNCTION], settingsId)
+
+   if settingsUi then
+      settingsScrolledWindow:remove(settingsUi)
+   end
+
+   settingsUi = fallback.buildUi(settings)
+   settingsScrolledWindow:add(settingsUi)
+   settingsUi:show_all()
+end
+
+
 
 local upButton = Gtk.Button {
    id = 'up',
@@ -164,6 +191,9 @@ end
 
 function startup.setConfig(config)
    startupFuncsListStore:clear()
+   settingsRefs = {}
+   settingsCount = 0
+
    for i, startupDef in ipairs(config.startup) do
       log.message("Adding %s", startupDef.func)
       startupFuncsListStore:append({
@@ -171,7 +201,7 @@ function startup.setConfig(config)
             [startupFuncsColumns.ENABLED] = startupDef.enabled,
             [startupFuncsColumns.SETTINGSID] = storeSettings(startupDef.settings),
       })
-      
+
    end
 end
 
@@ -227,7 +257,8 @@ startup.ui = Gtk.Box {
          addButton,
          removeButton
       }
-   }
+   },
+   settingsScrolledWindow
 }
 
 return startup
