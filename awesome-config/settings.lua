@@ -7,8 +7,7 @@ local despicable = require('despicable/init')
 local log = lgi.log.domain('awesome-config/settings')
 
 local settings = {}
-local layouts = {}
-local row = -1;
+
 
 local titlebarCheckButton = Gtk.CheckButton {
    label = 'Show _Titlebar',
@@ -32,8 +31,12 @@ local editorEntry = Gtk.Entry {
    id = 'settings.editor'
 }
 
+local layoutsColumns = {
+   FUNCTION = 1,
+}
+
 local layoutsListStore = Gtk.ListStore.new {
-   [1] = GObject.Type.STRING
+   [layoutsColumns.FUNCTION] = GObject.Type.STRING
 }
 
 local layoutsNameCellRenderer = Gtk.CellRendererText {
@@ -45,7 +48,7 @@ function layoutsNameCellRenderer:on_edited(path, text)
    local iter = layoutsListStore:get_iter(Gtk.TreePath.new_from_string(path))
 
    if text ~= "" then
-      layoutsListStore[iter][1] = text
+      layoutsListStore[iter][layoutsColumns.FUNCTION] = text
    else
       layoutsListStore:remove(iter)
    end
@@ -68,82 +71,173 @@ local layoutsTreeView = Gtk.TreeView {
 
 local layoutsTreeModel = layoutsTreeView:get_model()
 
-local layoutsSelection = layoutsTreeView:get_selection()
-layoutsSelection.mode = 'SINGLE'
+function settings.buildUi(window)
+   local layoutsSelection = layoutsTreeView:get_selection()
+   layoutsSelection.mode = 'SINGLE'
 
-local upButton = Gtk.Button {
-   id = 'up',
-   use_stock = true,
-   label = Gtk.STOCK_GO_UP,
-}
+   local upButton = Gtk.Button {
+      id = 'up',
+      use_stock = true,
+      label = Gtk.STOCK_GO_UP,
+   }
 
-function upButton:on_clicked()
-   local model, iter = layoutsSelection:get_selected()
-   if model and iter then
-      local path = layoutsTreeModel:get_path(iter)
+   function upButton:on_clicked()
+      local model, iter = layoutsSelection:get_selected()
+      if model and iter then
+         local path = layoutsTreeModel:get_path(iter)
 
-      if path:prev() then
-         local prevIter = layoutsListStore:get_iter(path)
-         if prevIter then
-            layoutsListStore:swap(iter, prevIter)
+         if path:prev() then
+            local prevIter = layoutsListStore:get_iter(path)
+            if prevIter then
+               layoutsListStore:swap(iter, prevIter)
+            end
          end
       end
    end
-end
 
-local downButton = Gtk.Button {
-   id = 'down',
-   use_stock = true,
-   label = Gtk.STOCK_GO_DOWN,
-}
+   local downButton = Gtk.Button {
+      id = 'down',
+      use_stock = true,
+      label = Gtk.STOCK_GO_DOWN,
+   }
 
-function downButton:on_clicked()
-   local model, iter = layoutsSelection:get_selected()
-   if model and iter then
-      local path = layoutsTreeModel:get_path(iter)
+   function downButton:on_clicked()
+      local model, iter = layoutsSelection:get_selected()
+      if model and iter then
+         local path = layoutsTreeModel:get_path(iter)
 
-      -- This works differently than prev()
-      path:next()
-      if path then
-         local nextIter = layoutsListStore:get_iter(path)
-         if nextIter then
-            layoutsListStore:swap(iter, nextIter)
+         -- This works differently than prev()
+         path:next()
+         if path then
+            local nextIter = layoutsListStore:get_iter(path)
+            if nextIter then
+               layoutsListStore:swap(iter, nextIter)
+            end
          end
       end
    end
-end
 
-local addButton = Gtk.Button {
-   id = 'add',
-   use_stock = true,
-   label = Gtk.STOCK_ADD,
-}
+   local addButton = Gtk.Button {
+      id = 'add',
+      use_stock = true,
+      label = Gtk.STOCK_ADD,
+   }
 
-function addButton:on_clicked()
-   local iter
+   function addButton:on_clicked()
+      local iter
 
-   local model, selectedIter = layoutsSelection:get_selected()
-   if model and selectedIter then
-      iter = layoutsListStore:insert_before(selectedIter)
-      layoutsListStore[iter][1] = ''
-   else
-      iter = layoutsListStore:append({[1] = ''})
+      local model, selectedIter = layoutsSelection:get_selected()
+      if model and selectedIter then
+         iter = layoutsListStore:insert_before(selectedIter)
+         layoutsListStore[iter][layoutsColumns.FUNCTION] = ''
+      else
+         iter = layoutsListStore:append({[layoutsColumns.FUNCTION] = ''})
+      end
+
+      layoutsTreeView:set_cursor(layoutsTreeModel:get_path(iter), layoutsNameTreeViewColumn, true)
    end
 
-   layoutsTreeView:set_cursor(layoutsTreeModel:get_path(iter), layoutsNameTreeViewColumn, true)
-end
+   local removeButton = Gtk.Button {
+      id = 'remove',
+      use_stock = true,
+      label = Gtk.STOCK_REMOVE,
+   }
 
-local removeButton = Gtk.Button {
-   id = 'remove',
-   use_stock = true,
-   label = Gtk.STOCK_REMOVE,
-}
-
-function removeButton:on_clicked()
-   local model, iter = layoutsSelection:get_selected()
-   if model and iter then
-      model:remove(iter)
+   function removeButton:on_clicked()
+      local model, iter = layoutsSelection:get_selected()
+      if model and iter then
+         model:remove(iter)
+      end
    end
+
+   local row = -1;
+   local function nextRow()
+      row = row + 1
+      return row
+   end
+
+   return Gtk.ScrolledWindow {
+      shadow_type = 'ETCHED_IN',
+      margin = 6,
+      expand = true,
+
+      Gtk.Grid {
+         row_spacing = 6,
+         column_spacing = 6,
+         margin = 6,
+         expand = true,
+
+         {
+            left_attach = 0, top_attach = nextRow(),
+            titlebarCheckButton
+         },
+
+         {
+            left_attach = 0, top_attach = nextRow(),
+            sloppyfocusCheckButton
+         },
+
+         {
+            left_attach = 0, top_attach = nextRow(),
+            Gtk.Label {
+               label = 'Te_rminal Emulator:',
+               use_underline = true,
+               mnemonic_widget = terminalEntry
+            },
+         },
+         {
+            left_attach = 1, top_attach = row,
+            terminalEntry
+         },
+
+         {
+            left_attach = 0, top_attach = nextRow(),
+            Gtk.Label {
+               label = '_Editor:',
+               use_underline = true,
+               mnemonic_widget = editorEntry
+            },
+         },
+         {
+            left_attach = 1, top_attach = row,
+            editorEntry
+         },
+
+         {
+            left_attach = 0, top_attach = nextRow(),
+            Gtk.Label {
+               label = '_Layouts:',
+               use_underline = true,
+               mnemonic_widget = layoutsTreeView,
+               valign = 'START',
+            },
+         },
+         {
+            left_attach = 1, top_attach = row,
+            Gtk.Box {
+               orientation = 'VERTICAL',
+               spacing = 6,
+               expand = true,
+
+               Gtk.ScrolledWindow {
+                  shadow_type = 'ETCHED_IN',
+                  expand = true,
+                  layoutsTreeView
+               },
+
+               Gtk.Box {
+                  orientation = 'HORIZONTAL',
+                  spacing = 4,
+                  homogeneous = true,
+                  upButton,
+                  downButton,
+                  addButton,
+                  removeButton
+               }
+            }
+         }
+      }
+   }
 end
 
 function settings.setConfig(config)
@@ -155,7 +249,7 @@ function settings.setConfig(config)
 
    layoutsListStore:clear()
    for i, layoutName in ipairs(config.settings.layouts) do
-      layoutsListStore:append({[1] = layoutName})
+      layoutsListStore:append({[layoutsColumns.FUNCTION] = layoutName})
    end
 end
 
@@ -170,7 +264,7 @@ function settings.updateConfig(config)
    local ok
    local iter = layoutsTreeModel:get_iter_first()
    while iter do
-      val = layoutsListStore[iter][1]
+      val = layoutsListStore[iter][layoutsColumns.FUNCTION]
 
       if val ~= "" then
          table.insert(config.settings.layouts, val)
@@ -180,93 +274,5 @@ function settings.updateConfig(config)
 
    return config
 end
-
-local function nextRow()
-   row = row + 1
-   return row
-end
-
-settings.ui = Gtk.ScrolledWindow {
-   shadow_type = 'ETCHED_IN',
-   margin = 6,
-   expand = true,
-
-   Gtk.Grid {
-      row_spacing = 6,
-      column_spacing = 6,
-      margin = 6,
-      expand = true,
-
-      {
-         left_attach = 0, top_attach = nextRow(),
-         titlebarCheckButton
-      },
-
-      {
-         left_attach = 0, top_attach = nextRow(),
-         sloppyfocusCheckButton
-      },
-
-      {
-         left_attach = 0, top_attach = nextRow(),
-         Gtk.Label {
-            label = 'Te_rminal Emulator:',
-            use_underline = true,
-            mnemonic_widget = terminalEntry
-         },
-      },
-      {
-         left_attach = 1, top_attach = row,
-         terminalEntry
-      },
-
-      {
-         left_attach = 0, top_attach = nextRow(),
-         Gtk.Label {
-            label = '_Editor:',
-            use_underline = true,
-            mnemonic_widget = editorEntry
-         },
-      },
-      {
-         left_attach = 1, top_attach = row,
-         editorEntry
-      },
-
-      {
-         left_attach = 0, top_attach = nextRow(),
-         Gtk.Label {
-            label = '_Layouts:',
-            use_underline = true,
-            mnemonic_widget = layoutsTreeView,
-            valign = 'START',
-         },
-      },
-      {
-         left_attach = 1, top_attach = row,
-         Gtk.Box {
-            orientation = 'VERTICAL',
-            spacing = 6,
-            expand = true,
-
-            Gtk.ScrolledWindow {
-               shadow_type = 'ETCHED_IN',
-               expand = true,
-               layoutsTreeView
-            },
-
-            Gtk.Box {
-               orientation = 'HORIZONTAL',
-               spacing = 4,
-               homogeneous = true,
-               upButton,
-               downButton,
-               addButton,
-               removeButton
-            }
-         }
-      }
-   }
-}
 
 return settings

@@ -12,25 +12,6 @@ local startup = {}
 local settingsRefs = {}
 local settingsCount = 0
 
-local function storeSettings(settings)
-   settingsCount = settingsCount + 1
-   settingsRefs[settingsCount] = settings
-
-   return settingsCount
-end
-
-local function removeSettings(settingsId)
-   table.remove(settingsRefs, settingsId)
-end
-
-local settingsBox = Gtk.Box {
-   margin = 0,
-   spacing = 0,
-   expand = true,
-}
-
-local settingsUi = nil
-
 local startupFuncsColumns = {
    FUNCTION = 1,
    ENABLED = 2,
@@ -47,6 +28,9 @@ local startupFuncsNameCellRenderer = Gtk.CellRendererText {
    editable = true,
    placeholder_text = "Enter startup function name..."
 }
+
+function startupFuncsNameCellRenderer:editing_canceled(path, text)
+end
 
 function startupFuncsNameCellRenderer:on_edited(path, text)
    local iter = startupFuncsListStore:get_iter(Gtk.TreePath.new_from_string(path))
@@ -93,98 +77,156 @@ local startupFuncsTreeView = Gtk.TreeView {
 
 local startupFuncsTreeModel = startupFuncsTreeView:get_model()
 
-local startupFuncsSelection = startupFuncsTreeView:get_selection()
-startupFuncsSelection.mode = 'SINGLE'
 
-function startupFuncsSelection:on_changed()
-   local model, iter = startupFuncsSelection:get_selected()
-   local settingsId = startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID]
-   local settings = settingsRefs[settingsId]
+local function storeSettings(settings)
+   settingsCount = settingsCount + 1
+   settingsRefs[settingsCount] = settings
 
-   if settingsUi then
-      settingsUi:destroy()
-   end
-
-   settingsUi = fallback.buildUi(settings)
-   if settingsUi then
-      settingsBox:add(settingsUi)
-      settingsUi:show_all()
-   end
+   return settingsCount
 end
 
-local upButton = Gtk.Button {
-   id = 'up',
-   use_stock = true,
-   label = Gtk.STOCK_GO_UP,
-}
+local function removeSettings(settingsId)
+   table.remove(settingsRefs, settingsId)
+end
 
-function upButton:on_clicked()
-   local model, iter = startupFuncsSelection:get_selected()
-   if model and iter then
-      local path = startupFuncsTreeModel:get_path(iter)
+function startup.buildUi(window)
+   local settingsBox = Gtk.Box {
+      margin = 0,
+      spacing = 0,
+      expand = true,
+   }
 
-      if path:prev() then
-         local prevIter = startupFuncsListStore:get_iter(path)
-         if prevIter then
-            startupFuncsListStore:swap(iter, prevIter)
+   local settingsUi = nil
+
+   local startupFuncsSelection = startupFuncsTreeView:get_selection()
+   startupFuncsSelection.mode = 'SINGLE'
+
+   function startupFuncsSelection:on_changed()
+      if settingsUi then
+         settingsUi:destroy()
+      end
+
+      local model, iter = startupFuncsSelection:get_selected()
+      if iter then
+         local settingsId = startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID]
+         local settings = settingsRefs[settingsId]
+
+         settingsUi = fallback.buildUi(window, settings)
+         if settingsUi then
+            settingsBox:add(settingsUi)
+            settingsUi:show_all()
          end
       end
    end
-end
 
-local downButton = Gtk.Button {
-   id = 'down',
-   use_stock = true,
-   label = Gtk.STOCK_GO_DOWN,
-}
+   local upButton = Gtk.Button {
+      id = 'up',
+      use_stock = true,
+      label = Gtk.STOCK_GO_UP,
+   }
 
-function downButton:on_clicked()
-   local model, iter = startupFuncsSelection:get_selected()
-   if model and iter then
-      local path = startupFuncsTreeModel:get_path(iter)
+   function upButton:on_clicked()
+      local model, iter = startupFuncsSelection:get_selected()
+      if model and iter then
+         local path = startupFuncsTreeModel:get_path(iter)
 
-      -- This works differently than prev(), for reasons.
-      path:next()
-      if path then
-         local nextIter = startupFuncsListStore:get_iter(path)
-         if nextIter then
-            startupFuncsListStore:swap(iter, nextIter)
+         if path:prev() then
+            local prevIter = startupFuncsListStore:get_iter(path)
+            if prevIter then
+               startupFuncsListStore:swap(iter, prevIter)
+            end
          end
       end
    end
-end
 
-local addButton = Gtk.Button {
-   id = 'add',
-   use_stock = true,
-   label = Gtk.STOCK_ADD,
-}
+   local downButton = Gtk.Button {
+      id = 'down',
+      use_stock = true,
+      label = Gtk.STOCK_GO_DOWN,
+   }
 
-function addButton:on_clicked()
-   local iter
+   function downButton:on_clicked()
+      local model, iter = startupFuncsSelection:get_selected()
+      if model and iter then
+         local path = startupFuncsTreeModel:get_path(iter)
 
-   local model, selectedIter = startupFuncsSelection:get_selected()
-   if model and selectedIter then
-      iter = startupFuncsListStore:insert_before(selectedIter)
+         -- This works differently than prev(), for reasons.
+         path:next()
+         if path then
+            local nextIter = startupFuncsListStore:get_iter(path)
+            if nextIter then
+               startupFuncsListStore:swap(iter, nextIter)
+            end
+         end
+      end
+   end
+
+   local addButton = Gtk.Button {
+      id = 'add',
+      use_stock = true,
+      label = Gtk.STOCK_ADD,
+   }
+
+   function addButton:on_clicked()
+      local iter
+
+      local model, selectedIter = startupFuncsSelection:get_selected()
+      if model and selectedIter then
+         iter = startupFuncsListStore:insert_before(selectedIter)
+      else
+         iter = startupFuncsListStore:append()
+      end
+
       startupFuncsListStore[iter][startupFuncsColumns.FUNCTION] = ''
-   else
-      iter = startupFuncsListStore:append({[startupFuncsColumns.FUNCTION] = ''})
+      startupFuncsListStore[iter][startupFuncsColumns.ENABLED] = true
+      startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID] = storeSettings({})
+
+      startupFuncsTreeView:set_cursor(startupFuncsTreeModel:get_path(iter), startupFuncsNameTreeViewColumn, true)
    end
 
-   startupFuncsTreeView:set_cursor(startupFuncsTreeModel:get_path(iter), startupFuncsNameTreeViewColumn, true)
-end
+   local removeButton = Gtk.Button {
+      id = 'remove',
+      use_stock = true,
+      label = Gtk.STOCK_REMOVE,
+   }
 
-local removeButton = Gtk.Button {
-   id = 'remove',
-   use_stock = true,
-   label = Gtk.STOCK_REMOVE,
-}
-
-function removeButton:on_clicked()
-   local model, iter = startupFuncsSelection:get_selected()
-   if model and iter then
-      model:remove(iter)
+   function removeButton:on_clicked()
+      local model, iter = startupFuncsSelection:get_selected()
+      if model and iter then
+         model:remove(iter)
+      end
    end
+
+   return Gtk.Box {
+      spacing = 6,
+      margin = 6,
+      expand = true,
+
+      Gtk.Box {
+         orientation = 'VERTICAL',
+         spacing = 6,
+         hexpand = false,
+         vexpand = true,
+
+         Gtk.ScrolledWindow {
+            shadow_type = 'ETCHED_IN',
+            hexpand = false,
+            vexpand = true,
+            startupFuncsTreeView
+         },
+
+         Gtk.Box {
+            orientation = 'HORIZONTAL',
+            spacing = 4,
+            homogeneous = true,
+            upButton,
+            downButton,
+            addButton,
+            removeButton
+         }
+      },
+      settingsBox
+   }
 end
 
 
@@ -228,36 +270,5 @@ function startup.updateConfig(config)
    return config
 end
 
-
-startup.ui = Gtk.Box {
-   spacing = 6,
-   margin = 6,
-   expand = true,
-
-   Gtk.Box {
-      orientation = 'VERTICAL',
-      spacing = 6,
-      hexpand = false,
-      vexpand = true,
-
-      Gtk.ScrolledWindow {
-         shadow_type = 'ETCHED_IN',
-         hexpand = false,
-         vexpand = true,
-         startupFuncsTreeView
-      },
-
-      Gtk.Box {
-         orientation = 'HORIZONTAL',
-         spacing = 4,
-         homogeneous = true,
-         upButton,
-         downButton,
-         addButton,
-         removeButton
-      }
-   },
-   settingsBox
-}
 
 return startup

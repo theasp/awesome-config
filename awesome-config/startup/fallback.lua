@@ -5,7 +5,9 @@ local json = require('despicable.JSON')
 
 local fallback = {}
 
-function fallback.buildUi(settings)
+local log = lgi.log.domain('awesome-config/startup/fallback')
+
+function fallback.buildUi(window, settings)
    local settingsJson = json:encode_pretty(settings)
    local buffer = Gtk.TextBuffer {}
    buffer.text = settingsJson
@@ -31,9 +33,39 @@ function fallback.buildUi(settings)
    }
 
    function applyButton:on_clicked()
-      newSettings = json:decode(buffer.text)
+      local ok = true
+      local errstr
 
-      if newSettings then
+      function json:assert(state, message)
+      end
+
+      function json:onDecodeError(message, text, location, etc)
+         if text then
+            if location then
+               message = string.format("%s at char %d", message, location)
+            else
+               message = string.format("%s", message)
+            end
+         end
+
+         if etc ~= nil then
+            message = message .. " (" .. OBJDEF:encode(etc) .. ")"
+         end
+
+         errstr = message
+         ok = false
+
+         if self.assert then
+            self.assert(false, message)
+         else
+            assert(false, message)
+         end
+      end
+
+      newSettings = json:decode(buffer.text)
+      print(newSettings)
+
+      if ok and type(newSettings) == 'table' then
          -- Clear the settings table, we want to keep the same
          -- reference
          for k in pairs(settings) do
@@ -47,6 +79,23 @@ function fallback.buildUi(settings)
          settingsJson = json:encode_pretty(settings)
          buffer.text = settingsJson
          disableButtons()
+      else
+         if not errstr then
+            errstr = "Unkown error decoding JSON"
+         end
+
+         log.message("Error: %s", errstr)
+         if errstr then
+            local dialog = Gtk.MessageDialog {
+               transient_for = window, 
+               destroy_with_parent = true,
+               message_type = 'ERROR', 
+               buttons = 'CLOSE',
+               text = "Error:\n" .. errstr,
+               on_response = Gtk.Widget.destroy
+            }
+            dialog:show_all()
+         end
       end
    end
 

@@ -114,23 +114,25 @@ end
 
 local window = Gtk.ApplicationWindow {
    title = 'Awesome Config',
-   on_destroy = quit,
-   Gtk.Box {
-      orientation = 'VERTICAL',
-      ui:get_widget('/MenuBar'),
-      ui:get_widget('/ToolBar'),
-      Gtk.Notebook {
-	 {
-	    tab_label = "Settings",
-            settings.ui
-	 },
-	 {
-	    tab_label = "Startup",
-            startup.ui
-	 },
-      },
-   }
+   on_destroy = quit
 }
+
+window:add(Gtk.Box {
+              orientation = 'VERTICAL',
+              ui:get_widget('/MenuBar'),
+              ui:get_widget('/ToolBar'),
+              Gtk.Notebook {
+                 {
+                    tab_label = "Settings",
+                    settings.buildUi(window)
+                 },
+                 {
+                    tab_label = "Startup",
+                    startup.buildUi(window)
+                 },
+              }
+})
+
 
 window:add_accel_group(ui:get_accel_group())
 
