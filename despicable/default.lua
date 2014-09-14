@@ -287,19 +287,19 @@ function default.startup.rules(s)
    if #s == 0 then
       s =  {
          {
-            ["rule"] = {
-               ["class"] = "MPlayer"
+            rule = {
+               class = "MPlayer"
             },
-            ["properties"] = {
-               ["floating"] = true
+            properties = {
+               floating = true
             }
          },
          {
-            ["rule"] = {
-               ["class"] = "pinentry"
+            rule = {
+               class = "pinentry"
             },
-            ["properties"] = {
-               ["floating"] = true
+            properties = {
+               floating = true
             }
          }
       }
@@ -312,38 +312,45 @@ function default.config()
    local settings = default.settings({})
    local startup = {
       {
-         ["func"] = "crappy.startup.tags",
-         ["settings"] = default.startup.tags({})
+         func = "crappy.startup.tags",
+         enabled = true,
+         settings = default.startup.tags({})
       },
       {
-         ["func"] = "crappy.startup.theme",
-         ["settings"] = default.startup.theme({})
+         func = "crappy.startup.theme",
+         enabled = true,
+         settings = default.startup.theme({})
       },
       {
-         ["func"] = "crappy.startup.menu",
-         ["settings"] = default.startup.menu({})
+         func = "crappy.startup.menu",
+         enabled = true,
+         settings = default.startup.menu({})
       },
       {
-         ["func"] = "crappy.startup.bindings",
-         ["settings"] = default.startup.theme({})
+         func = "crappy.startup.bindings",
+         enabled = true,
+         settings = default.startup.theme({})
       },
       {
-         ["func"] = "crappy.startup.rules",
-         ["settings"] = default.startup.signals({})
+         func = "crappy.startup.rules",
+         enabled = true,
+         settings = default.startup.signals({})
       },
       {
-         ["func"] = "crappy.startup.signals",
-         ["settings"] = default.startup.signals({})
+         func = "crappy.startup.signals",
+         enabled = true,
+         settings = default.startup.signals({})
       },
       {
-         ["func"] = "crappy.startup.wibox",
-         ["settings"] = default.startup.wibox({})
+         func = "crappy.startup.wibox",
+         enabled = true,
+         settings = default.startup.wibox({})
       },
    }
 
    local config = {
-      ["settings"] = settings,
-      ["startup"] = startup
+      settings = settings,
+      startup = startup
    }
 
    return config
