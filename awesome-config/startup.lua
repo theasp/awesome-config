@@ -23,8 +23,9 @@ local function removeSettings(settingsId)
    table.remove(settingsRefs, settingsId)
 end
 
-local settingsScrolledWindow =  Gtk.ScrolledWindow {
-   shadow_type = 'ETCHED_IN',
+local settingsBox = Gtk.Box {
+   margin = 0,
+   spacing = 0,
    expand = true,
 }
 
@@ -95,23 +96,21 @@ local startupFuncsTreeModel = startupFuncsTreeView:get_model()
 local startupFuncsSelection = startupFuncsTreeView:get_selection()
 startupFuncsSelection.mode = 'SINGLE'
 
-function startupFuncsTreeView:on_row_activated()
+function startupFuncsSelection:on_changed()
    local model, iter = startupFuncsSelection:get_selected()
    local settingsId = startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID]
    local settings = settingsRefs[settingsId]
 
-   log.message("Switching settings to %s (%d)", startupFuncsListStore[iter][startupFuncsColumns.FUNCTION], settingsId)
-
    if settingsUi then
-      settingsScrolledWindow:remove(settingsUi)
+      settingsUi:destroy()
    end
 
    settingsUi = fallback.buildUi(settings)
-   settingsScrolledWindow:add(settingsUi)
-   settingsUi:show_all()
+   if settingsUi then
+      settingsBox:add(settingsUi)
+      settingsUi:show_all()
+   end
 end
-
-
 
 local upButton = Gtk.Button {
    id = 'up',
@@ -258,7 +257,7 @@ startup.ui = Gtk.Box {
          removeButton
       }
    },
-   settingsScrolledWindow
+   settingsBox
 }
 
 return startup
