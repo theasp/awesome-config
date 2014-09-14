@@ -8,6 +8,9 @@ local log = lgi.log.domain('awesome-config-gui')
 local despicable = require('despicable.init')
 local settings = require('awesome-config.settings')
 
+local file = "/tmp/poop.json"
+
+
 local function activate_action(action)
    log.message('Action "%s" activated', action.name)
 end
@@ -23,14 +26,21 @@ function newFile()
    settings.setConfig(config)
 end
 
+function loadFile()
+   log.message("Loading file " .. file)
+
+   local config = despicable.load(file, config)
+   settings.setConfig(config)
+end
+
+
 function saveFile()
    log.message('Save file')
 
    local config = despicable.new()
    settings.updateConfig(config)
 
-   despicable.show(config)
-   despicable.save("/tmp/poop.json", config)
+   despicable.save(file, config)
 end
 
 
@@ -117,7 +127,7 @@ local window = Gtk.ApplicationWindow {
 
 window:add_accel_group(ui:get_accel_group())
 
-newFile()
+loadFile()
 
 -- Show window and start the loop.
 window:show_all()
