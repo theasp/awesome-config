@@ -8,17 +8,63 @@ local fallback = {}
 function fallback.buildUi(settings)
    local settingsJson = json:encode_pretty(settings)
    local buffer = Gtk.TextBuffer {}
-   local iter = buffer:get_iter_at_offset(0)
-   buffer:insert(iter, settingsJson, -1)
+   buffer.text = settingsJson
+
    local textview = Gtk.TextView {
       buffer = buffer,
    }
    textview:override_font(Pango.font_description_from_string('Monospace'))
 
+   local undoButton = Gtk.Button {
+      use_stock = true,
+      label = Gtk.STOCK_UNDO,
+   }
+
+   function undoButton:on_clicked()
+      buffer.text = settingsJson
+      disableButtons()
+   end
+
    local applyButton = Gtk.Button {
       use_stock = true,
       label = Gtk.STOCK_APPLY,
    }
+
+   function applyButton:on_clicked()
+      newSettings = json:decode(buffer.text)
+
+      if newSettings then
+         -- Clear the settings table, we want to keep the same
+         -- reference
+         for k in pairs(settings) do
+            settings[k] = nil
+         end
+
+         for k, v in pairs(newSettings) do
+            settings[k] = v
+         end
+
+         settingsJson = json:encode_pretty(settings)
+         buffer.text = settingsJson
+         disableButtons()
+      end
+   end
+
+   function disableButtons()
+      undoButton:set_sensitive(false)
+      applyButton:set_sensitive(false)
+   end
+
+   function enableButtons()
+      undoButton:set_sensitive(true)
+      applyButton:set_sensitive(true)
+   end
+
+   function buffer:on_changed(modifed)
+      enableButtons()
+   end
+
+   disableButtons()
 
    return Gtk.ScrolledWindow {
       shadow_type = 'ETCHED_IN',
@@ -37,6 +83,7 @@ function fallback.buildUi(settings)
             orientation = 'HORIZONTAL',
             spacing = 6,
             halign = 'END',
+            undoButton,
             applyButton
          }
       }
