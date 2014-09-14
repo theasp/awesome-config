@@ -329,12 +329,12 @@ function default.config()
       {
          func = "crappy.startup.bindings",
          enabled = true,
-         settings = default.startup.theme({})
+         settings = default.startup.bindings({})
       },
       {
          func = "crappy.startup.rules",
          enabled = true,
-         settings = default.startup.signals({})
+         settings = default.startup.rules({})
       },
       {
          func = "crappy.startup.signals",
