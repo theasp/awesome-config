@@ -7,9 +7,9 @@ local log = lgi.log.domain('awesome-config-gui')
 
 local despicable = require('despicable.init')
 local settings = require('awesome-config.settings')
+local startup = require('awesome-config.startup')
 
 local file = "/tmp/poop.json"
-
 
 local function activate_action(action)
    log.message('Action "%s" activated', action.name)
@@ -23,14 +23,14 @@ function newFile()
    log.message('New file')
 
    local config = despicable.new()
-   settings.setConfig(config)
+   setConfig(config)
 end
 
 function loadFile()
    log.message("Loading file " .. file)
 
    local config = despicable.load(file, config)
-   settings.setConfig(config)
+   setConfig(config)
 end
 
 
@@ -38,11 +38,20 @@ function saveFile()
    log.message('Save file')
 
    local config = despicable.new()
-   settings.updateConfig(config)
+   updateConfig(config)
 
    despicable.save(file, config)
 end
 
+function setConfig(config)
+   settings.setConfig(config)
+   startup.setConfig(config)
+end
+
+function updateConfig(config)
+   settings.updateConfig(config)
+   startup.updateConfig(config)
+end
 
 local actions = Gtk.ActionGroup {
    name = 'Actions',
@@ -117,9 +126,7 @@ local window = Gtk.ApplicationWindow {
 	 },
 	 {
 	    tab_label = "Startup",
-	    Gtk.ScrolledWindow {
-	       shadow_type = 'IN',
-	    },
+            startup.ui
 	 },
       },
    }
