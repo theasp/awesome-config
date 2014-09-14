@@ -342,7 +342,6 @@ function default.config()
    }
 
    local config = {
-      ["configver"] = "0.1",
       ["settings"] = settings,
       ["startup"] = startup
    }

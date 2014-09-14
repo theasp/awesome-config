@@ -6,7 +6,9 @@ despicable.json = require('despicable.JSON')
 despicable.default = require('despicable.default')
 
 function despicable.new()
-   return despicable.default.config()
+   local config = despicable.default.config()
+   config.configver = despicable.configver
+   return config
 end
 
 function despicable.load(file)
@@ -19,9 +21,15 @@ function despicable.load(file)
 
    local config = despicable.json:decode(configJson)
 
-   if config.configver ~= despicable.configver then
-      print("The configuration in " .. file .. " is not a supported, using default")
+   -- Stupid numbers!
+   if tonumber(config.configver) ~= tonumber(despicable.configver) then
+      if config.configver then
+         print("The configuration in " .. file .. " is not a supported, version " .. config.configver .. ", using default")
+      else
+         print("The configuration in " .. file .. " is not a supported, using default")
+      end
       config = despicable.default.config()
+      config.configver = despicable.configver
    end
 
    return config
