@@ -207,6 +207,7 @@ settings.ui = Gtk.Grid {
       Gtk.Label {
          label = 'Te_rminal Emulator:',
          use_underline = true,
+         mnemonic_widget = terminalEntry
       },
    },
    {
@@ -219,6 +220,7 @@ settings.ui = Gtk.Grid {
       Gtk.Label {
          label = '_Editor:',
          use_underline = true,
+         mnemonic_widget = editorEntry
       },
    },
    {
@@ -231,6 +233,7 @@ settings.ui = Gtk.Grid {
       Gtk.Label {
          label = '_Layouts:',
          use_underline = true,
+         mnemonic_widget = layoutsTreeView,
          valign = 'START',
       },
    },
