@@ -1,11 +1,19 @@
 #! /usr/bin/env lua
 
+HOME=os.getenv("HOME")
+package.path = package.path .. ";" .. HOME .. "/.config/awesome/?.lua"
+package.path = package.path .. ";" .. HOME .. "/.config/awesome/?/init.lua"
+package.path = package.path .. ";/usr/local/share/awesome/lib/?.lua"
+package.path = package.path .. ";/usr/local/share/awesome/lib/?/init.lua"
+package.path = package.path .. ";/usr/share/awesome/lib/?.lua"
+package.path = package.path .. ";/usr/share/awesome/lib/?/init.lua"
+
 local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
 
 local log = lgi.log.domain('awesome-config-gui')
 
-local despicable = require('despicable.init')
+local despicable = require('despicable')
 local settings = require('awesome-config.settings')
 local startup = require('awesome-config.startup')
 

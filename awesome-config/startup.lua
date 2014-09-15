@@ -2,10 +2,10 @@ local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
 local GObject = lgi.require('GObject')
 
-local despicable = require('despicable/init')
-local fallback = require('awesome-config/startup/fallback')
+local despicable = require('despicable')
+local fallback = require('awesome-config.startup.fallback')
 
-local log = lgi.log.domain('awesome-config/settings')
+local log = lgi.log.domain('awesome-config.settings')
 
 local startup = {}
 
