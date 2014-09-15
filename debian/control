@@ -1,0 +1,16 @@
+Source: awesome-config
+Section: x11
+Priority: optional
+Maintainer: Andrew Phillips <theasp@gmail.com>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: https://github.com/theasp/awesome-config
+Vcs-Git: https://github.com/theasp/awesome-config
+Vcs-Browser: https://github.com/theasp/awesome-config
+
+Package: awesome-config
+Architecture: any
+Depends: awesome (>= 3.4.15), lua-lgi (>= 0.7.2)
+Description: Configuration library and GUI for the awesome window manager
+ A library for reading configuration files for Awesome, and a GUI to
+ edit the configuration files.

@@ -1,0 +1,10 @@
+To get started with awesome-config, do the following:
+
+Backup your configuration directory:
+cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
+
+Then copy the example files "rc.lua" and "crappy.json" from
+/usr/share/doc/awesome-config-examples to your config directory
+"~/.config/awesome".
+
+ -- Andrew Phillips <theasp@gmail.com>  Mon, 15 Sep 2014 10:57:34 -0300
