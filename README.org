@@ -6,8 +6,7 @@ This repository includes the following:
 - awesome-config - A GUI for manipulating the 
 
 * Crappy
-Crappy reads a configuration file to configure Awesome  3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is to be able to move between multiple versions of Awesome and maintain
-the same basic configuration in a relatively easy to edit file.  JSON was chosen to allow for tools to be written in languages other than Lua to modify the configuration.
+Crappy reads a configuration file to configure Awesome  3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is to be able to move between multiple versions of Awesome and maintain the same basic configuration in a relatively easy to edit file.  JSON was chosen to allow for tools to be written in languages other than Lua to modify the configuration.
 ** Installation
 Backup your configuration directory:
 #+BEGIN_SRC sh
@@ -35,17 +34,16 @@ Start awesome.
 * Awesome Config
 TODO
 * Configuration File
-Edit "=~/.config/awesome/config.json=". as desired.  The configuration file is divided into "=settings=" and "=startup=".  You can use your own functions in the configuration file by defining or requiring them
-rc.lua before starting crappy, or using anonymous functions.
+Edit "=~/.config/awesome/config.json=". as desired.  The configuration file is divided into "=settings=" and "=startup=".  You can use your own functions in the configuration file by defining or requiring them "=rc.lua= before starting crappy, or using anonymous functions.
 
 Note that JSON does not allow comments.
 ** settings
-- terminal - The command to run for a terminal
-- sloppyfocus - A boolean which controls whether the focus will follow
+- =terminal= - The command to run for a terminal
+- =sloppyfocus= - A boolean which controls whether the focus will follow
   the mouse
-- titlebar (boolean) - A boolean which controls whether Windows should
+- =titlebar= (boolean) - A boolean which controls whether Windows should
   have titlebars
-- layouts (list of strings) - A list of strings naming the enabled
+- =layouts= (list of strings) - A list of strings naming the enabled
    layout functions
 
 Example:
@@ -70,10 +68,10 @@ Example:
         ]
     }
 #+END_SRC
-** startup
+** =startup=
 Startup is an array of functions and their settings which will be called in order during startup.
 
-Each function is defined by having a element called "func" which names the function, "enabled" which controls if it is enabled or not and settings which is a hash that is passed to the function. 
+Each function is defined by having a element called "=func=" which names the function, "=enabled=" which controls if it is enabled or not and settings which is a hash that is passed to the function. 
 
 As the order does matter, some startup functions create widgets used by others, the preferred order is as they appear in this document. You can intermix your own functions wherever you like though.  If a function cannot be found, a message will be printed, but crappy will continue on to the next.
 
@@ -99,8 +97,8 @@ Example:
 Set up the theme using beautiful.
 
 Settings:
-- file (string) - Theme file passed to beautiful
-- font (string) - Override the font in the theme file
+- =file= (string) - Theme file passed to beautiful
+- =font= (string) - Override the font in the theme file
 
 Example:
 #+BEGIN_SRC js
@@ -117,15 +115,14 @@ Example:
 Build the tags table for each screen and assign their default layouts.
 
 The top level of the settings refers to the screen, and are applied in the order listed:
-- default - Settings inside are applied to all screens.
-- last - Settings inside are applied to the last screen.
-- <#> - Settings inside are applied to the screen number given.
+- =default= - Settings inside are applied to all screens.
+- =last= - Settings inside are applied to the last screen.
+- =<#>= - Settings inside are applied to the screen number given.
 
 Each of the above, allows the following:
-- layout - The name of the default layout function.
-- tags - The names of each of the tags for the
-  screen.
-- tagLayouts - A hash mapping a tag name to a named layout function
+- =layout= - The name of the default layout function.
+- =tags= - The names of each of the tags for the screen.
+- =tagLayouts= - A hash mapping a tag name to a named layout function
 
 Example:
 #+BEGIN_SRC js
@@ -150,16 +147,15 @@ Example:
 Build the menu used for the launcher on the wibox or the menu on the root window.
 
 The settings is an array of menu items, which can be nested.  Each element of the array has the following hash:
-- name - Name of the menu item
-- icon - Path to the icon
-- iconresult - A function that returns the name of the icon
-- table - An array of the same form for a submenu
-- result - A function that returns the command to run, or a table of
-  menu items using the standard used by awful
-- func - A function to run instead of a command
-- string - A command to run
+- =name= - Name of the menu item
+- =icon= - Path to the icon
+- =iconresult= - A function that returns the name of the icon
+- =table= - An array of the same form for a submenu
+- =result= - A function that returns the command to run, or a table of menu items using the standard used by awful
+- =func= - A function to run instead of a command
+- =string= - A command to run
 
-You should only apply one of table, result, func and string, as well one of icon and iconresult.
+You should only apply one of =table=, =result=, =func= and =string=, as well one of =icon= and =iconresult=.
 
 Example:
 #+BEGIN_SRC js
@@ -204,17 +200,17 @@ Example:
     }
 #+END_SRC
 *** crappy.startup.bindings
-Assign keyboard and mouse buttons to functions.  Uses the ezconfig library by Georgi Valkov to describe the binding using a string.  The modifiers "M" (modkey), "A" (alt), "S" (shift) and "C" (control) can be combined using a "-" with a key name for a key or mouse button combination.
+Assign keyboard and mouse buttons to functions.  Uses the ezconfig library by Georgi Valkov to describe the binding using a string.  The modifiers "=M=" (modkey), "=A=" (alt), "=S=" (shift) and "=C=" (control) can be combined using a "=-=" with a key name for a key or mouse button combination.
 
 Settings:
-- modkey - The name of the key to use for "M", defaults to Mod4  (windows key).
-- modkey - The name of the key to use for "A", defaults to Mod1 (Alt key).
-- buttons - The mapping of mouse buttons to functions
-  - root - Mouse buttons that apply to the root window
-  - client - Mouse buttons that apply to client windows.  The functions are called with the client as an argument.
-- keys - The mapping of keyboard keys to functions
-   - global - Keys that work everywhere
-   - client - Keys that work on client windows.  The functions are called with the client as an argument.
+- =modkey= - The name of the key to use for "M", defaults to Mod4  (windows key).
+- =modkey= - The name of the key to use for "A", defaults to Mod1 (Alt key).
+- =buttons= - The mapping of mouse buttons to functions
+  - =root= - Mouse buttons that apply to the root window
+  - =client= - Mouse buttons that apply to client windows.  The functions are called with the client as an argument.
+- =keys= - The mapping of keyboard keys to functions
+   - =global= - Keys that work everywhere
+   - =client= - Keys that work on client windows.  The functions are called with the client as an argument.
 
 Example:
 #+BEGIN_SRC js
@@ -273,9 +269,9 @@ Example:
 Set the functions to handle signals.
 
 Settings:
-- manage - The name of the function to run when clients are managed
-- focus - The name of the function to run when clients gain focus
-- unfocus - The name of the function to run when clients lose focus
+- =manage= - The name of the function to run when clients are managed
+- =focus= - The name of the function to run when clients gain focus
+- =unfocus= - The name of the function to run when clients lose focus
 
 Example:
 #+BEGIN_SRC js
@@ -294,9 +290,8 @@ Rules map to the same structure as in a normal rc.lua.  See the wiki page on rul
 http://awesome.naquadah.org/wiki/Understanding_Rules
 
 Crappy has the following differences:
--  tag - To have a client moved to a specific tag you need to specify "screen" and "tag".  If the tag doesn't exist, it is not applied.
--  callback - Callback cannot be an array, if you wish to use multiple
-  callbacks, use an anonymous function to call them.
+-  =tag= - To have a client moved to a specific tag you need to specify "=screen=" and "=tag=".  If the tag doesn't exist, it is not applied.
+-  =callback= - Callback cannot be an array, if you wish to use multiple callbacks, use an anonymous function to call them.
 
 Example:
 #+BEGIN_SRC js
@@ -327,12 +322,12 @@ Example:
 Set up the wibox for each screen.
 
 Settings:
-- position - Where the wibox is positioned, top or bottom.
-- bgcolor - Set background color, or null to use the theme's color.
-- widgets - A list of the three possible positions of widgets.
-  - left - A list of named functions which should return a widget that can be added to an alignment, which will be aligned to the left.
-  - middle - Widgets aligned to the middle, or aligned right on 3.4.x.
-  - right - Widgets aligned to the right.
+- =position= - Where the wibox is positioned, top or bottom.
+- =bgcolor= - Set background color, or null to use the theme's color.
+- =widgets= - A list of the three possible positions of widgets.
+  - =left= - A list of named functions which should return a widget that can be added to an alignment, which will be aligned to the left.
+  - =middle= - Widgets aligned to the middle, or aligned right on 3.4.x.
+  - =right= - Widgets aligned to the right.
 
 Example:
 #+BEGIN_SRC js
@@ -364,12 +359,12 @@ Example:
 Enable the menubar provided in Awesome 3.5.
 
 Settings:
-- dirs - Directories to look for menu entries in
-- categories - An array of additional categories to look for.  Each entry points to a table with the following:
-  - app_type - The category in the menu item
-  - name - The name of the category to be displayed
-  - icon_name - The name of the file to use for the category icon
-  - use - Show the category or not
+- =dirs= - Directories to look for menu entries in
+- =categories= - An array of additional categories to look for.  Each entry points to a table with the following:
+  - =app_type= - The category in the menu item
+  - =name= - The name of the category to be displayed
+  - =icon_name= - The name of the file to use for the category icon
+  - =use= - Show the category or not
 
 Example:
 #+BEGIN_SRC js
