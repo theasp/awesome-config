@@ -23,6 +23,7 @@ Make a symlink from your awesome config directory to the libraries:
 #+BEGIN_SRC sh
 ln -s $(pwd)/awesome-config/crappy ~/.config/awesome/
 ln -s $(pwd)/awesome-config/despicable ~/.config/awesome/
+ln -s $(pwd)/awesome-config/awesome-config ~/.config/awesome/
 #+END_SRC
 
 Copy the example "rc.lua" and "crappy.json" to your config directory:
