@@ -25,7 +25,7 @@ ln -s $(pwd)/awesome-config/despicable ~/.config/awesome/
 ln -s $(pwd)/awesome-config/awesome-config ~/.config/awesome/
 #+END_SRC
 
-Copy the example "rc.lua" and "crappy.json" to your config directory:
+Copy the example "=rc.lua=" and "=crappy.json=" to your config directory:
 #+BEGIN_SRC sh
 cp awesome-config/{crappy.json,rc.lua} ~/.config/awesome/
 #+END_SRC
