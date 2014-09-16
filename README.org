@@ -399,3 +399,8 @@ TODO
     -  http://regex.info/blog/lua/json
   - rc.lua from Awesome by the awesome project [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]]
     -  http://awesome.naquadah.org/
+* Emacs                                                            :noexport:
+# Local variables:
+# org-ascii-charset: utf-8
+# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii)) nil t)
+# end:
