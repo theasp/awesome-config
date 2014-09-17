@@ -35,12 +35,12 @@ This repository includes the following:
 1 Crappy
 ════════
 
-  Crappy reads a configuration file to configure Awesome  3.4.x or
-  3.5.x.  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is
-  to be able to move between multiple versions of Awesome and maintain
-  the same basic configuration in a relatively easy to edit file.  JSON
-  was chosen to allow for tools to be written in languages other than
-  Lua to modify the configuration.
+  Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.
+  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is to be
+  able to move between multiple versions of Awesome and maintain the
+  same basic configuration in a relatively easy to edit file.  JSON was
+  chosen to allow for tools to be written in languages other than Lua to
+  modify the configuration.
 
 
 1.1 Installation
