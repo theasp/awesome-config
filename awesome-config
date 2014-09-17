@@ -10,4 +10,4 @@ package.path = package.path .. ";/usr/local/share/awesome/lib/?/init.lua"
 package.path = package.path .. ";/usr/share/awesome/lib/?.lua"
 package.path = package.path .. ";/usr/share/awesome/lib/?/init.lua"
 
-local gui = require("awesome-config.gui")
+local gui = require("crappy.gui")
