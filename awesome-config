@@ -11,3 +11,4 @@ package.path = package.path .. ";/usr/share/awesome/lib/?.lua"
 package.path = package.path .. ";/usr/share/awesome/lib/?/init.lua"
 
 local gui = require("crappy.gui")
+gui.run()

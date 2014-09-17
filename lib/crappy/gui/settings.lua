@@ -7,29 +7,41 @@ local despicable = require('despicable')
 local log = lgi.log.domain('awesome-config/settings')
 
 local settings = {}
-
+local config = {}
 
 local titlebarCheckButton = Gtk.CheckButton {
    label = 'Show _Titlebar',
-   id = 'settings.titlebar',
-   use_underline = true
+   use_underline = true,
 }
+
+function titlebarCheckButton:on_toggled()
+   config.settings.titlebar = titlebarCheckButton:get_active()
+end
 
 local sloppyfocusCheckButton = Gtk.CheckButton {
    label = '_Sloppy Focus',
-   id = 'settings.sloppyfocus',
-   use_underline = true
+   use_underline = true,
 }
+
+function sloppyfocusCheckButton:on_toggled()
+   config.settings.sloppyfocus = sloppyfocusCheckButton:get_active()
+end
 
 local terminalEntry = Gtk.Entry {
    hexpand = true,
-   id = 'settings.terminal'
 }
+
+function terminalEntry:on_changed()
+   config.settings.terminal = terminalEntry:get_text()
+end
 
 local editorEntry = Gtk.Entry {
    hexpand = true,
-   id = 'settings.editor'
 }
+
+function editorEntry:on_changed()
+   config.settings.editor = editorEntry:get_text()
+end
 
 local layoutsColumns = {
    FUNCTION = 1,
@@ -38,6 +50,29 @@ local layoutsColumns = {
 local layoutsListStore = Gtk.ListStore.new {
    [layoutsColumns.FUNCTION] = GObject.Type.STRING
 }
+
+local function updateLayouts()
+   config.settings.layouts = {}
+   local ok
+   local iter = layoutsListStore:get_iter_first()
+   while iter do
+      val = layoutsListStore[iter][layoutsColumns.FUNCTION]
+
+      if val ~= "" then
+         table.insert(config.settings.layouts, val)
+      end
+      iter = layoutsListStore:next(iter)
+   end
+end
+
+function layoutsListStore:on_row_deleted()
+   updateLayouts()
+end
+
+-- As inserts are done without values this is used for new rows too
+function layoutsListStore:on_row_changed()
+   updateLayouts()
+end
 
 local layoutsNameCellRenderer = Gtk.CellRendererText { }
 
@@ -56,127 +91,141 @@ local layoutsTreeView = Gtk.TreeView {
    layoutsNameTreeViewColumn
 }
 
-local layoutsTreeModel = layoutsTreeView:get_model()
+local layoutsSelection = layoutsTreeView:get_selection()
+layoutsSelection.mode = 'SINGLE'
 
-function settings.buildUi(window)
-   local layoutsSelection = layoutsTreeView:get_selection()
-   layoutsSelection.mode = 'SINGLE'
+local upButton = Gtk.Button {
+   id = 'up',
+   use_stock = true,
+   label = Gtk.STOCK_GO_UP,
+}
 
-   local upButton = Gtk.Button {
-      id = 'up',
-      use_stock = true,
-      label = Gtk.STOCK_GO_UP,
-   }
+function upButton:on_clicked()
+   local model, iter = layoutsSelection:get_selected()
+   if model and iter then
+      local path = layoutsListStore:get_path(iter)
 
-   function upButton:on_clicked()
-      local model, iter = layoutsSelection:get_selected()
-      if model and iter then
-         local path = layoutsTreeModel:get_path(iter)
-
-         if path:prev() then
-            local prevIter = layoutsListStore:get_iter(path)
-            if prevIter then
-               layoutsListStore:swap(iter, prevIter)
-            end
+      if path:prev() then
+         local prevIter = layoutsListStore:get_iter(path)
+         if prevIter then
+            layoutsListStore:swap(iter, prevIter)
          end
       end
    end
+end
 
-   local downButton = Gtk.Button {
-      id = 'down',
-      use_stock = true,
-      label = Gtk.STOCK_GO_DOWN,
-   }
+local downButton = Gtk.Button {
+   id = 'down',
+   use_stock = true,
+   label = Gtk.STOCK_GO_DOWN,
+}
 
-   function downButton:on_clicked()
-      local model, iter = layoutsSelection:get_selected()
-      if model and iter then
-         local path = layoutsTreeModel:get_path(iter)
+function downButton:on_clicked()
+   local model, iter = layoutsSelection:get_selected()
+   if model and iter then
+      local path = layoutsListStore:get_path(iter)
 
-         -- This works differently than prev()
-         path:next()
-         if path then
-            local nextIter = layoutsListStore:get_iter(path)
-            if nextIter then
-               layoutsListStore:swap(iter, nextIter)
-            end
+      -- This works differently than prev()
+      path:next()
+      if path then
+         local nextIter = layoutsListStore:get_iter(path)
+         if nextIter then
+            layoutsListStore:swap(iter, nextIter)
          end
       end
    end
+end
 
-   local addButton = Gtk.Button {
-      id = 'add',
-      use_stock = true,
-      label = Gtk.STOCK_ADD,
+local addButton = Gtk.Button {
+   id = 'add',
+   use_stock = true,
+   label = Gtk.STOCK_ADD,
+}
+
+function addButton:on_clicked()
+   local functionEntry = Gtk.Entry {
+      id = 'function'
    }
 
-   function addButton:on_clicked()
-      local functionEntry = Gtk.Entry {
-         id = 'function'
-      }
+   local content = Gtk.Box {
+      orientation = 'VERTICAL',
+      spacing = 6,
+      border_width = 6,
+      Gtk.Label {
+         label = 'Enter function name'
+      },
+      functionEntry
+   }
 
-      local content = Gtk.Box {
-         orientation = 'VERTICAL',
-         spacing = 6,
-         border_width = 6,
-         Gtk.Label {
-            label = 'Enter function name'
-         },
-         functionEntry
-      }
+   local dialog = Gtk.Dialog {
+      title = 'Add Layout Function',
+      transient_for = window,
+      buttons = {
+         { Gtk.STOCK_CANCEL, Gtk.ResponseType.CLOSE },
+         { Gtk.STOCK_ADD, Gtk.ResponseType.OK },
+      },
+   }
 
-      local dialog = Gtk.Dialog {
-         title = 'Add Layout Function',
-         transient_for = window,
-         buttons = {
-            { Gtk.STOCK_CANCEL, Gtk.ResponseType.CLOSE },
-            { Gtk.STOCK_ADD, Gtk.ResponseType.OK },
-         },
-      }
+   dialog:get_content_area():add(content)
 
-      dialog:get_content_area():add(content)
+   functionEntry:set_activates_default(true)
+   dialog:set_default_response(Gtk.ResponseType.OK)
 
-      functionEntry:set_activates_default(true)
-      dialog:set_default_response(Gtk.ResponseType.OK)
+   function dialog:on_response(response)
+      if response == Gtk.ResponseType.OK then
+         local func = functionEntry:get_text()
 
-      function dialog:on_response(response)
-         if response == Gtk.ResponseType.OK then
-            local func = functionEntry:get_text()
+         if func ~= '' then
+            local iter
 
-            if func ~= '' then
-               local iter
-
-               local model, selectedIter = layoutsSelection:get_selected()
-               if model and selectedIter then
-                  iter = layoutsListStore:insert_after(selectedIter)
-               else
-                  iter = layoutsListStore:append()
-               end
-
-               layoutsListStore[iter][layoutsColumns.FUNCTION] = func
-
-               log.message("Added function %s", func)
+            local model, selectedIter = layoutsSelection:get_selected()
+            if model and selectedIter then
+               iter = layoutsListStore:insert_after(selectedIter)
+            else
+               iter = layoutsListStore:append()
             end
-         end
 
-         dialog:destroy()
+            layoutsListStore[iter][layoutsColumns.FUNCTION] = func
+
+            log.message("Added function %s", func)
+         end
       end
 
-      dialog:show_all()
-      dialog:run()
+      dialog:destroy()
    end
 
-   local removeButton = Gtk.Button {
-      id = 'remove',
-      use_stock = true,
-      label = Gtk.STOCK_REMOVE,
-   }
+   dialog:show_all()
+   dialog:run()
+end
 
-   function removeButton:on_clicked()
-      local model, iter = layoutsSelection:get_selected()
-      if model and iter then
-         model:remove(iter)
-      end
+local removeButton = Gtk.Button {
+   id = 'remove',
+   use_stock = true,
+   label = Gtk.STOCK_REMOVE,
+}
+
+function removeButton:on_clicked()
+   local model, iter = layoutsSelection:get_selected()
+   if model and iter then
+      model:remove(iter)
+   end
+end
+
+function settings.buildUi(window, newConfig)
+   config = newConfig
+   
+   despicable.default.settings(config.settings)
+
+   titlebarCheckButton:set_active(config.settings.titlebar)
+   sloppyfocusCheckButton:set_active(config.settings.sloppyfocus) 
+   terminalEntry:set_text(config.settings.terminal)
+   editorEntry:set_text(config.settings.editor)
+
+   for i, func in ipairs(config.settings.layouts) do
+      iter = layoutsListStore:append()
+      layoutsListStore[iter][layoutsColumns.FUNCTION] = func
+
+      log.message("Added function %s", func)
    end
 
    local row = -1;
@@ -267,41 +316,6 @@ function settings.buildUi(window)
          }
       }
    }
-end
-
-function settings.setConfig(config)
-   config.settings = despicable.default.settings(config.settings)
-   titlebarCheckButton:set_active(config.settings.titlebar)
-   sloppyfocusCheckButton:set_active(config.settings.sloppyfocus)
-   terminalEntry:set_text(config.settings.terminal)
-   editorEntry:set_text(config.settings.editor)
-
-   layoutsListStore:clear()
-   for i, layoutName in ipairs(config.settings.layouts) do
-      layoutsListStore:append({[layoutsColumns.FUNCTION] = layoutName})
-   end
-end
-
-function settings.updateConfig(config)
-   config.settings = despicable.default.settings(config.settings)
-   config.settings.titlebar = titlebarCheckButton:get_active()
-   config.settings.sloppyfocus = sloppyfocusCheckButton:get_active()
-   config.settings.terminal = terminalEntry:get_text()
-   config.settings.editor = editorEntry:get_text()
-
-   config.settings.layouts = {}
-   local ok
-   local iter = layoutsTreeModel:get_iter_first()
-   while iter do
-      val = layoutsListStore[iter][layoutsColumns.FUNCTION]
-
-      if val ~= "" then
-         table.insert(config.settings.layouts, val)
-      end
-      iter = layoutsTreeModel:next(iter)
-   end
-
-   return config
 end
 
 return settings
