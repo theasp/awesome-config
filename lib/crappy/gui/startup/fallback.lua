@@ -5,7 +5,7 @@ local json = require('despicable.JSON')
 
 local fallback = {}
 
-local log = lgi.log.domain('awesome-config/startup/fallback')
+local log = lgi.log.domain('awesome-config/startup.fallback')
 
 function fallback.buildUi(window, settings)
    local settingsJson = json:encode_pretty(settings)
@@ -87,9 +87,9 @@ function fallback.buildUi(window, settings)
          log.message("Error: %s", errstr)
          if errstr then
             local dialog = Gtk.MessageDialog {
-               transient_for = window, 
+               transient_for = window,
                destroy_with_parent = true,
-               message_type = 'ERROR', 
+               message_type = 'ERROR',
                buttons = 'CLOSE',
                text = "Error:\n" .. errstr,
                on_response = Gtk.Widget.destroy
