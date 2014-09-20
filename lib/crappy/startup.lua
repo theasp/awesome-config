@@ -2,6 +2,8 @@ local pluginManager = require('crappy.pluginManager')
 
 local startup = {}
 
+local shared = require('crappy.shared')
+
 -- Start configuring awesome by iterating over
 -- crappy.startup.functions.
 function startup.awesome(awesomever)
@@ -68,7 +70,7 @@ function startup.tags(settings)
 
    crappy.default.startup.tags(settings)
 
-   crappy.tags = {}
+   shared.tags = {}
 
    for s = 1, screen.count() do
       -- Start with the "default" settings
@@ -84,11 +86,11 @@ function startup.tags(settings)
          screenSettings = crappy.misc.mergeTable(screenSettings, settings[tostring(s)])
       end
 
-      crappy.tags[s] = awful.tag(screenSettings.tags, s, crappy.misc.getFunction(screenSettings.layout))
+      shared.tags[s] = awful.tag(screenSettings.tags, s, crappy.misc.getFunction(screenSettings.layout))
       if screenSettings.tagLayouts ~= nil then
          for tagName, tagLayout in pairs(screenSettings.tagLayouts) do
-            if crappy.tags[s][tostring(tagName)] ~= nil and tagLayout ~= nil then
-               awful.layout.set(crappy.misc.getFunction(tagLayout), crappy.tags[s][tostring(tagName)])
+            if shared.tags[s][tostring(tagName)] ~= nil and tagLayout ~= nil then
+               awful.layout.set(crappy.misc.getFunction(tagLayout), shared.tags[s][tostring(tagName)])
             end
          end
       end
@@ -233,8 +235,8 @@ function startup.rules(settings)
          -- As we need to find a reference to the tag, use tag and screen
          -- to find it.  If tag is supplied without screen, set it to nil.
          if rule.properties.tag ~= nil then
-            if rule.properties.screen ~= nil and crappy.tags[rule.properties.screen] ~= nil then
-               rule.properties.tag = crappy.tags[rule.properties.screen][rule.properties.tag]
+            if rule.properties.screen ~= nil and shared.tags[rule.properties.screen] ~= nil then
+               rule.properties.tag = shared.tags[rule.properties.screen][rule.properties.tag]
             else
                rule.properties.tag = nil
             end
