@@ -3,8 +3,8 @@ local Gtk = lgi.require('Gtk')
 
 local log = lgi.log.domain('awesome-config-gui')
 
-local despicable = require('despicable')
-local pluginManager = require('despicable.pluginManager')
+local configManager = require('crappy.configManager')
+local pluginManager = require('crappy.pluginManager')
 
 pluginManager.loadAllPlugins()
 
@@ -14,7 +14,7 @@ gui.settings = require('crappy.gui.settings')
 gui.startup = require('crappy.gui.startup')
 
 function gui.run()
-   local config = despicable.new()
+   local config = configManager.new()
    local file = "/tmp/poop.json"
 
    local window = Gtk.ApplicationWindow {
@@ -70,21 +70,21 @@ function gui.run()
    local function newFile()
       log.message('New file')
 
-      config = despicable.new()
+      config = configManager.new()
       updateUi()
    end
 
    local function loadFile()
       log.message("Loading file " .. file)
 
-      config = despicable.load(file)
+      config = configManager.load(file)
       updateUi()
    end
 
    local function saveFile()
       log.message('Save file')
 
-      despicable.save(file, config)
+      configManager.save(file, config)
    end
 
    local settingsUi = nil

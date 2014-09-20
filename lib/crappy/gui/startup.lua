@@ -2,8 +2,7 @@ local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
 local GObject = lgi.require('GObject')
 
-local despicable = require('despicable')
-local pluginManager = require('despicable.pluginManager')
+local pluginManager = require('crappy.pluginManager')
 local fallback = require('crappy.gui.startup.fallback')
 
 local log = lgi.log.domain('awesome-config/startup')

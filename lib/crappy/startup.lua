@@ -1,4 +1,4 @@
-local pluginManager = require("despicable.pluginManager")
+local pluginManager = require('crappy.pluginManager')
 
 local startup = {}
 

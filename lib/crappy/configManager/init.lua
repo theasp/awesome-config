@@ -1,54 +1,54 @@
-local despicable = {}
+local configManager = {}
 
-despicable.configver = 0.1
+configManager.configver = 0.1
 
-despicable.json = require('despicable.JSON')
-despicable.default = require('despicable.default')
+configManager.json = require('crappy.configManager.JSON')
+configManager.default = require('crappy.configManager.default')
 
-function despicable.new()
-   local config = despicable.default.config()
-   config.configver = despicable.configver
+function configManager.new()
+   local config = configManager.default.config()
+   config.configver = configManager.configver
    return config
 end
 
-function despicable.load(file)
-   print("Loading despicable file " .. file .. "...")
+function configManager.load(file)
+   print("Loading configManager file " .. file .. "...")
 
    -- TODO: Error handling
    local f = assert(io.open(file, "r"), "Unable to open file: " .. file)
    local configJson = f:read("*all")
    f:close()
 
-   local config = despicable.json:decode(configJson)
+   local config = configManager.json:decode(configJson)
 
    -- Stupid numbers!
-   if tonumber(config.configver) ~= tonumber(despicable.configver) then
+   if tonumber(config.configver) ~= tonumber(configManager.configver) then
       if config.configver then
          print("The configuration in " .. file .. " is not a supported, version " .. config.configver .. ", using default")
       else
          print("The configuration in " .. file .. " is not a supported, using default")
       end
-      config = despicable.default.config()
-      config.configver = despicable.configver
+      config = configManager.default.config()
+      config.configver = configManager.configver
    end
 
    return config
 end
 
-function despicable.show(config)
-   print("JSON:\n" .. despicable.json:encode_pretty(config))
+function configManager.show(config)
+   print("JSON:\n" .. configManager.json:encode_pretty(config))
 end
 
-function despicable.save(file, config)
-   print("Saving despicable file " .. file .. "...")
+function configManager.save(file, config)
+   print("Saving configManager file " .. file .. "...")
 
    -- TODO: Error handling
    local f = assert(io.open(file, "w"), "Unable to open file: " .. file)
-   f:write(despicable.json:encode_pretty(config))
+   f:write(configManager.json:encode_pretty(config))
    f:close()
 end
 
-function despicable.json:onDecodeError(message, text, location, etc)
+function configManager.json:onDecodeError(message, text, location, etc)
    if text then
       if location then
          message = string.format("Error reading JSON at char %d: %s", location, message)
@@ -68,4 +68,4 @@ function despicable.json:onDecodeError(message, text, location, etc)
    end
 end
 
-return despicable
+return configManager

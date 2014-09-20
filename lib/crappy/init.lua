@@ -2,13 +2,13 @@
 -- Error checking
 
 local util = require('awful.util')
-local despicable = require('despicable')
+local configManager = require('crappy.configManager')
 
 local crappy = {}
 
 crappy.ezconfig = require('crappy.ezconfig')
 crappy.misc = require('crappy.misc')
-crappy.default = despicable.default
+crappy.default = configManager.default
 
 local ver = awesome.version:match('%d.%d'):gsub('%.', '-')
 
@@ -25,7 +25,7 @@ function crappy.start(file)
       file = util.getdir("config") .. "/crappy.json"
    end
 
-   crappy.config = despicable.load(file)
+   crappy.config = configManager.load(file)
    crappy.startup.awesome(ver)
    print("Done initializing crappy.")
 end

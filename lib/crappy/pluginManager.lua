@@ -5,10 +5,10 @@ local pluginManager = {}
 HOME=os.getenv('HOME')
 
 pluginManager.pluginPaths = {
-   '/usr/share/awesome/lib/despicable/plugins',
-   '/usr/local/share/awesome/lib/despicable/plugins',
-   '/etc/xdg/awesome/despicable/plugins',
-   HOME .. '/.config/awesome/despicable/plugins',
+   '/usr/share/awesome/lib/crappy/plugins',
+   '/usr/local/share/awesome/lib/crappy/plugins',
+   '/etc/xdg/awesome/crappy/plugins',
+   HOME .. '/.config/awesome/crappy/plugins',
 }
 
 pluginManager.functions = {}

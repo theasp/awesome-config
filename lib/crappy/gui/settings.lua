@@ -2,14 +2,14 @@ local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
 local GObject = lgi.require('GObject')
 
-local despicable = require('despicable')
+local configManager = require('crappy.configManager')
 
 local log = lgi.log.domain('awesome-config/settings')
 
 local settings = {}
 
 function settings.buildUi(window, config)
-   despicable.default.settings(config.settings)
+   configManager.default.settings(config.settings)
 
    local titlebarCheckButton = Gtk.CheckButton {
       label = 'Show _Titlebar',
