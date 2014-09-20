@@ -1,13 +1,14 @@
 local plugin = {}
 
 local misc = require('crappy.misc')
+local shared = require('crappy.shared')
 
 plugin.name = 'Menu'
 plugin.description = 'Build the menu'
 plugin.id = 'crappy.startup.menu'
 plugin.provides = {"mainmenu", "launcher"}
 
-function plugin.setDefault(settings)
+function plugin.settingsDefault(settings)
    if #settings == 0 then
       settings = {
          {
@@ -90,10 +91,10 @@ function plugin.startup(awesomever, settings)
    plugin.settingsDefault(settings)
 
    local menu = buildMenuTable(settings)
-   crappy.mainmenu = awful.menu({ items = menu })
+   shared.mainmenu = awful.menu({ items = menu })
 
-   crappy.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                             menu = crappy.mainmenu })
+   shared.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
+                                                    menu = crappy.mainmenu })
 end
 
 return plugin
