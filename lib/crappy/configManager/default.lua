@@ -312,39 +312,32 @@ function default.config()
    local settings = default.settings({})
    local startup = {
       {
-         func = "crappy.startup.tags",
+         plugin = "crappy.startup.tags",
          enabled = true,
-         settings = default.startup.tags({})
       },
       {
-         func = "crappy.startup.theme",
+         plugin = "crappy.startup.theme",
          enabled = true,
-         settings = default.startup.theme({})
       },
       {
-         func = "crappy.startup.menu",
+         plugin = "crappy.startup.menu",
          enabled = true,
-         settings = default.startup.menu({})
       },
       {
-         func = "crappy.startup.bindings",
+         plugin = "crappy.startup.bindings",
          enabled = true,
-         settings = default.startup.bindings({})
       },
       {
-         func = "crappy.startup.rules",
+         plugin = "crappy.startup.rules",
          enabled = true,
-         settings = default.startup.rules({})
       },
       {
-         func = "crappy.startup.signals",
+         plugin = "crappy.startup.signals",
          enabled = true,
-         settings = default.startup.signals({})
       },
       {
-         func = "crappy.startup.wibox",
+         plugin = "crappy.startup.wibox",
          enabled = true,
-         settings = default.startup.wibox({})
       },
    }
 
