@@ -50,53 +50,6 @@ function startup.awesome(awesomever)
    end
 end
 
--- Initialize beautiful
-function startup.theme(settings)
-   print("Initializing crappy theme...")
-
-   crappy.default.startup.theme(settings)
-
-   beautiful.init(settings.file)
-
-   if settings.font ~= nil then
-      awesome.font = settings.font
-      beautiful.get().font = settings.font
-   end
-end
-
--- Set up the tags table
-function startup.tags(settings)
-   print("Initializing crappy tags...")
-
-   crappy.default.startup.tags(settings)
-
-   shared.tags = {}
-
-   for s = 1, screen.count() do
-      -- Start with the "default" settings
-      local screenSettings = settings.default;
-
-      -- If this is the last screen, apply the "last" settings
-      if s == screen.count() and settings.last ~= nil then
-         screenSettings = crappy.misc.mergeTable(screenSettings, settings.last)
-      end
-
-      -- Finally apply the specific screen settings
-      if settings[tostring(s)] ~= nil then
-         screenSettings = crappy.misc.mergeTable(screenSettings, settings[tostring(s)])
-      end
-
-      shared.tags[s] = awful.tag(screenSettings.tags, s, crappy.misc.getFunction(screenSettings.layout))
-      if screenSettings.tagLayouts ~= nil then
-         for tagName, tagLayout in pairs(screenSettings.tagLayouts) do
-            if shared.tags[s][tostring(tagName)] ~= nil and tagLayout ~= nil then
-               awful.layout.set(crappy.misc.getFunction(tagLayout), shared.tags[s][tostring(tagName)])
-            end
-         end
-      end
-   end
-end
-
 -- Build a menu table for awful to work with
 local function buildMenuTable(menu)
    local m = {}
