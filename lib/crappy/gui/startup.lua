@@ -5,7 +5,6 @@ local GObject = lgi.require('GObject')
 local despicable = require('despicable')
 local pluginManager = require('despicable.pluginManager')
 local fallback = require('crappy.gui.startup.fallback')
-local theme = require('crappy.gui.startup.theme')
 
 local log = lgi.log.domain('awesome-config/startup')
 
@@ -48,7 +47,14 @@ function startup.buildUi(window, config)
       iter = startupFuncsListStore:append()
 
       if startupDef.plugin then
-         startupFuncsListStore[iter][startupFuncsColumns.NAME] = startupDef.plugin
+         local name
+         if pluginManager.plugins[startupDef.plugin] then
+            name = pluginManager.plugins[startupDef.plugin].name
+         else
+            name = startupDef.plugin .. " (plugin not loaded)"
+         end
+
+         startupFuncsListStore[iter][startupFuncsColumns.NAME] = name
          startupFuncsListStore[iter][startupFuncsColumns.PLUGIN] = startupDef.plugin
          startupFuncsListStore[iter][startupFuncsColumns.TYPE] = 'plugin'
       else
