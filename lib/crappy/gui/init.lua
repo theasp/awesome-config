@@ -15,7 +15,8 @@ gui.startup = require('crappy.gui.startup')
 
 function gui.run()
    local config = configManager.new()
-   local file = "/tmp/poop.json"
+   HOME=os.getenv('HOME')
+   local file = HOME .. "/.config/awesome/crappy.json"
 
    local window = Gtk.ApplicationWindow {
       title = 'Awesome Config',
