@@ -1,7 +1,6 @@
 -- TODO:
 -- Error checking
 
-
 local util = require('awful.util')
 local pluginManager = require('crappy.pluginManager')
 local configManager = require('crappy.configManager')
@@ -10,8 +9,6 @@ local misc = require('crappy.misc')
 
 -- The following need to be global
 awful = misc.use('awful')
-beautiful = misc.use('beautiful')
-
 
 local crappy = {}
 
