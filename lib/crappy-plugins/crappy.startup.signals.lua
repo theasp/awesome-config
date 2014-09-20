@@ -10,15 +10,15 @@ plugin.provides = {"signals"}
 
 function plugin.settingsDefault(settings)
    if settings.manage == nil then
-      settings.manage = "crappy.functionsettings.signalsettings.manage"
+      settings.manage = "crappy.functions.signals.manage"
    end
 
    if settings.focus == nil then
-      settings.focus = "crappy.functionsettings.signalsettings.focus"
+      settings.focus = "crappy.functions.signals.focus"
    end
 
    if settings.unfocus == nil then
-      settings.unfocus = "crappy.functionsettings.signalsettings.unfocus"
+      settings.unfocus = "crappy.functions.signals.unfocus"
    end
 
    return settings

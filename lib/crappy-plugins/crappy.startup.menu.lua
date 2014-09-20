@@ -9,38 +9,38 @@ plugin.provides = {"mainmenu", "launcher"}
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then
-      settings = {
-         {
-            ["name"] = "awesome",
-            ["iconresult"] = "function() return beautiful.awesome_icon end",
-            ["table"] = {
-               {
-                  ["name"] = "manual",
-                  ["result"] = "function() return crappy.config.settings.terminal .. \" -e man awesome\" end"
-               },
-               {
-                  ["name"] ="edit config",
-                  ["result"] = "function() return crappy.config.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
-               },
-               {
-                  ["name"] = "restart",
-                  ["func"] = "awesome.restart"
-               },
-               {
-                  ["name"] = "quit",
-                  ["func"] = "awesome.quit"
-               }
-            }
-         },
-         {
-            ["name"] = "open terminal",
-            ["result"] = "function() return crappy.config.settings.terminal end"
-         },
-         {
-            ["name"] = "firefox",
-            ["string"] = "firefox"
-         }
-      }
+      table.insert(settings, {
+                      {
+                         ["name"] = "awesome",
+                         ["iconresult"] = "function() return beautiful.awesome_icon end",
+                         ["table"] = {
+                            {
+                               ["name"] = "manual",
+                               ["result"] = "function() return crappy.config.settings.terminal .. \" -e man awesome\" end"
+                            },
+                            {
+                               ["name"] ="edit config",
+                               ["result"] = "function() return crappy.config.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
+                            },
+                            {
+                               ["name"] = "restart",
+                               ["func"] = "awesome.restart"
+                            },
+                            {
+                               ["name"] = "quit",
+                               ["func"] = "awesome.quit"
+                            }
+                         }
+                      },
+                      {
+                         ["name"] = "open terminal",
+                         ["result"] = "function() return crappy.config.settings.terminal end"
+                      },
+                      {
+                         ["name"] = "firefox",
+                         ["string"] = "firefox"
+                      }
+      })
    end
 
    return settings
