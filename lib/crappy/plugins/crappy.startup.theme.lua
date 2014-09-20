@@ -17,6 +17,8 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
+   print("Initializing crappy theme...")
+
    local beautifulTmp
    if (awesomever == 3.4) then
       require("beautiful")
@@ -41,7 +43,6 @@ function plugin.buildUi(window, settings)
    local Gtk = lgi.require('Gtk')
 
    local log = lgi.log.domain('awesome-config.startup/plugin/' .. plugin.id)
-   log.message("Hi!")
    
    local fileEntry = Gtk.Entry {
       text = settings.file,
