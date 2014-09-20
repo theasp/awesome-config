@@ -45,14 +45,16 @@ function crappy.start(file)
          if startupDef.plugin then
             local plugin = pluginManager.plugins[startupDef.plugin]
             if plugin then
+               print("Initializing plugin: " .. plugin.name .. " (" .. plugin.id .. ")")
                plugin.startup(ver, startupDef.settings)
             else
                print("Warning: Unable to find startup plugin " .. startupDef.plugin)
             end
          elseif startupDef.func then
-            local func = crappy.misc.getFunction(startupDef.func)
+            local func = misc.getFunction(startupDef.func)
             if func then
-               crappy.misc.getFunction(startupDef.func)(startupDef.settings)
+               print("Initializing function: " .. startupDef.func)
+               func(startupDef.settings)
             else
                print("Warning: Unable to find startup function " .. startupDef.func)
             end
