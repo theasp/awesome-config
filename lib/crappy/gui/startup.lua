@@ -215,6 +215,7 @@ function startup.buildUi(window, config)
             end
          end
       end
+      updateStartupFuncs()
    end
 
    local downButton = Gtk.Button {
@@ -237,6 +238,7 @@ function startup.buildUi(window, config)
             end
          end
       end
+      updateStartupFuncs()
    end
 
    local addButton = Gtk.Button {
