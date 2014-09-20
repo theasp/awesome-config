@@ -88,7 +88,6 @@ function plugin.startup(awesomever, settings)
    print("Initializing crappy menu...")
 
    local shared = require('crappy.shared')
-   local awful = misc.use('awful')
    local beautiful = misc.use('beautiful')
 
    plugin.settingsDefault(settings)
@@ -98,8 +97,6 @@ function plugin.startup(awesomever, settings)
 
    shared.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                              menu = shared.mainmenu })
-   print("Launcher?")
-   print(shared.launcher)
 end
 
 return plugin
