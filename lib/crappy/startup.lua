@@ -50,69 +50,6 @@ function startup.awesome(awesomever)
    end
 end
 
-
--- Set up the key/mouse bindings
-function startup.bindings(settings)
-   print("Initializing crappy bindings...")
-
-   settings = crappy.default.startup.bindings(settings)
-
-   assert(crappy.config.settings.terminal ~= nil)
-   assert(crappy.mainmenu ~= nil)
-   assert(crappy.layouts ~= nil)
-
-   crappy.ezconfig.modkey = settings.modkey
-   crappy.ezconfig.altkey = settings.altkey
-
-   local rootButtons = {}
-   for k, v in pairs(settings.buttons.root) do
-      local f = crappy.misc.getFunction(v)
-      if f ~= nil then
-         print("Adding root button " .. k .. " -> " .. v)
-         table.insert(rootButtons, crappy.ezconfig.btn(k, f, awful.button))
-      else
-         print("Not adding root button " .. k .. " -> " .. v .. ": Unable to find function")
-      end
-   end
-   root.buttons(awful.util.table.join(unpack(rootButtons)))
-
-   local globalKeys = {}
-   for k, v in pairs(settings.keys.global) do
-      local f = crappy.misc.getFunction(v)
-      if f ~= nil then
-         print("Adding global key " .. k .. " -> " .. v)
-         table.insert(globalKeys, crappy.ezconfig.key(k, f, awful.key))
-      else
-         print("Not adding global key " .. k .. " -> " .. v .. ": Unable to find function")
-      end
-   end
-   root.keys(awful.util.table.join(unpack(globalKeys)))
-
-   local clientKeys = {}
-   for k, v in pairs(settings.keys.client) do
-      local f = crappy.misc.getFunction(v)
-      if f ~= nil then
-         print("Adding client key " .. k .. " -> " .. v)
-         table.insert(clientKeys, crappy.ezconfig.key(k, f, awful.key))
-      else
-         print("Not adding client key " .. k .. " -> " .. v .. ": Unable to find function")
-      end
-   end
-   crappy.clientkeys = awful.util.table.join(unpack(clientKeys))
-
-   local clientButtons = {}
-   for k, v in pairs(settings.buttons.client) do
-      local f = crappy.misc.getFunction(v)
-      if f ~= nil then
-         print("Adding client button " .. k .. " -> " .. v)
-         table.insert(clientButtons, crappy.ezconfig.btn(k, f, awful.button))
-      else
-         print("Not adding client button " .. k .. " -> " .. v .. ": Unable to find function")
-      end
-   end
-   crappy.clientbuttons = awful.util.table.join(unpack(clientButtons))
-end
-
 -- Set up the client rules
 function startup.rules(settings)
    print("Initializing crappy rules...")
@@ -160,7 +97,7 @@ startup.widget = {}
 
 
 function startup.widget.launcher(s)
-   return crappy.launcher
+   return shared.launcher
 end
 
 function startup.widget.prompt(s)
