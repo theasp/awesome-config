@@ -1,6 +1,3 @@
--- Includes stuff from:
--- https://github.com/gvalkov/dotfiles-awesome/blob/master/rc.lua
-
 -- TODO:
 -- Error checking
 
@@ -29,7 +26,7 @@ function crappy.start(file)
    end
 
    crappy.config = despicable.load(file)
-   crappy.startup.awesome()
+   crappy.startup.awesome(ver)
    print("Done initializing crappy.")
 end
 

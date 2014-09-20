@@ -1,11 +1,12 @@
+local pluginManager = require("despicable.pluginManager")
+
 local startup = {}
 
 -- Start configuring awesome by iterating over
 -- crappy.startup.functions.
-function startup.awesome()
-   -- Need to convert the layout functions from strings to actual
-   -- functions.  This is used in in the functions to switch between
-   -- layouts.
+function startup.awesome(awesomever)
+   pluginManager.loadAllPlugins()
+
    if crappy.config.settings == nil then
       crappy.config.settings = {}
    end
@@ -21,20 +22,27 @@ function startup.awesome()
 
    -- Iterate over the list of functions of start
    for i, startupDef in ipairs(crappy.config.startup) do
-      if startupDef.enabled == nil or startupDef then
-         if (startupDef.func ~= nil) then
-            local func = crappy.misc.getFunction(startupDef.func)
-            if func ~= nil then
-               if (startupDef.settings == nil) then
-                  startupDef.settings = {}
-               end
+      if startupDef.enabled == nil or startupDef.enabled then
+         if not startupDef.settings then
+            startupDef.settings = {}
+         end
 
+         if startupDef.plugin then
+            local plugin = pluginManager.plugins[startupDef.plugin]
+            if plugin then
+               plugin.startup(awesomever, startupDef.settings)
+            else
+               print("Warning: Unable to find startup plugin " .. startupDef.plugin)
+            end
+         elseif startupDef.func then
+            local func = crappy.misc.getFunction(startupDef.func)
+            if func then
                crappy.misc.getFunction(startupDef.func)(startupDef.settings)
             else
                print("Warning: Unable to find startup function " .. startupDef.func)
             end
          else
-            print("Warning: No startup function defined")
+            print("Warning: No startup plugin or function defined")
          end
       end
    end
@@ -79,8 +87,8 @@ function startup.tags(settings)
       crappy.tags[s] = awful.tag(screenSettings.tags, s, crappy.misc.getFunction(screenSettings.layout))
       if screenSettings.tagLayouts ~= nil then
          for tagName, tagLayout in pairs(screenSettings.tagLayouts) do
-            if crappy.tags[s][tagName] ~= nil and tagLayout ~= nil then
-               awful.layout.set(crappy.misc.getFunction(tagLayout), crappy.tags[s][tagName])
+            if crappy.tags[s][tostring(tagName)] ~= nil and tagLayout ~= nil then
+               awful.layout.set(crappy.misc.getFunction(tagLayout), crappy.tags[s][tostring(tagName)])
             end
          end
       end

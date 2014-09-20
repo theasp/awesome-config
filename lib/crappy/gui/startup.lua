@@ -3,7 +3,9 @@ local Gtk = lgi.require('Gtk')
 local GObject = lgi.require('GObject')
 
 local despicable = require('despicable')
+local pluginManager = require('despicable.pluginManager')
 local fallback = require('crappy.gui.startup.fallback')
+local theme = require('crappy.gui.startup.theme')
 
 local log = lgi.log.domain('awesome-config/startup')
 
@@ -25,23 +27,40 @@ function startup.buildUi(window, config)
    end
 
    local startupFuncsColumns = {
-      FUNCTION = 1,
-      ENABLED = 2,
+      ENABLED = 1,
+      NAME = 2,
       SETTINGSID = 3,
+      TYPE = 4,
+      FUNC = 5,
+      PLUGIN = 6,
    }
 
    local startupFuncsListStore = Gtk.ListStore.new {
-      [startupFuncsColumns.FUNCTION] = GObject.Type.STRING,
       [startupFuncsColumns.ENABLED] = GObject.Type.BOOLEAN,
+      [startupFuncsColumns.NAME] = GObject.Type.STRING,
       [startupFuncsColumns.SETTINGSID] = GObject.Type.UINT,
+      [startupFuncsColumns.TYPE] = GObject.Type.STRING,
+      [startupFuncsColumns.FUNC] = GObject.Type.STRING,
+      [startupFuncsColumns.PLUGIN] = GObject.Type.STRING,
    }
 
    for i, startupDef in ipairs(config.startup) do
-      log.message("Adding %s", startupDef.func)
       iter = startupFuncsListStore:append()
-      startupFuncsListStore[iter][startupFuncsColumns.FUNCTION] = startupDef.func
+
+      if startupDef.plugin then
+         startupFuncsListStore[iter][startupFuncsColumns.NAME] = startupDef.plugin
+         startupFuncsListStore[iter][startupFuncsColumns.PLUGIN] = startupDef.plugin
+         startupFuncsListStore[iter][startupFuncsColumns.TYPE] = 'plugin'
+      else
+         startupFuncsListStore[iter][startupFuncsColumns.NAME] = startupDef.func
+         startupFuncsListStore[iter][startupFuncsColumns.FUNC] = startupDef.func
+         startupFuncsListStore[iter][startupFuncsColumns.TYPE] = 'func'
+      end
+
       startupFuncsListStore[iter][startupFuncsColumns.ENABLED] = startupDef.enabled
       startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID] = storeSettings(startupDef.settings)
+
+      log.message("Added %s", startupFuncsListStore[iter][startupFuncsColumns.NAME])
    end
 
    local function updateStartupFuncs()
@@ -49,17 +68,34 @@ function startup.buildUi(window, config)
 
       local iter = startupFuncsListStore:get_iter_first()
       while iter do
-         local func = startupFuncsListStore[iter][startupFuncsColumns.FUNCTION]
+         local name = startupFuncsListStore[iter][startupFuncsColumns.NAME]
          local enabled = startupFuncsListStore[iter][startupFuncsColumns.ENABLED]
          local settingsId = startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID]
-         local val = {
-            func = func,
-            enabled = enabled,
-            settings = settingsRefs[settingsId],
-         }
+         local startupType = startupFuncsListStore[iter][startupFuncsColumns.TYPE]
+         local val
 
-         log.message("Updating %s", func)
-         if func ~= "" then
+         if startupType == 'plugin' then
+            local plugin = startupFuncsListStore[iter][startupFuncsColumns.PLUGIN]
+            if plugin then
+               val = {
+                  plugin = plugin,
+                  enabled = enabled,
+                  settings = settingsRefs[settingsId]
+               }
+            end
+         else
+            local func = startupFuncsListStore[iter][startupFuncsColumns.FUNC]
+            if func then
+               val = {
+                  func = func,
+                  enabled = enabled,
+                  settings = settingsRefs[settingsId]
+               }
+            end
+         end
+
+         if val then
+            log.message("Updating %s", name)
             table.insert(config.startup, val)
          end
 
@@ -79,10 +115,10 @@ function startup.buildUi(window, config)
    local startupFuncsNameCellRenderer = Gtk.CellRendererText { }
 
    local startupFuncsNameTreeViewColumn = Gtk.TreeViewColumn {
-      title = 'Function',
+      title = 'Name',
       expand = false,
       {
-         startupFuncsNameCellRenderer, { text = startupFuncsColumns.FUNCTION }
+         startupFuncsNameCellRenderer, { text = startupFuncsColumns.NAME }
       }
    }
 
@@ -129,10 +165,23 @@ function startup.buildUi(window, config)
 
       local model, iter = startupFuncsSelection:get_selected()
       if iter then
+         local startupType = startupFuncsListStore[iter][startupFuncsColumns.TYPE]
          local settingsId = startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID]
          local settings = settingsRefs[settingsId]
 
-         settingsUi = fallback.buildUi(window, settings)
+         if startupType == 'plugin' then
+            local pluginId = startupFuncsListStore[iter][startupFuncsColumns.PLUGIN]
+            local plugin = pluginManager.plugins[pluginId]
+
+            if plugin.buildUi then
+               settingsUi = plugin.buildUi(window, settings)
+            else
+               settingsUi = fallback.buildUi(window, settings)
+            end
+         else
+            settingsUi = fallback.buildUi(window, settings)
+         end
+
          if settingsUi then
             settingsBox:add(settingsUi)
             settingsUi:show_all()
@@ -231,7 +280,8 @@ function startup.buildUi(window, config)
                   iter = startupFuncsListStore:append()
                end
 
-               startupFuncsListStore[iter][startupFuncsColumns.FUNCTION] = func
+               startupFuncsListStore[iter][startupFuncsColumns.NAME] = func
+               startupFuncsListStore[iter][startupFuncsColumns.FUNC] = func
                startupFuncsListStore[iter][startupFuncsColumns.ENABLED] = true
                startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID] = storeSettings({})
 

@@ -4,6 +4,9 @@ local Gtk = lgi.require('Gtk')
 local log = lgi.log.domain('awesome-config-gui')
 
 local despicable = require('despicable')
+local pluginManager = require('despicable.pluginManager')
+
+pluginManager.loadAllPlugins()
 
 local gui = {}
 
