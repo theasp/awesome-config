@@ -140,8 +140,6 @@ end
 
 
 function plugin.startup(awesomever, settings)
-   print("Initializing crappy bindings...")
-
    local misc = require('crappy.misc')
    local shared = require('crappy.shared')
    local ezconfig = require("crappy.ezconfig")
@@ -160,7 +158,7 @@ function plugin.startup(awesomever, settings)
    for k, v in pairs(settings.buttons.root) do
       local f = misc.getFunction(v)
       if f ~= nil then
-         print("Adding root button " .. k .. " -> " .. v)
+         --print("Adding root button " .. k .. " -> " .. v)
          table.insert(rootButtons, ezconfig.btn(k, f, awful.button))
       else
          print("Not adding root button " .. k .. " -> " .. v .. ": Unable to find function")
@@ -172,7 +170,7 @@ function plugin.startup(awesomever, settings)
    for k, v in pairs(settings.keys.global) do
       local f = misc.getFunction(v)
       if f ~= nil then
-         print("Adding global key " .. k .. " -> " .. v)
+         --print("Adding global key " .. k .. " -> " .. v)
          table.insert(globalKeys, ezconfig.key(k, f, awful.key))
       else
          print("Not adding global key " .. k .. " -> " .. v .. ": Unable to find function")
@@ -184,7 +182,7 @@ function plugin.startup(awesomever, settings)
    for k, v in pairs(settings.keys.client) do
       local f = misc.getFunction(v)
       if f ~= nil then
-         print("Adding client key " .. k .. " -> " .. v)
+         --print("Adding client key " .. k .. " -> " .. v)
          table.insert(clientKeys, ezconfig.key(k, f, awful.key))
       else
          print("Not adding client key " .. k .. " -> " .. v .. ": Unable to find function")
@@ -196,7 +194,7 @@ function plugin.startup(awesomever, settings)
    for k, v in pairs(settings.buttons.client) do
       local f = misc.getFunction(v)
       if f ~= nil then
-         print("Adding client button " .. k .. " -> " .. v)
+         --print("Adding client button " .. k .. " -> " .. v)
          table.insert(clientButtons, ezconfig.btn(k, f, awful.button))
       else
          print("Not adding client button " .. k .. " -> " .. v .. ": Unable to find function")

@@ -33,8 +33,6 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   print("Initializing crappy rules...")
-
    local shared = require('crappy.shared')
    local awful = misc.use('awful')
    awful.rules = misc.use('awful.rules')

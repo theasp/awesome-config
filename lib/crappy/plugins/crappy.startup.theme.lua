@@ -17,8 +17,6 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   print("Initializing crappy theme...")
-
    local beautifulTmp
    if (awesomever == 3.4) then
       require("beautiful")

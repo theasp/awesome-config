@@ -25,8 +25,6 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   print("Initializing crappy signals...")
-
    plugin.settingsDefault(settings)
 
    if client.connect_signal then

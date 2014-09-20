@@ -28,14 +28,11 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   print("Initializing crappy layouts...")
-
    plugin.settingsDefault(settings)
 
    shared.layouts = {}
 
    for i, layoutName in ipairs(crappy.config.settings.layouts) do
-      print("Adding layout " .. layoutName)
       shared.layouts[i] = misc.getFunction(layoutName)
    end
 end
@@ -125,6 +122,7 @@ function plugin.buildUi(window, settings)
             end
          end
       end
+      updateLayouts()
    end
 
    local downButton = Gtk.Button {
@@ -147,6 +145,7 @@ function plugin.buildUi(window, settings)
             end
          end
       end
+      updateLayouts()
    end
 
    local addButton = Gtk.Button {
@@ -209,6 +208,7 @@ function plugin.buildUi(window, settings)
 
       dialog:show_all()
       dialog:run()
+      updateLayouts()
    end
 
    local removeButton = Gtk.Button {
@@ -222,6 +222,7 @@ function plugin.buildUi(window, settings)
       if model and iter then
          model:remove(iter)
       end
+      updateLayouts()
    end
 
    return Gtk.ScrolledWindow {

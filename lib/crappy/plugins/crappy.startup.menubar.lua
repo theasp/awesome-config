@@ -24,8 +24,6 @@ function plugin.startup(awesomever, settings)
       return
    end
 
-   print("Initializing crappy menubar...")
-
    shared.menubar = require("menubar")
 
    shared.menubar.utils.terminal = crappy.config.settings.terminal

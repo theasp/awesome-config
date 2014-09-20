@@ -23,8 +23,6 @@ end
 
 -- Set up the tags table
 function plugin.startup(awesomever, settings)
-   print("Initializing crappy tags...")
-
    local misc = require('crappy.misc')
    local shared = require('crappy.shared')
    local awful = misc.use('awful')

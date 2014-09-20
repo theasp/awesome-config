@@ -47,8 +47,6 @@ function plugin.startup(awesomever, settings)
    local ezconfig = require("crappy.ezconfig")
    local shared = require('crappy.shared')
 
-   print("Initializing crappy wibox...")
-
    plugin.settingsDefault(settings)
 
    widget = {}
@@ -175,10 +173,8 @@ function plugin.startup(awesomever, settings)
    for s = 1, screen.count() do
       local layouts = {}
       local mywibox = awful.wibox({ position = settings.position, screen = s, bg = settings.bgcolor })
-      print ("Making wibox on screen " .. s)
 
       for x, side in ipairs({"left", "middle", "right"}) do
-         print("Adding widgets for side " .. side)
          local layout = {}
 
          -- wibox.layout.fixed.horizontal is 3.5
@@ -190,8 +186,6 @@ function plugin.startup(awesomever, settings)
             for i, widget in ipairs(settings.widgets[side]) do
                f = misc.getFunction(widget)
                if f ~= nil then
-                  print("Adding widget " .. widget)
-
                   local w = f(s)
                   if w ~= nil then
                      -- wibox.layout.fixed.horizontal is 3.5+
@@ -213,7 +207,6 @@ function plugin.startup(awesomever, settings)
 
       -- wibox.layout.fixed.horizontal is 3.5+
       if wibox.layout.fixed.horizontal then
-         print("Final layout for 3.5!")
          local wiboxlayout = wibox.layout.align.horizontal()
          wiboxlayout:set_left(layouts.left)
          wiboxlayout:set_middle(layouts.middle)
@@ -239,7 +232,6 @@ function plugin.startup(awesomever, settings)
          mywibox.widgets = wiboxlayout
       end
       shared.wibox[s] = mywibox
-      print("Made wibox on screen " .. s)
    end
 end
 

@@ -53,8 +53,6 @@ local function buildMenuTable(menu)
    for i, entry in ipairs(menu) do
       local e = {}
 
-      print("Making menu item " .. entry.name)
-
       table.insert(e, entry.name)
 
       if entry.table ~= nil then
@@ -85,8 +83,6 @@ local function buildMenuTable(menu)
 end
 
 function plugin.startup(awesomever, settings)
-   print("Initializing crappy menu...")
-
    local shared = require('crappy.shared')
    local beautiful = misc.use('beautiful')
 
