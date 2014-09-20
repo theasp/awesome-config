@@ -9,24 +9,24 @@ plugin.requires = {"clientkeys", "clientbuttons"}
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then
-      settings =  {
-         {
-            rule = {
-               class = "MPlayer"
-            },
-            properties = {
-               floating = true
-            }
-         },
-         {
-            rule = {
-               class = "pinentry"
-            },
-            properties = {
-               floating = true
-            }
-         }
-      }
+      table.insert(settings, {
+                      {
+                         rule = {
+                            class = "MPlayer"
+                         },
+                         properties = {
+                            floating = true
+                         }
+                      },
+                      {
+                         rule = {
+                            class = "pinentry"
+                         },
+                         properties = {
+                            floating = true
+                         }
+                      }
+      })
    end
    
    return settings
