@@ -6,7 +6,7 @@ function misc.dump(o)
       local s = '{ '
       for k, v in pairs(o) do
          if type(k) ~= 'number' then k = '"'..k..'"' end
-         s = s .. '['..k..'] = ' .. crappy.misc.dump(v) .. ','
+         s = s .. '['..k..'] = ' .. misc.dump(v) .. ','
       end
       return s .. '} '
    else
@@ -18,7 +18,7 @@ end
 function misc.mergeTable(t1, t2)
    for k, v in pairs(t2) do
       if (type(v) == "table") and (type(t1[k] or false) == "table") then
-         crappy.misc.mergeTable(t1[k], t2[k])
+         misc.mergeTable(t1[k], t2[k])
       else
          t1[k] = v
       end
@@ -46,5 +46,15 @@ function misc.getFunction (f)
 
    return v
 end
+
+function misc.use(name)
+   local success, file = pcall(require, name)
+   if success == true then
+      return file
+   else
+      return nil
+   end
+end
+
 
 return misc
