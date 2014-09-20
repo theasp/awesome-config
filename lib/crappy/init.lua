@@ -2,7 +2,9 @@
 -- Error checking
 
 local util = require('awful.util')
+local pluginManager = require('crappy.pluginManager')
 local configManager = require('crappy.configManager')
+local shared = require('crappy.shared')
 
 local crappy = {}
 
@@ -26,7 +28,41 @@ function crappy.start(file)
    end
 
    crappy.config = configManager.load(file)
-   crappy.startup.awesome(ver)
+   pluginManager.loadAllPlugins()
+
+   if crappy.config.settings == nil then
+      crappy.config.settings = {}
+   end
+
+   crappy.default.settings(crappy.config.settings)
+
+   -- Iterate over the list of functions of start
+   for i, startupDef in ipairs(crappy.config.startup) do
+      if startupDef.enabled == nil or startupDef.enabled then
+         if not startupDef.settings then
+            startupDef.settings = {}
+         end
+
+         if startupDef.plugin then
+            local plugin = pluginManager.plugins[startupDef.plugin]
+            if plugin then
+               plugin.startup(awesomever, startupDef.settings)
+            else
+               print("Warning: Unable to find startup plugin " .. startupDef.plugin)
+            end
+         elseif startupDef.func then
+            local func = crappy.misc.getFunction(startupDef.func)
+            if func then
+               crappy.misc.getFunction(startupDef.func)(startupDef.settings)
+            else
+               print("Warning: Unable to find startup function " .. startupDef.func)
+            end
+         else
+            print("Warning: No startup plugin or function defined")
+         end
+      end
+   end
+
    print("Done initializing crappy.")
 end
 
