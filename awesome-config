@@ -1,14 +1,14 @@
 #! /usr/bin/env lua
 
-HOME=os.getenv("HOME")
-package.path = package.path .. ";lib/?.lua"
-package.path = package.path .. ";lib/?/init.lua"
-package.path = package.path .. ";" .. HOME .. "/.config/awesome/?.lua"
-package.path = package.path .. ";" .. HOME .. "/.config/awesome/?/init.lua"
-package.path = package.path .. ";/usr/local/share/awesome/lib/?.lua"
-package.path = package.path .. ";/usr/local/share/awesome/lib/?/init.lua"
-package.path = package.path .. ";/usr/share/awesome/lib/?.lua"
-package.path = package.path .. ";/usr/share/awesome/lib/?/init.lua"
+HOME=os.getenv('HOME')
+package.path = package.path .. ';lib/?.lua'
+package.path = package.path .. ';lib/?/init.lua'
+package.path = package.path .. ';' .. HOME .. '/.config/awesome/?.lua'
+package.path = package.path .. ';' .. HOME .. '/.config/awesome/?/init.lua'
+package.path = package.path .. ';/usr/local/share/awesome/lib/?.lua'
+package.path = package.path .. ';/usr/local/share/awesome/lib/?/init.lua'
+package.path = package.path .. ';/usr/share/awesome/lib/?.lua'
+package.path = package.path .. ';/usr/share/awesome/lib/?/init.lua'
 
-local gui = require("crappy.gui")
+local gui = require('crappy.gui')
 gui.run()
