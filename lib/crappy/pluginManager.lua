@@ -34,8 +34,10 @@ end
 function pluginManager.loadPlugin(file)
    local plugin = dofile(file)
 
-   pluginManager.plugins[plugin.id] = plugin
-   print('Added plugin ' .. plugin.id)
+   if plugin then
+      pluginManager.plugins[plugin.id] = plugin
+      print('Added plugin ' .. plugin.id)
+   end
 end
 
 function pluginManager.loadPlugins(path)
