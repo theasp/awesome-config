@@ -132,13 +132,13 @@ function functions.global.layoutDec()
 end
 
 function functions.global.showRunPrompt()
-   crappy.wibox.promptbox[mouse.screen]:run()
+   shared.wibox.promptbox[mouse.screen]:run()
 end
 
 
 function functions.global.showLuaPrompt()
    awful.prompt.run({ prompt = "Run Lua code: " },
-      crappy.wibox.promptbox[mouse.screen].widget,
+      shared.wibox.promptbox[mouse.screen].widget,
       awful.util.eval, nil,
       awful.util.getdir("cache") .. "/history_eval")
 end

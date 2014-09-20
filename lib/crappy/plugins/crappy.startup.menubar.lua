@@ -19,16 +19,14 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   --print(awesomever)
-   --if awesomever < 3.5 then
-   --   print("Not initializing crappy menubar, not supported in this version")
-   --   return
-   --end
+   if awesomever == "3-4" then
+      print("Not initializing crappy menubar, not supported in this version")
+      return
+   end
 
    print("Initializing crappy menubar...")
 
    shared.menubar = require("menubar")
-   shared.menubar.menu_gen.all_menu_dirs = { "/usr/share/applications/", "/usr/local/share/applications", "~/.local/share/applications" }
 
    shared.menubar.utils.terminal = crappy.config.settings.terminal
 

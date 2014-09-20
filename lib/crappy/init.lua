@@ -1,16 +1,18 @@
 -- TODO:
 -- Error checking
 
+
 local util = require('awful.util')
 local pluginManager = require('crappy.pluginManager')
 local configManager = require('crappy.configManager')
-local shared = require('crappy.shared')
+local default = require('crappy.configManager.default')
+local misc = require('crappy.misc')
+
+-- The following need to be global
+awful = misc.use('awful')
+
 
 local crappy = {}
-
-crappy.ezconfig = require('crappy.ezconfig')
-crappy.misc = require('crappy.misc')
-crappy.default = configManager.default
 
 local ver = awesome.version:match('%d.%d'):gsub('%.', '-')
 
@@ -34,7 +36,7 @@ function crappy.start(file)
       crappy.config.settings = {}
    end
 
-   crappy.default.settings(crappy.config.settings)
+   default.settings(crappy.config.settings)
 
    -- Iterate over the list of functions of start
    for i, startupDef in ipairs(crappy.config.startup) do

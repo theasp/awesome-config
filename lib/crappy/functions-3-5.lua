@@ -1,5 +1,5 @@
 -- Standard awesome library
-local awful = require("awful")
+--local awful = require("awful")
 beautiful = require("beautiful")
 local wibox = require("wibox")
 

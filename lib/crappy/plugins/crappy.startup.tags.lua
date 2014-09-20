@@ -25,9 +25,12 @@ end
 function plugin.startup(awesomever, settings)
    print("Initializing crappy tags...")
 
+   local misc = require('crappy.misc')
+   local shared = require('crappy.shared')
+   local awful = misc.use('awful')
+
    plugin.settingsDefault(settings)
 
-   local shared = require('crappy.shared')
    shared.tags = {}
 
    for s = 1, screen.count() do
@@ -36,19 +39,19 @@ function plugin.startup(awesomever, settings)
 
       -- If this is the last screen, apply the "last" settings
       if s == screen.count() and settings.last ~= nil then
-         screenSettings = crappy.misc.mergeTable(screenSettings, settings.last)
+         screenSettings = misc.mergeTable(screenSettings, settings.last)
       end
 
       -- Finally apply the specific screen settings
       if settings[tostring(s)] ~= nil then
-         screenSettings = crappy.misc.mergeTable(screenSettings, settings[tostring(s)])
+         screenSettings = misc.mergeTable(screenSettings, settings[tostring(s)])
       end
 
-      shared.tags[s] = awful.tag(screenSettings.tags, s, crappy.misc.getFunction(screenSettings.layout))
+      shared.tags[s] = awful.tag(screenSettings.tags, s, misc.getFunction(screenSettings.layout))
       if screenSettings.tagLayouts ~= nil then
          for tagName, tagLayout in pairs(screenSettings.tagLayouts) do
             if shared.tags[s][tostring(tagName)] ~= nil and tagLayout ~= nil then
-               awful.layout.set(crappy.misc.getFunction(tagLayout), shared.tags[s][tostring(tagName)])
+               awful.layout.set(misc.getFunction(tagLayout), shared.tags[s][tostring(tagName)])
             end
          end
       end

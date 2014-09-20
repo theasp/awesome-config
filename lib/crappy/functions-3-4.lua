@@ -1,5 +1,5 @@
 -- Standard awesome library
-require("awful")
+--require("awful")
 -- Theme handling library
 require("beautiful")
 

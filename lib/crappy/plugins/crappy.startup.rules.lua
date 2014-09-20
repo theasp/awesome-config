@@ -1,7 +1,6 @@
 local plugin = {}
 
 local misc = require('crappy.misc')
-local shared = require('crappy.shared')
 
 plugin.name = 'Standard Rules'
 plugin.description = 'Standard rules'
@@ -36,6 +35,10 @@ end
 function plugin.startup(awesomever, settings)
    print("Initializing crappy rules...")
 
+   local shared = require('crappy.shared')
+   local awful = misc.use('awful')
+   awful.rules = misc.use('awful.rules')
+   
    plugin.settingsDefault(settings)
 
    assert(shared.clientkeys ~= nil)
