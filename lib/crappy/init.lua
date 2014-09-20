@@ -10,13 +10,13 @@ local misc = require('crappy.misc')
 
 -- The following need to be global
 awful = misc.use('awful')
+beautiful = misc.use('beautiful')
 
 
 local crappy = {}
 
 local ver = awesome.version:match('%d.%d'):gsub('%.', '-')
 
-crappy.startup = require('crappy.startup-' .. ver)
 crappy.functions = require('crappy.functions-' .. ver)
 
 crappy.config = {}
