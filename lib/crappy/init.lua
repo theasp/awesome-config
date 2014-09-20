@@ -46,7 +46,7 @@ function crappy.start(file)
          if startupDef.plugin then
             local plugin = pluginManager.plugins[startupDef.plugin]
             if plugin then
-               plugin.startup(awesomever, startupDef.settings)
+               plugin.startup(ver, startupDef.settings)
             else
                print("Warning: Unable to find startup plugin " .. startupDef.plugin)
             end
