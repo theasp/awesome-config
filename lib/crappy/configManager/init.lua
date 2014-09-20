@@ -1,6 +1,6 @@
 local configManager = {}
 
-configManager.configver = 0.1
+configManager.configver = 0.2
 
 configManager.json = require('crappy.configManager.JSON')
 configManager.default = require('crappy.configManager.default')
