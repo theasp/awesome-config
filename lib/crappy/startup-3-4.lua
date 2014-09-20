@@ -125,14 +125,4 @@ function startup.wibox (settings)
    end
 end
 
-function startup.signals (settings)
-   print("Initializing crappy signals...")
-
-   crappy.default.startup.signals(settings)
-
-   client.add_signal("manage", crappy.misc.getFunction(settings.manage))
-   client.add_signal("focus", crappy.misc.getFunction(settings.focus))
-   client.add_signal("unfocus", crappy.misc.getFunction(settings.unfocus))
-end
-
 return startup

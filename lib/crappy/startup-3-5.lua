@@ -123,17 +123,6 @@ function startup.wibox(settings)
    end
 end
 
-
-function startup.signals(settings)
-   print("Initializing crappy signals...")
-
-   crappy.default.startup.signals(settings)
-
-   client.connect_signal("manage", crappy.misc.getFunction(settings.manage))
-   client.connect_signal("focus", crappy.misc.getFunction(settings.focus))
-   client.connect_signal("unfocus", crappy.misc.getFunction(settings.unfocus))
-end
-
 --table.insert(startup.functions, "crappy.startup.menubar")
 function startup.menubar(settings)
    print("Initializing crappy menubar...")
