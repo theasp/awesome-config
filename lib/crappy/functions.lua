@@ -4,7 +4,7 @@ local shared = require('crappy.shared')
 
 functions.menu = {}
 function functions.menu.toggle()
-   crappy.mainmenu:toggle()
+   shared.mainmenu:toggle()
 end
 
 functions.signals = {}
@@ -84,7 +84,7 @@ function functions.global.swapPrev()
 end
 
 function functions.global.showMenu()
-   crappy.mainmenu:show({keygrabber=true})
+   shared.mainmenu:show({keygrabber=true})
 end
 
 function functions.global.focusNextScreen()
