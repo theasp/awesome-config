@@ -1,0 +1,3 @@
+local shared = {}
+
+return shared
