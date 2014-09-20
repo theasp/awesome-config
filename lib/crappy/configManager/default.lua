@@ -312,6 +312,10 @@ function default.config()
    local settings = default.settings({})
    local startup = {
       {
+         plugin = "crappy.startup.layouts",
+         enabled = true,
+      },
+      {
          plugin = "crappy.startup.tags",
          enabled = true,
       },
