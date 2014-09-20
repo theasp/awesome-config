@@ -14,6 +14,10 @@ function startup.buildUi(window, config)
    local settingsCount = 0
 
    local function storeSettings(settings)
+      if settings == nil then
+         settings = {}
+      end
+
       settingsCount = settingsCount + 1
       settingsRefs[settingsCount] = settings
 
@@ -47,11 +51,17 @@ function startup.buildUi(window, config)
 
       if startupDef.plugin then
          local name
+         local plugin = pluginManager.plugins[startupDef.plugin]
          if pluginManager.plugins[startupDef.plugin] then
             name = pluginManager.plugins[startupDef.plugin].name
             if pluginManager.plugins[startupDef.plugin].buildUi == nil then
                name = name .. " (No UI)"
             end
+
+            if startupDef.settings == nil then
+               startupDef.settings = {}
+            end
+            plugin.settingsDefault(startupDef.settings)
          else
             name = startupDef.plugin .. " (Plugin not loaded)"
          end
