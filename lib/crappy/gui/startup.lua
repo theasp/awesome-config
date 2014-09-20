@@ -49,6 +49,9 @@ function startup.buildUi(window, config)
          local name
          if pluginManager.plugins[startupDef.plugin] then
             name = pluginManager.plugins[startupDef.plugin].name
+            if pluginManager.plugins[startupDef.plugin].buildUi == nil then
+               name = name .. " (no UI)"
+            end
          else
             name = startupDef.plugin .. " (plugin not loaded)"
          end
@@ -57,7 +60,7 @@ function startup.buildUi(window, config)
          startupFuncsListStore[iter][startupFuncsColumns.PLUGIN] = startupDef.plugin
          startupFuncsListStore[iter][startupFuncsColumns.TYPE] = 'plugin'
       else
-         startupFuncsListStore[iter][startupFuncsColumns.NAME] = startupDef.func
+         startupFuncsListStore[iter][startupFuncsColumns.NAME] = startupDef.func .. " (custom)"
          startupFuncsListStore[iter][startupFuncsColumns.FUNC] = startupDef.func
          startupFuncsListStore[iter][startupFuncsColumns.TYPE] = 'func'
       end
