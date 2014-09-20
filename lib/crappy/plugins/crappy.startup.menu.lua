@@ -3,7 +3,7 @@ local plugin = {}
 local misc = require('crappy.misc')
 local shared = require('crappy.shared')
 
-plugin.name = 'Menu'
+plugin.name = 'Standard Menu'
 plugin.description = 'Build the menu'
 plugin.id = 'crappy.startup.menu'
 plugin.provides = {"mainmenu", "launcher"}
