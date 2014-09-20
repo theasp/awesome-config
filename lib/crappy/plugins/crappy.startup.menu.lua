@@ -5,6 +5,7 @@ local misc = require('crappy.misc')
 plugin.name = 'Menu'
 plugin.description = 'Build the menu'
 plugin.id = 'crappy.startup.menu'
+plugin.provides = {"mainmenu", "launcher"}
 
 function plugin.setDefault(settings)
    if #settings == 0 then
@@ -86,7 +87,7 @@ end
 function plugin.startup(awesomever, settings)
    print("Initializing crappy menu...")
 
-   crappy.default.startup.menu(settings)
+   plugin.settingsDefault(settings)
 
    local menu = buildMenuTable(settings)
    crappy.mainmenu = awful.menu({ items = menu })
