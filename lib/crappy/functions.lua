@@ -115,24 +115,24 @@ function functions.global.nmasterDec()
    awful.tag.incnmaster(-1)
 end
 
-function functions.global.ncolInc() 
-   awful.tag.incncol( 1)         
+function functions.global.ncolInc()
+   awful.tag.incncol( 1)
 end
 
-function functions.global.ncolDec() 
-   awful.tag.incncol(-1)         
+function functions.global.ncolDec()
+   awful.tag.incncol(-1)
 end
 
-function functions.global.layoutInc() 
-   awful.layout.inc(crappy.layouts,  1) 
+function functions.global.layoutInc()
+   awful.layout.inc(shared.layouts,  1)
 end
 
-function functions.global.layoutDec() 
-   awful.layout.inc(crappy.layouts,  -1) 
+function functions.global.layoutDec()
+   awful.layout.inc(shared.layouts,  -1)
 end
 
-function functions.global.showRunPrompt() 
-   crappy.wibox.promptbox[mouse.screen]:run() 
+function functions.global.showRunPrompt()
+   crappy.wibox.promptbox[mouse.screen]:run()
 end
 
 
@@ -153,19 +153,19 @@ end
 
 function functions.tag.toggle(i)
    local screen = mouse.screen
-   if crappy.tags[screen][i] then
+   if shared.tags[screen][i] then
       awful.tag.viewtoggle(shared.tags[screen][i])
    end
 end
 
 function functions.tag.clientMoveTo(i)
-   if client.focus and crappy.tags[client.focus.screen][i] then
+   if client.focus and shared.tags[client.focus.screen][i] then
       awful.client.movetotag(shared.tags[client.focus.screen][i])
    end
 end
 
 function functions.tag.clientToggle(i)
-   if client.focus and crappy.tags[client.focus.screen][i] then
+   if client.focus and shared.tags[client.focus.screen][i] then
       awful.client.toggletag(shared.tags[client.focus.screen][i])
    end
 end
