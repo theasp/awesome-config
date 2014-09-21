@@ -55,7 +55,7 @@ function startup.buildUi(window, config)
          if pluginManager.plugins[startupDef.plugin] then
             name = pluginManager.plugins[startupDef.plugin].name
             if pluginManager.plugins[startupDef.plugin].buildUi == nil then
-               name = name .. " (No UI)"
+               name = name .. ' (No UI)'
             end
 
             if startupDef.settings == nil then
@@ -63,14 +63,14 @@ function startup.buildUi(window, config)
             end
             plugin.settingsDefault(startupDef.settings)
          else
-            name = startupDef.plugin .. " (Plugin not loaded)"
+            name = startupDef.plugin .. ' (Plugin not loaded)'
          end
 
          startupFuncsListStore[iter][startupFuncsColumns.NAME] = name
          startupFuncsListStore[iter][startupFuncsColumns.PLUGIN] = startupDef.plugin
          startupFuncsListStore[iter][startupFuncsColumns.TYPE] = 'plugin'
       else
-         startupFuncsListStore[iter][startupFuncsColumns.NAME] = startupDef.func .. " (Custom)"
+         startupFuncsListStore[iter][startupFuncsColumns.NAME] = startupDef.func .. ' (Custom)'
          startupFuncsListStore[iter][startupFuncsColumns.FUNC] = startupDef.func
          startupFuncsListStore[iter][startupFuncsColumns.TYPE] = 'func'
       end
@@ -78,7 +78,7 @@ function startup.buildUi(window, config)
       startupFuncsListStore[iter][startupFuncsColumns.ENABLED] = startupDef.enabled
       startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID] = storeSettings(startupDef.settings)
 
-      log.message("Added %s", startupFuncsListStore[iter][startupFuncsColumns.NAME])
+      log.message('Added %s', startupFuncsListStore[iter][startupFuncsColumns.NAME])
    end
 
    local function updateStartupFuncs()
@@ -113,7 +113,7 @@ function startup.buildUi(window, config)
          end
 
          if val then
-            log.message("Updating %s", name)
+            log.message('Updating %s', name)
             table.insert(config.startup, val)
          end
 
@@ -305,7 +305,7 @@ function startup.buildUi(window, config)
                startupFuncsListStore[iter][startupFuncsColumns.ENABLED] = true
                startupFuncsListStore[iter][startupFuncsColumns.SETTINGSID] = storeSettings({})
 
-               log.message("Added function %s", func)
+               log.message('Added function %s', func)
             end
          end
 
