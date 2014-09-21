@@ -19,7 +19,7 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   if awesomever == "3-4" then
+   if awesomever < 3.5 then
       print("Not initializing crappy menubar, not supported in this version")
       return
    end
