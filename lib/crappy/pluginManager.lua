@@ -62,8 +62,13 @@ function pluginManager.loadAllPlugins()
    end
 end
 
+-- http://en.wikipedia.org/wiki/Topological_sorting
 function pluginManager.sortByDependency(plugins)
-   local markedPlugins = {}
+   local tmpMarkedPlugins = {}
+   -- I don't need a graph of all the connections, just enough to
+   -- satisfy dependencies, therefore treat tmpMarkedPlugins as marked too   
+   --local markedPlugins = {}
+   local markedPlugins = tmpMarkedPlugins
    local result = {}
 
    local function count(t)
@@ -105,13 +110,15 @@ function pluginManager.sortByDependency(plugins)
    end
 
    local function visit(n)
-      if markedPlugins[n.id] then
+      if tmpMarkedPlugins[n.id] then
          return
       else
-         markedPlugins[n.id] = 1
+         tmpMarkedPlugins[n.id] = 1
          for i, m in pairs(edges(n, plugins)) do
             visit(m)
          end
+         tmpMarkedPlugins[n.id] = nil
+         markedPlugins[n.id] = 1
          table.insert(result, n)
       end
    end
@@ -131,7 +138,7 @@ function pluginManager.simulateLoad(plugins)
       if v.requires then
          for j, req in ipairs(v.requires) do
             if not state[req] then
-               print(v.id .. " needs " .. req .. " but does not exist")
+               print('Warning: ' .. v.name .. " needs " .. req .. " but nothing is providing it")
             end
          end
       end

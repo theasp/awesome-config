@@ -1,28 +1,32 @@
 {
-    "configver": 0.1,
+    "configver": 0.2,
 
     "settings": {
         "terminal": "x-terminal-emulator",
         "sloppyfocus": true,
-        "titlebar": true,
-        "layouts": [
-            "awful.layout.suit.floating",
-            "awful.layout.suit.tile",
-            "awful.layout.suit.tile.left",
-            "awful.layout.suit.tile.bottom",
-            "awful.layout.suit.tile.top",
-            "awful.layout.suit.fair",
-            "awful.layout.suit.fair.horizontal",
-            "awful.layout.suit.spiral",
-            "awful.layout.suit.spiral.dwindle",
-            "awful.layout.suit.max",
-            "awful.layout.suit.max.fullscreen",
-            "awful.layout.suit.magnifier"
-        ]
+        "titlebar": true
     },
     "startup": [
+        { 
+            "plugin": "crappy.startup.layouts",
+            "enabled": true,
+            "settings": [
+                "awful.layout.suit.floating",
+                "awful.layout.suit.tile",
+                "awful.layout.suit.tile.left",
+                "awful.layout.suit.tile.bottom",
+                "awful.layout.suit.tile.top",
+                "awful.layout.suit.fair",
+                "awful.layout.suit.fair.horizontal",
+                "awful.layout.suit.spiral",
+                "awful.layout.suit.spiral.dwindle",
+                "awful.layout.suit.max",
+                "awful.layout.suit.max.fullscreen",
+                "awful.layout.suit.magnifier"
+            ]
+        },
         {
-            "func": "crappy.startup.theme",
+            "plugin": "crappy.startup.theme",
             "enabled": true,
             "settings": {
                 "file": "/usr/share/awesome/themes/default/theme.lua",
@@ -30,7 +34,7 @@
             }
         },
         {
-            "func": "crappy.startup.tags",
+            "plugin": "crappy.startup.tags",
             "enabled": true,
             "settings": {
                 "default": {
@@ -46,7 +50,7 @@
             }
         },
         {
-            "func": "crappy.startup.menu",
+            "plugin": "crappy.startup.menu",
             "enabled": true,
             "settings": [
                 { "name": "awesome",
@@ -81,7 +85,7 @@
             ]
         },
         {
-            "func": "crappy.startup.bindings",
+            "plugin": "crappy.startup.bindings",
             "enabled": true,
             "settings": {
                 "modkey": "Mod4",
@@ -192,7 +196,7 @@
             }
         },
         {
-            "func": "crappy.startup.signals",
+            "plugin": "crappy.startup.signals",
             "enabled": true,
             "settings": {
                 "manage": "crappy.functions.signals.manage",
@@ -201,7 +205,7 @@
             }
         },
         {
-            "func": "crappy.startup.rules",
+            "plugin": "crappy.startup.rules",
             "enabled": true,
             "settings": [
                 {
@@ -223,7 +227,7 @@
             ]
         },
         {
-            "func": "crappy.startup.wibox",
+            "plugin": "crappy.startup.wibox",
             "enabled": true,
             "settings": {
                 "position": "top",
@@ -246,7 +250,7 @@
             }
         },
         {
-            "func": "crappy.startup.menubar",
+            "plugin": "crappy.startup.menubar",
             "enabled": true
             "settings": {
                 "dirs": [

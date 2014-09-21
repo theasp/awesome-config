@@ -39,7 +39,7 @@ function crappy.start(file)
    local startupList = {}
 
    -- Iterate over the list of plugins/functions
-   for i, startupDef in ipairs(crappy.config.startup) do
+   for i, startupDef in ipairs(crappy.config.plugins) do
       if startupDef.enabled == nil or startupDef.enabled then
          if not startupDef.settings then
             startupDef.settings = {}

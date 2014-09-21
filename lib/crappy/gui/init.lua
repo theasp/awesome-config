@@ -11,7 +11,7 @@ pluginManager.loadAllPlugins()
 local gui = {}
 
 gui.settings = require('crappy.gui.settings')
-gui.startup = require('crappy.gui.startup')
+gui.plugins = require('crappy.gui.plugins')
 
 function gui.run()
    local config = configManager.new()
@@ -30,8 +30,8 @@ function gui.run()
       expand = true,
    }
 
-   local startupUi = nil
-   local startupBox = Gtk.Box {
+   local pluginsUi = nil
+   local pluginsBox = Gtk.Box {
       margin = 0,
       spacing = 0,
       expand = true,
@@ -48,15 +48,15 @@ function gui.run()
          settingsUi:show_all()
       end
 
-      if startupUi then
-         startupUi:destroy()
+      if pluginsUi then
+         pluginsUi:destroy()
       end
 
-      startupUi = gui.startup.buildUi(window, config)
+      pluginsUi = gui.plugins.buildUi(window, config)
 
-      if startupUi then
-         startupBox:add(startupUi)
-         startupUi:show_all()
+      if pluginsUi then
+         pluginsBox:add(pluginsUi)
+         pluginsUi:show_all()
       end
    end
 
@@ -89,7 +89,7 @@ function gui.run()
    end
 
    local settingsUi = nil
-   local startupUi = nil
+   local pluginsUi = nil
 
    local actions = Gtk.ActionGroup {
       name = 'Actions',
@@ -160,8 +160,8 @@ function gui.run()
                        settingsBox
                     },
                     {
-                       tab_label = "Startup",
-                       startupBox
+                       tab_label = "Plugins",
+                       pluginsBox
                     },
                  }
 
