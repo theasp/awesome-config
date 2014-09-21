@@ -22,7 +22,7 @@ function pluginManager.loadPlugin(file)
 
       if plugin.functions then
          print("Plugin has functions")
-         if plugin.initFunctions then
+         if plugin.initFunctions and awful then
             plugin.initFunctions()
          end
 
