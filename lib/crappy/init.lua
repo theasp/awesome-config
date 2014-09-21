@@ -4,6 +4,7 @@
 local util = require('awful.util')
 local pluginManager = require('crappy.pluginManager')
 local configManager = require('crappy.configManager')
+local functionManager = require('crappy.functionManager')
 local default = require('crappy.configManager.default')
 local misc = require('crappy.misc')
 
@@ -79,7 +80,7 @@ function crappy.start(file)
                print("Warning: Unable to find startup plugin " .. startupDef.plugin)
             end
          elseif startupDef.func then
-            local func = misc.getFunction(startupDef.func)
+            local func = functionManager.getFunction(startupDef.func)
             if func then
                table.insert(startupList, {
                                id = startupDef.func,

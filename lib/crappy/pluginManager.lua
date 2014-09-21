@@ -1,6 +1,9 @@
 local lfs = require('lfs')
+local functionManager = require("crappy.functionManager")
 
 local pluginManager = {}
+
+pluginManager.plugins = {}
 
 HOME=os.getenv('HOME')
 
@@ -11,32 +14,24 @@ pluginManager.pluginPaths = {
    HOME .. '/.config/awesome/crappy-plugins',
 }
 
-pluginManager.functions = {}
-pluginManager.startupFunctions = {}
-pluginManager.plugins = {}
-
-function pluginManager.addFunction(funcType, funcName, owner, description)
-   functions[funcType][funcName] = {
-      owner = ownerName,
-      description = description
-   }
-end
-
-function pluginManager.addStartupFunction(funcName, defaultFuncName, lgiFuncName, owner, description)
-   functions[funcName] = {
-      defaultFuncName = defaultFuncName,
-      lgiFuncName = lgiFuncName,
-      owner = ownerName,
-      description = description
-   }
-end
-
 function pluginManager.loadPlugin(file)
    local plugin = dofile(file)
 
    if plugin then
       pluginManager.plugins[plugin.id] = plugin
+
+      if plugin.functions then
+         print("Plugin has functions")
+         if plugin.initFunctions then
+            plugin.initFunctions()
+         end
+
+         functionManager.registerPlugin(plugin)
+      end
+
       print('Added plugin ' .. plugin.id)
+   else
+      print('Warning: Unable to load plugin ' .. file)
    end
 end
 
