@@ -61,7 +61,10 @@ function plugins.buildUi(window, config)
             if pluginDef.settings == nil then
                pluginDef.settings = {}
             end
-            plugin.settingsDefault(pluginDef.settings)
+
+            if plugin.settingsDefault then
+               plugin.settingsDefault(pluginDef.settings)
+            end
          else
             name = pluginDef.plugin .. ' (Plugin not loaded)'
          end
