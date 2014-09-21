@@ -5,6 +5,7 @@ local misc = require('crappy.misc')
 plugin.name = 'Standard wibox'
 plugin.description = 'Set up the wibox'
 plugin.id = 'crappy.startup.wibox'
+plugin.requires = {"wibox-widget", "launcher"}
 plugin.provides = {"wibox"}
 
 function plugin.settingsDefault(settings)

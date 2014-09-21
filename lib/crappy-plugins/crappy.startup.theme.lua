@@ -3,6 +3,7 @@ local plugin = {}
 plugin.name = 'Beautiful Theme'
 plugin.description = 'Set the theme used by beautiful'
 plugin.id = 'crappy.startup.theme'
+plugin.provides = {"theme"}
 
 function plugin.settingsDefault(settings)
    if settings.file == nil then

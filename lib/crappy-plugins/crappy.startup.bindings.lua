@@ -7,6 +7,7 @@ plugin.name = 'Standard Bindings'
 plugin.description = 'Build standards keybindings'
 plugin.id = 'crappy.startup.bindings'
 plugin.requires = {"mainmenu", "layouts"}
+plugin.provides = {"clientkeys", "clientbuttons"}
 
 function plugin.settingsDefault(settings)
    if settings.modkey == nil then
