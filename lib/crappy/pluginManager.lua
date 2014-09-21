@@ -66,7 +66,7 @@ end
 function pluginManager.sortByDependency(plugins)
    local tmpMarkedPlugins = {}
    -- I don't need a graph of all the connections, just enough to
-   -- satisfy dependencies, therefore treat tmpMarkedPlugins as marked too   
+   -- satisfy dependencies, therefore treat tmpMarkedPlugins as marked too
    --local markedPlugins = {}
    local markedPlugins = tmpMarkedPlugins
    local result = {}
@@ -102,7 +102,7 @@ function pluginManager.sortByDependency(plugins)
 
    local function selectN(plugins)
       for k, v in pairs(plugins) do
-         if not markedPlugins[v.id] then
+         if not markedPlugins[v] then
             return v
          end
       end
@@ -110,15 +110,15 @@ function pluginManager.sortByDependency(plugins)
    end
 
    local function visit(n)
-      if tmpMarkedPlugins[n.id] then
+      if tmpMarkedPlugins[n] then
          return
       else
-         tmpMarkedPlugins[n.id] = 1
+         tmpMarkedPlugins[n] = 1
          for i, m in pairs(edges(n, plugins)) do
             visit(m)
          end
-         tmpMarkedPlugins[n.id] = nil
-         markedPlugins[n.id] = 1
+         tmpMarkedPlugins[n] = nil
+         markedPlugins[n] = 1
          table.insert(result, n)
       end
    end
