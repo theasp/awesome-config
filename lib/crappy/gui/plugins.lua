@@ -84,6 +84,24 @@ function plugins.buildUi(window, config)
       log.message('Added %s', pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME])
    end
 
+   -- Add in new plugins
+   for id, plugin in pairs(pluginManager.plugins) do
+      if not config.plugins[id] then
+         local iter = pluginsFuncsListStore:append()
+
+         local settings = {}
+         if plugin.settingsDefault then
+            plugin.settingsDefault(settings)
+         end
+
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = plugin.name
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = id
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE] = 'plugin'
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = false
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID] = storeSettings(settings)
+      end
+   end
+
    local function updatePluginsFuncs()
       config.plugins = {}
 
@@ -106,6 +124,8 @@ function plugins.buildUi(window, config)
          iter = pluginsFuncsListStore:next(iter)
       end
    end
+   -- New plugins were loaded above, update so a save will contain them
+   updatePluginsFuncs()
 
    function pluginsFuncsListStore:on_row_deleted()
       updatePluginsFuncs()
