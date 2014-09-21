@@ -47,10 +47,12 @@ function misc.getFunction (f)
    return v
 end
 
+-- Yo-dah
 function misc.use(name)
-   local success, file = pcall(require, name)
-   if success == true then
-      return file
+   result = require(name)
+
+   if type(result) ~= "boolean" then
+      return result
    else
       return nil
    end
