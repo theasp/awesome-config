@@ -74,7 +74,7 @@ function configManager.getStartupDefs(config)
    local startupList = {}
 
    -- Iterate over the list of plugins/functions
-   for i, startupDef in ipairs(config.plugins) do
+   for name, startupDef in pairs(config.plugins) do
       if startupDef.enabled == nil or startupDef.enabled then
          if not startupDef.settings then
             startupDef.settings = {}
@@ -88,8 +88,9 @@ function configManager.getStartupDefs(config)
             startupDef.requires = {}
          end
 
-         if startupDef.plugin then
-            local plugin = pluginManager.plugins[startupDef.plugin]
+         if not startupDef.type or startupDef.type == 'plugin' then
+            local plugin = pluginManager.plugins[name]
+
             if plugin then
                if plugin.requires then
                   for k, v in ipairs(plugin.requires) do
@@ -111,14 +112,14 @@ function configManager.getStartupDefs(config)
                                settings = startupDef.settings
                })
             else
-               print("Warning: Unable to find startup plugin " .. startupDef.plugin)
+               print("Warning: Unable to find startup plugin " .. name)
             end
-         elseif startupDef.func then
-            local func = functionManager.getFunction(startupDef.func)
+         elseif startupDef.type == 'func' then
+            local func = functionManager.getFunction(name)
             if func then
                table.insert(startupList, {
-                               id = startupDef.func,
-                               name = startupDef.func,
+                               id = name,
+                               name = name,
                                plugin = plugin,
                                requires = startupDef.requires,
                                provides = startupDef.provides,
@@ -129,7 +130,7 @@ function configManager.getStartupDefs(config)
                print("Warning: Unable to find startup function " .. startupDef.func)
             end
          else
-            print("Warning: No startup plugin or function defined")
+            print("Warning: Unknown plugin type " .. startupDef.type)
          end
       end
    end

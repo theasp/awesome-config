@@ -33,8 +33,7 @@ function plugins.buildUi(window, config)
       NAME = 2,
       SETTINGSID = 3,
       TYPE = 4,
-      FUNC = 5,
-      PLUGIN = 6,
+      ID = 5,
    }
 
    local pluginsFuncsListStore = Gtk.ListStore.new {
@@ -42,19 +41,18 @@ function plugins.buildUi(window, config)
       [pluginsFuncsColumns.NAME] = GObject.Type.STRING,
       [pluginsFuncsColumns.SETTINGSID] = GObject.Type.UINT,
       [pluginsFuncsColumns.TYPE] = GObject.Type.STRING,
-      [pluginsFuncsColumns.FUNC] = GObject.Type.STRING,
-      [pluginsFuncsColumns.PLUGIN] = GObject.Type.STRING,
+      [pluginsFuncsColumns.ID] = GObject.Type.STRING,
    }
 
-   for i, pluginDef in ipairs(config.plugins) do
+   for id, pluginDef in pairs(config.plugins) do
       iter = pluginsFuncsListStore:append()
 
-      if pluginDef.plugin then
+      if not pluginDef.type or pluginDef.type == 'plugin' then
          local name
-         local plugin = pluginManager.plugins[pluginDef.plugin]
-         if pluginManager.plugins[pluginDef.plugin] then
-            name = pluginManager.plugins[pluginDef.plugin].name
-            if pluginManager.plugins[pluginDef.plugin].buildUi == nil then
+         local plugin = pluginManager.plugins[id]
+         if plugin then
+            name = plugin.name
+            if plugin.buildUi == nil then
                name = name .. ' (No UI)'
             end
 
@@ -66,16 +64,18 @@ function plugins.buildUi(window, config)
                plugin.settingsDefault(pluginDef.settings)
             end
          else
-            name = pluginDef.plugin .. ' (Plugin not loaded)'
+            name = pluginDef.plugin .. ' (Missing)'
          end
 
          pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = name
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.PLUGIN] = pluginDef.plugin
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = id
          pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE] = 'plugin'
-      else
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = pluginDef.func .. ' (Custom)'
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.FUNC] = pluginDef.func
+      elseif pluginDef.type == 'func' then
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = id .. ' (Function)'
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = id
          pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE] = 'func'
+      else
+         log.message("Unknown plugin type " .. pluginDef.type)
       end
 
       pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = pluginDef.enabled
@@ -89,36 +89,19 @@ function plugins.buildUi(window, config)
 
       local iter = pluginsFuncsListStore:get_iter_first()
       while iter do
+         local id = pluginsFuncsListStore[iter][pluginsFuncsColumns.ID]
          local name = pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME]
          local enabled = pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED]
          local settingsId = pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID]
          local pluginsType = pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE]
          local val
 
-         if pluginsType == 'plugin' then
-            local plugin = pluginsFuncsListStore[iter][pluginsFuncsColumns.PLUGIN]
-            if plugin then
-               val = {
-                  plugin = plugin,
-                  enabled = enabled,
-                  settings = settingsRefs[settingsId]
-               }
-            end
-         else
-            local func = pluginsFuncsListStore[iter][pluginsFuncsColumns.FUNC]
-            if func then
-               val = {
-                  func = func,
-                  enabled = enabled,
-                  settings = settingsRefs[settingsId]
-               }
-            end
-         end
-
-         if val then
-            log.message('Updating %s', name)
-            table.insert(config.plugins, val)
-         end
+         log.message('Updating %s', name)
+         config.plugins[id] = {
+            ["enabled"] = enabled,
+            ["type"] = pluginType,
+            ["settings"] = settingsRefs[settingsId]
+         }
 
          iter = pluginsFuncsListStore:next(iter)
       end
@@ -191,7 +174,7 @@ function plugins.buildUi(window, config)
          local settings = settingsRefs[settingsId]
 
          if pluginsType == 'plugin' then
-            local pluginId = pluginsFuncsListStore[iter][pluginsFuncsColumns.PLUGIN]
+            local pluginId = pluginsFuncsListStore[iter][pluginsFuncsColumns.ID]
             local plugin = pluginManager.plugins[pluginId]
 
             if plugin.buildUi then
@@ -208,50 +191,6 @@ function plugins.buildUi(window, config)
             settingsUi:show_all()
          end
       end
-   end
-
-   local upButton = Gtk.Button {
-      id = 'up',
-      use_stock = true,
-      label = Gtk.STOCK_GO_UP,
-   }
-
-   function upButton:on_clicked()
-      local model, iter = pluginsFuncsSelection:get_selected()
-      if model and iter then
-         local path = pluginsFuncsListStore:get_path(iter)
-
-         if path:prev() then
-            local prevIter = pluginsFuncsListStore:get_iter(path)
-            if prevIter then
-               pluginsFuncsListStore:swap(iter, prevIter)
-            end
-         end
-      end
-      updatePluginsFuncs()
-   end
-
-   local downButton = Gtk.Button {
-      id = 'down',
-      use_stock = true,
-      label = Gtk.STOCK_GO_DOWN,
-   }
-
-   function downButton:on_clicked()
-      local model, iter = pluginsFuncsSelection:get_selected()
-      if model and iter then
-         local path = pluginsFuncsListStore:get_path(iter)
-
-         -- This works differently than prev(), for reasons.
-         path:next()
-         if path then
-            local nextIter = pluginsFuncsListStore:get_iter(path)
-            if nextIter then
-               pluginsFuncsListStore:swap(iter, nextIter)
-            end
-         end
-      end
-      updatePluginsFuncs()
    end
 
    local addButton = Gtk.Button {
@@ -304,7 +243,7 @@ function plugins.buildUi(window, config)
                end
 
                pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = func
-               pluginsFuncsListStore[iter][pluginsFuncsColumns.FUNC] = func
+               pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = func
                pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = true
                pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID] = storeSettings({})
 
@@ -355,8 +294,6 @@ function plugins.buildUi(window, config)
             orientation = 'HORIZONTAL',
             spacing = 4,
             homogeneous = true,
-            upButton,
-            downButton,
             addButton,
             removeButton
          }
