@@ -104,8 +104,10 @@ function crappy.start(file)
    pluginManager.simulateLoad(ordered)
 
    for k, v in pairs(ordered) do
-      print("Starting " .. v.name)
-      v.func(ver, v.settings)
+      if v.func then
+         print("Starting " .. v.name)
+         v.func(ver, v.settings)
+      end
    end
 
    print("Done initializing crappy.")
