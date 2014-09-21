@@ -64,11 +64,11 @@ end
 
 -- http://en.wikipedia.org/wiki/Topological_sorting
 function pluginManager.sortByDependency(plugins)
-   local tmpMarkedPlugins = {}
+   local markedPlugins = {}
    -- I don't need a graph of all the connections, just enough to
    -- satisfy dependencies, therefore treat tmpMarkedPlugins as marked too
-   --local markedPlugins = {}
-   local markedPlugins = tmpMarkedPlugins
+   --local tmpMarkedPlugins = {}
+   local tmpMarkedPlugins = markedPlugins
    local result = {}
 
    local function count(t)
