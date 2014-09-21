@@ -11,34 +11,11 @@ function functionManager.registerPlugin(plugin)
       end
       
       functions[funcName] = funcDef.func
-
-      print("Registered " .. funcName)
    end
-end
-
-function functionManager.addFunction(plugin, funcName)
-   local funcDef = plugin.functions[funcName]
-   
-   if not functionsByClass[funcDef.class] then
-      functionsByClass[funcDef.class] = {}
-   end
-
-   functionDefs[funcDef.class][funcName] = {
-      owner = plugin.id,
-      description = funcDef.description,
-      func = funcDef.func,
-   }
-
-   functions[funcName] = func
-
-   print("Registed " .. funcName .. " from " .. plugin.id)
 end
 
 function functionManager.getFunction(funcName)
-   print("Looking for function: " .. funcName)
    if functions[funcName] then
-      print("Found function: " .. funcName)
-      
       return functions[funcName]
    end
 

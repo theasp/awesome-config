@@ -110,7 +110,6 @@ function configManager.getStartupDefs(config)
                                func = plugin.startup,
                                settings = startupDef.settings
                })
-               print("Added to startup list " .. plugin.id)
             else
                print("Warning: Unable to find startup plugin " .. startupDef.plugin)
             end
@@ -126,7 +125,6 @@ function configManager.getStartupDefs(config)
                                func = func,
                                settings = startupDef.settings
                })
-               print("Added to startup list " .. startupDef.func)
             else
                print("Warning: Unable to find startup function " .. startupDef.func)
             end

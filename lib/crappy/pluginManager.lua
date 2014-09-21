@@ -21,15 +21,12 @@ function pluginManager.loadPlugin(file)
       pluginManager.plugins[plugin.id] = plugin
 
       if plugin.functions then
-         print("Plugin has functions")
          if plugin.initFunctions and awful then
             plugin.initFunctions()
          end
 
          functionManager.registerPlugin(plugin)
       end
-
-      print('Added plugin ' .. plugin.id)
    else
       print('Warning: Unable to load plugin ' .. file)
    end
@@ -51,7 +48,6 @@ function pluginManager.loadPlugins(path)
 end
 
 function pluginManager.loadAllPlugins()
-   print('Loading all plugins')
    for i, path in ipairs(pluginManager.pluginPaths) do
       pluginManager.loadPlugins(path)
    end
@@ -83,7 +79,6 @@ function pluginManager.sortByDependency(plugins)
                if plugin.provides then
                   for z, provide in ipairs(plugin.provides) do
                      if req == provide then
-                        --print(n.id .. " requires " .. plugin.id)
                         table.insert(result, plugin)
                      end
                   end
@@ -120,7 +115,6 @@ function pluginManager.sortByDependency(plugins)
 
    while count(plugins) ~= count(markedPlugins) do
       local n = selectN(plugins)
-      --print("Looking at " .. n.id)
       visit(n)
    end
 
