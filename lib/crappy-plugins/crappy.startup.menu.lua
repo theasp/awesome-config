@@ -84,7 +84,6 @@ end
 
 function plugin.startup(awesomever, settings)
    local shared = require('crappy.shared')
-   local beautiful = misc.use('beautiful')
 
    plugin.settingsDefault(settings)
 
