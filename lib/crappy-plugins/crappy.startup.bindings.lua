@@ -3,7 +3,7 @@ local plugin = {}
 local misc = require('crappy.misc')
 local shared = require('crappy.shared')
 
-plugin.name = 'Standard Bindings'
+plugin.name = 'Bindings'
 plugin.description = 'Build standards keybindings'
 plugin.id = 'crappy.startup.bindings'
 plugin.requires = {"mainmenu", "layouts"}

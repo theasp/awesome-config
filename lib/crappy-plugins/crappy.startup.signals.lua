@@ -3,7 +3,7 @@ local plugin = {}
 local misc = require('crappy.misc')
 local shared = require('crappy.shared')
 
-plugin.name = 'Standard Signals'
+plugin.name = 'Signals'
 plugin.description = 'Set the signals for clients'
 plugin.id = 'crappy.startup.signals'
 plugin.provides = {"signals"}

@@ -2,8 +2,8 @@ local plugin = {}
 
 local misc = require('crappy.misc')
 
-plugin.name = 'Standard Rules'
-plugin.description = 'Standard rules'
+plugin.name = 'Rules'
+plugin.description = 'rules'
 plugin.id = 'crappy.startup.rules'
 plugin.requires = {"clientkeys", "clientbuttons", "tags"}
 plugin.provides = {"signals"}

@@ -1,7 +1,7 @@
 local plugin = {}
 
-plugin.name = 'Standard Tags'
-plugin.description = 'Standard Tags'
+plugin.name = 'Tags'
+plugin.description = 'Tags'
 plugin.id = 'crappy.startup.tags'
 plugin.provides = {'tags'}
 

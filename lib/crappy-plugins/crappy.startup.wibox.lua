@@ -2,7 +2,7 @@ local plugin = {}
 
 local misc = require('crappy.misc')
 
-plugin.name = 'Standard wibox'
+plugin.name = 'wibox'
 plugin.description = 'Set up the wibox'
 plugin.id = 'crappy.startup.wibox'
 plugin.requires = {"wibox-widget", "launcher"}

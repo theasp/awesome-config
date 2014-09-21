@@ -3,7 +3,7 @@ local plugin = {}
 local misc = require('crappy.misc')
 local shared = require('crappy.shared')
 
-plugin.name = 'Standard Layouts'
+plugin.name = 'Layouts'
 plugin.description = 'Initialize the layouts'
 plugin.id = 'crappy.startup.layouts'
 plugin.provides = {"layouts"}
