@@ -1,6 +1,7 @@
 local plugin = {}
 
 local misc = require('crappy.misc')
+local functionManager = require('functionManager.misc')
 
 plugin.name = 'Menu'
 plugin.description = 'Build the menu'
@@ -58,9 +59,9 @@ local function buildMenuTable(menu)
       if entry.table ~= nil then
          table.insert(e, buildMenuTable(entry.table))
       elseif entry.result ~= nil then
-         table.insert(e, misc.getFunction(entry.result)())
+         table.insert(e, functionManager.getFunction(entry.result)())
       elseif entry.func ~= nil then
-         table.insert(e, misc.getFunction(entry.func))
+         table.insert(e, functionManager.getFunction(entry.func))
       elseif entry.string ~= nil then
          table.insert(e, entry.string)
       else
@@ -69,7 +70,7 @@ local function buildMenuTable(menu)
       end
 
       if entry.iconresult ~= nil then
-         table.insert(e, misc.getFunction(entry.iconresult)())
+         table.insert(e, functionManager.getFunction(entry.iconresult)())
       elseif entry.iconfile ~= nil then
          table.insert(e, entry.iconfile)
       else

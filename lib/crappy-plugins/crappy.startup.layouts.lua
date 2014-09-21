@@ -1,6 +1,7 @@
 local plugin = {}
 
 local misc = require('crappy.misc')
+local functionManager = require('functionManager.misc')
 local shared = require('crappy.shared')
 
 plugin.name = 'Layouts'
@@ -33,7 +34,7 @@ function plugin.startup(awesomever, settings)
    shared.layouts = {}
 
    for i, layoutName in ipairs(crappy.config.settings.layouts) do
-      shared.layouts[i] = misc.getFunction(layoutName)
+      shared.layouts[i] = functionManager.getFunction(layoutName)
    end
 end
 

@@ -1,6 +1,7 @@
 local plugin = {}
 
 local misc = require('crappy.misc')
+local functionManager = require('functionManager.misc')
 
 plugin.name = 'wibox'
 plugin.description = 'Set up the wibox'
@@ -185,7 +186,7 @@ function plugin.startup(awesomever, settings)
 
          if settings.widgets[side] ~= nil then
             for i, widget in ipairs(settings.widgets[side]) do
-               f = misc.getFunction(widget)
+               f = functionManager.getFunction(widget)
                if f ~= nil then
                   local w = f(s)
                   if w ~= nil then

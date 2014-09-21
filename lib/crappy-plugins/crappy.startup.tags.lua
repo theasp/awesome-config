@@ -1,5 +1,7 @@
 local plugin = {}
 
+local functionManager = require('functionManager.misc')
+
 plugin.name = 'Tags'
 plugin.description = 'Tags'
 plugin.id = 'crappy.startup.tags'
@@ -45,11 +47,11 @@ function plugin.startup(awesomever, settings)
          screenSettings = misc.mergeTable(screenSettings, settings[tostring(s)])
       end
 
-      shared.tags[s] = awful.tag(screenSettings.tags, s, misc.getFunction(screenSettings.layout))
+      shared.tags[s] = awful.tag(screenSettings.tags, s, functionManager.getFunction(screenSettings.layout))
       if screenSettings.tagLayouts ~= nil then
          for tagName, tagLayout in pairs(screenSettings.tagLayouts) do
             if shared.tags[s][tostring(tagName)] ~= nil and tagLayout ~= nil then
-               awful.layout.set(misc.getFunction(tagLayout), shared.tags[s][tostring(tagName)])
+               awful.layout.set(functionManager.getFunction(tagLayout), shared.tags[s][tostring(tagName)])
             end
          end
       end

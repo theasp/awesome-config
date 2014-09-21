@@ -1,6 +1,6 @@
 local plugin = {}
 
-local misc = require('crappy.misc')
+local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
 
 plugin.name = 'Signals'
@@ -28,13 +28,13 @@ function plugin.startup(awesomever, settings)
    plugin.settingsDefault(settings)
 
    if client.connect_signal then
-      client.connect_signal("manage", misc.getFunction(settings.manage))
-      client.connect_signal("focus", misc.getFunction(settings.focus))
-      client.connect_signal("unfocus", misc.getFunction(settings.unfocus))
+      client.connect_signal("manage", functionManager.getFunction(settings.manage))
+      client.connect_signal("focus", functionManager.getFunction(settings.focus))
+      client.connect_signal("unfocus", functionManager.getFunction(settings.unfocus))
    else
-      client.add_signal("manage", misc.getFunction(settings.manage))
-      client.add_signal("focus", misc.getFunction(settings.focus))
-      client.add_signal("unfocus", misc.getFunction(settings.unfocus))
+      client.add_signal("manage", functionManager.getFunction(settings.manage))
+      client.add_signal("focus", functionManager.getFunction(settings.focus))
+      client.add_signal("unfocus", functionManager.getFunction(settings.unfocus))
    end
 end
 

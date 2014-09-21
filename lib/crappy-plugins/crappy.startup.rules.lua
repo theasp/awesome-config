@@ -1,6 +1,7 @@
 local plugin = {}
 
 local misc = require('crappy.misc')
+local functionManager = require('functionManager.misc')
 
 plugin.name = 'Rules'
 plugin.description = 'rules'
@@ -68,7 +69,7 @@ function plugin.startup(awesomever, settings)
       end
 
       if rule.callback ~= nil then
-         rule.callback = misc.getFunction(rule.callback)
+         rule.callback = functionManager.getFunction(rule.callback)
       end
 
       table.insert(rules, rule)

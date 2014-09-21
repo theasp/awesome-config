@@ -1,6 +1,7 @@
 local plugin = {}
 
 local misc = require('crappy.misc')
+local functionManager = require('functionManager.misc')
 local shared = require('crappy.shared')
 
 plugin.name = 'Bindings'
@@ -157,7 +158,7 @@ function plugin.startup(awesomever, settings)
 
    local rootButtons = {}
    for k, v in pairs(settings.buttons.root) do
-      local f = misc.getFunction(v)
+      local f = functionManager.getFunction(v)
       if f ~= nil then
          --print("Adding root button " .. k .. " -> " .. v)
          table.insert(rootButtons, ezconfig.btn(k, f, awful.button))
@@ -169,7 +170,7 @@ function plugin.startup(awesomever, settings)
 
    local globalKeys = {}
    for k, v in pairs(settings.keys.global) do
-      local f = misc.getFunction(v)
+      local f = functionManager.getFunction(v)
       if f ~= nil then
          --print("Adding global key " .. k .. " -> " .. v)
          table.insert(globalKeys, ezconfig.key(k, f, awful.key))
@@ -181,7 +182,7 @@ function plugin.startup(awesomever, settings)
 
    local clientKeys = {}
    for k, v in pairs(settings.keys.client) do
-      local f = misc.getFunction(v)
+      local f = functionManager.getFunction(v)
       if f ~= nil then
          --print("Adding client key " .. k .. " -> " .. v)
          table.insert(clientKeys, ezconfig.key(k, f, awful.key))
@@ -193,7 +194,7 @@ function plugin.startup(awesomever, settings)
 
    local clientButtons = {}
    for k, v in pairs(settings.buttons.client) do
-      local f = misc.getFunction(v)
+      local f = functionManager.getFunction(v)
       if f ~= nil then
          --print("Adding client button " .. k .. " -> " .. v)
          table.insert(clientButtons, ezconfig.btn(k, f, awful.button))
