@@ -16,18 +16,18 @@ pluginManager.startupFunctions = {}
 pluginManager.plugins = {}
 
 function pluginManager.addFunction(funcType, funcName, owner, description)
-   functions[funcType][funcName] = { 
-      owner = ownerName, 
-      description = description 
+   functions[funcType][funcName] = {
+      owner = ownerName,
+      description = description
    }
 end
 
 function pluginManager.addStartupFunction(funcName, defaultFuncName, lgiFuncName, owner, description)
-   functions[funcName] = { 
+   functions[funcName] = {
       defaultFuncName = defaultFuncName,
       lgiFuncName = lgiFuncName,
-      owner = ownerName, 
-      description = description 
+      owner = ownerName,
+      description = description
    }
 end
 
@@ -59,6 +59,88 @@ function pluginManager.loadAllPlugins()
    print('Loading all plugins')
    for i, path in ipairs(pluginManager.pluginPaths) do
       pluginManager.loadPlugins(path)
+   end
+end
+
+function pluginManager.sortByDependency(plugins)
+   local markedPlugins = {}
+   local result = {}
+
+   local function count(t)
+      local c = 0
+      for k, v in pairs(t) do
+         c = c + 1
+      end
+      return c
+   end
+
+   local function edges(n, plugins)
+      local result = {}
+
+      if n.requires then
+         for x, req in ipairs(n.requires) do
+            for y, plugin in pairs(plugins) do
+               if plugin.provides then
+                  for z, provide in ipairs(plugin.provides) do
+                     if req == provide then
+                        --print(n.id .. " requires " .. plugin.id)
+                        table.insert(result, plugin)
+                     end
+                  end
+               end
+            end
+         end
+      end
+
+      return result
+   end
+
+   local function selectN(plugins)
+      for k, v in pairs(plugins) do
+         if not markedPlugins[v.id] then
+            return v
+         end
+      end
+      return nil
+   end
+
+   local function visit(n)
+      if markedPlugins[n.id] then
+         return
+      else
+         markedPlugins[n.id] = 1
+         for i, m in pairs(edges(n, plugins)) do
+            visit(m)
+         end
+         table.insert(result, n)
+      end
+   end
+
+   while count(plugins) ~= count(markedPlugins) do
+      local n = selectN(plugins)
+      --print("Looking at " .. n.id)
+      visit(n)
+   end
+
+   return result
+end
+
+function pluginManager.simulateLoad(plugins)
+   local state = {}
+   for k, v in pairs(plugins) do
+      if v.requires then
+         for j, req in ipairs(v.requires) do
+            if not state[req] then
+               print(v.id .. " needs " .. req .. " but does not exist")
+            end
+         end
+      end
+
+      if v.provides then
+         for j, req in ipairs(v.provides) do
+            state[req] = 1
+         end
+      end
    end
 end
 
