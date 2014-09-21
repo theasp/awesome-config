@@ -1,3 +1,5 @@
+local pluginManager = require('crappy.pluginManager')
+
 local configManager = {}
 
 configManager.configver = 0.2
@@ -66,6 +68,75 @@ function configManager.json:onDecodeError(message, text, location, etc)
    else
       assert(false, message)
    end
+end
+
+function configManager.getStartupDefs(config)
+   local startupList = {}
+
+   -- Iterate over the list of plugins/functions
+   for i, startupDef in ipairs(config.plugins) do
+      if startupDef.enabled == nil or startupDef.enabled then
+         if not startupDef.settings then
+            startupDef.settings = {}
+         end
+
+         if not startupDef.provides then
+            startupDef.provides = {}
+         end
+
+         if not startupDef.requires then
+            startupDef.requires = {}
+         end
+
+         if startupDef.plugin then
+            local plugin = pluginManager.plugins[startupDef.plugin]
+            if plugin then
+               if plugin.requires then
+                  for k, v in ipairs(plugin.requires) do
+                     table.insert(startupDef.requires, v)
+                  end
+               end
+
+               for k, v in ipairs(plugin.provides) do
+                  table.insert(startupDef.provides, v)
+               end
+
+               table.insert(startupList, {
+                               id = plugin.id,
+                               plugin = plugin,
+                               name = plugin.name .. " (" .. plugin.id .. ")",
+                               requires = startupDef.requires,
+                               provides = startupDef.provides,
+                               func = plugin.startup,
+                               settings = startupDef.settings
+               })
+               print("Added to startup list " .. plugin.id)
+            else
+               print("Warning: Unable to find startup plugin " .. startupDef.plugin)
+            end
+         elseif startupDef.func then
+            local func = functionManager.getFunction(startupDef.func)
+            if func then
+               table.insert(startupList, {
+                               id = startupDef.func,
+                               name = startupDef.func,
+                               plugin = plugin,
+                               requires = startupDef.requires,
+                               provides = startupDef.provides,
+                               func = func,
+                               settings = startupDef.settings
+               })
+               print("Added to startup list " .. startupDef.func)
+            else
+               print("Warning: Unable to find startup function " .. startupDef.func)
+            end
+         else
+            print("Warning: No startup plugin or function defined")
+         end
+      end
+   end
+
+   return startupList
 end
 
 return configManager
