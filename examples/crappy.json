@@ -6,7 +6,7 @@
         "sloppyfocus": true,
         "titlebar": true
     },
-    "startup": [
+    "plugins": [
         { 
             "plugin": "crappy.startup.layouts",
             "enabled": true,
