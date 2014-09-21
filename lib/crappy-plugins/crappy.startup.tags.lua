@@ -1,6 +1,6 @@
 local plugin = {}
 
-local functionManager = require('functionManager.misc')
+local functionManager = require('crappy.functionManager')
 
 plugin.name = 'Tags'
 plugin.description = 'Tags'

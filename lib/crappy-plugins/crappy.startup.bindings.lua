@@ -1,7 +1,7 @@
 local plugin = {}
 
 local misc = require('crappy.misc')
-local functionManager = require('functionManager.misc')
+local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
 
 plugin.name = 'Bindings'

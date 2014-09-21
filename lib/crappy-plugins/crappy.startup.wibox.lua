@@ -1,7 +1,7 @@
 local plugin = {}
 
 local misc = require('crappy.misc')
-local functionManager = require('functionManager.misc')
+local functionManager = require('crappy.functionManager')
 
 plugin.name = 'wibox'
 plugin.description = 'Set up the wibox'
