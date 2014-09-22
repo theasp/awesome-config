@@ -16,10 +16,10 @@ local crappy = {}
 
 local ver = tonumber(awesome.version:match('%d.%d'))
 
-crappy.functions = require('crappy.functions')
-
 crappy.config = {}
 crappy.config.debug = 1
+crappy.functions = {}
+crappy.shared = require('crappy.shared')
 
 function crappy.start(file)
    print("Initializing crappy...")
