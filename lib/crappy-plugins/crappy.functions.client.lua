@@ -50,44 +50,43 @@ function plugin.startup(awesomever, settings)
    function fullscreen(c)
       c.fullscreen = not c.fullscreen
    end
+   plugin.functions["crappy.functions.client.fullscreen"].func = fullscreen
 
    function kill(c)
       c:kill()
    end
+   plugin.functions["crappy.functions.client.kill"].func = kill
 
    function swapMaster(c)
       c:swap(awful.client.getmaster())
    end
+   plugin.functions["crappy.functions.client.swapMaster"].func = swapMaster
 
    function redraw(c)
       c:redraw()
    end
+   plugin.functions["crappy.functions.client.redraw"].func = redraw
 
    function ontop(c)
       c.ontop = not c.ontop
    end
+   plugin.functions["crappy.functions.client.ontop"].func = ontop
 
    function minimized(c)
       c.minimized = not c.minimized
    end
+   plugin.functions["crappy.functions.client.minimized"].func = minimized
 
    function maximized(c)
       c.maximized_horizontal = not c.maximized_horizontal
       c.maximized_vertical   = not c.maximized_vertical
    end
+   plugin.functions["crappy.functions.client.maximized"].func = maximized
 
    function focus(c)
       client.focus = c
       c:raise()
    end
-
-   plugin.functions["crappy.functions.client.fullscreen"].func = fullscreen
-   plugin.functions["crappy.functions.client.kill"].func = kill
-   plugin.functions["crappy.functions.client.swapMaster"].func = swapMaster
-   plugin.functions["crappy.functions.client.redraw"].func = redraw
-   plugin.functions["crappy.functions.client.ontop"].func = ontop
-   plugin.functions["crappy.functions.client.minimized"].func = minimized
-   plugin.functions["crappy.functions.client.maximized"].func = maximized
    plugin.functions["crappy.functions.client.focus"].func = focus
 end
 
