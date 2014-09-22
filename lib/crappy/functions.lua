@@ -10,41 +10,6 @@ function functions.menu.toggle()
    shared.mainmenu:toggle()
 end
 
-functions.client = {}
-function functions.client.fullscreen(c)
-   c.fullscreen = not c.fullscreen
-end
-
-function functions.client.kill(c)
-   c:kill()
-end
-
-function functions.client.swapMaster(c)
-   c:swap(awful.client.getmaster())
-end
-
-function functions.client.redraw(c)
-   c:redraw()
-end
-
-function functions.client.ontop(c)
-   c.ontop = not c.ontop
-end
-
-function functions.client.minimized(c)
-   c.minimized = not c.minimized
-end
-
-function functions.client.maximized(c)
-   c.maximized_horizontal = not c.maximized_horizontal
-   c.maximized_vertical   = not c.maximized_vertical
-end
-
-function functions.client.focus(c)
-   client.focus = c
-   c:raise()
-end
-
 functions.global = {}
 function functions.global.focusNext()
    awful.client.focus.byidx( 1)
