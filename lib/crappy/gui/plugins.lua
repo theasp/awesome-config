@@ -116,16 +116,14 @@ function plugins.buildUi(window, config)
 
          log.message('Updating %s', name)
          config.plugins[id] = {
-            ["enabled"] = enabled,
-            ["type"] = pluginType,
-            ["settings"] = settingsRefs[settingsId]
+            enabled = enabled,
+            type = pluginType,
+            settings = settingsRefs[settingsId]
          }
 
          iter = pluginsFuncsListStore:next(iter)
       end
    end
-   -- New plugins were loaded above, update so a save will contain them
-   updatePluginsFuncs()
 
    function pluginsFuncsListStore:on_row_deleted()
       updatePluginsFuncs()
