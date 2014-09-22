@@ -62,8 +62,9 @@ function plugins.buildUi(window, config)
 
       if not pluginDef.type or pluginDef.type == 'plugin' then
          local plugin = pluginManager.plugins[id]
+         local name
          if plugin then
-            name = namePlugin(name)
+            name = namePlugin(plugin)
 
             if plugin.settingsDefault then
                plugin.settingsDefault(pluginDef.settings)
