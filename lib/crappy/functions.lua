@@ -5,11 +5,6 @@ local shared = require('crappy.shared')
 local beautiful = misc.use('beautiful')
 local wibox = misc.use('wibox')
 
-functions.menu = {}
-function functions.menu.toggle()
-   shared.mainmenu:toggle()
-end
-
 functions.global = {}
 function functions.global.focusNext()
    awful.client.focus.byidx( 1)
