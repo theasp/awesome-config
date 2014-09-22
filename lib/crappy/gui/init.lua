@@ -10,7 +10,6 @@ pluginManager.loadAllPlugins()
 
 local gui = {}
 
-gui.settings = require('crappy.gui.settings')
 gui.plugins = require('crappy.gui.plugins')
 
 function gui.run()
@@ -23,13 +22,6 @@ function gui.run()
       on_destroy = quit
    }
 
-   local settingsUi = nil
-   local settingsBox = Gtk.Box {
-      margin = 0,
-      spacing = 0,
-      expand = true,
-   }
-
    local pluginsUi = nil
    local pluginsBox = Gtk.Box {
       margin = 0,
@@ -38,16 +30,6 @@ function gui.run()
    }
 
    local function updateUi()
-      if settingsUi then
-         settingsUi:destroy()
-      end
-
-      settingsUi = gui.settings.buildUi(window, config)
-      if settingsUi then
-         settingsBox:add(settingsUi)
-         settingsUi:show_all()
-      end
-
       if pluginsUi then
          pluginsUi:destroy()
       end
@@ -88,7 +70,6 @@ function gui.run()
       configManager.save(file, config)
    end
 
-   local settingsUi = nil
    local pluginsUi = nil
 
    local actions = Gtk.ActionGroup {
@@ -155,10 +136,6 @@ function gui.run()
                  ui:get_widget('/MenuBar'),
                  ui:get_widget('/ToolBar'),
                  Gtk.Notebook {
-                    {
-                       tab_label = "Settings",
-                       settingsBox
-                    },
                     {
                        tab_label = "Plugins",
                        pluginsBox

@@ -6,7 +6,7 @@ local pluginManager = require("crappy.pluginManager")
 plugin.name = 'Signal Functions'
 plugin.description = 'Functions that handle signals'
 plugin.id = 'crappy.functions.signals'
-plugin.requires = {"crappy.shared.titlebar", "crappy.shared.sloppyfocus"}
+plugin.requires = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus"}
 plugin.provides = {"crappy.functions.signals"}
 plugin.functions = {
    ["crappy.functions.signals.focus"] = {
@@ -41,7 +41,7 @@ function plugin.startup(awesomever, settings)
    
    function crappy.functions.signals.manage(c, startup)
       -- Enable sloppy focus
-      if crappy.config.settings.sloppyfocus == true then
+      if crappy.shared.settings.sloppyfocus == true then
          if c.connect_signal then
             c:connect_signal("mouse::enter", function(c)
                                 if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
@@ -72,7 +72,7 @@ function plugin.startup(awesomever, settings)
       end
 
       -- Add a titlebar
-      if crappy.config.settings.titlebar and (c.type == "normal" or c.type == "dialog") then
+      if crappy.shared.settings.titlebar and (c.type == "normal" or c.type == "dialog") then
          -- VERSION: 3.5 has wibox.layout.fixed.horizontal
          if wibox.layout.fixed.horizontal then
             -- buttons for the titlebar

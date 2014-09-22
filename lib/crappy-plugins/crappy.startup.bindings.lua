@@ -149,7 +149,7 @@ function plugin.startup(awesomever, settings)
 
    plugin.settingsDefault(settings)
 
-   assert(crappy.config.settings.terminal ~= nil)
+   assert(crappy.shared.settings.terminal ~= nil)
    assert(shared.mainmenu ~= nil)
    assert(shared.layouts ~= nil)
 

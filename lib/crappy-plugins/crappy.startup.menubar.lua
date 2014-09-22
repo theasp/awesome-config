@@ -6,6 +6,7 @@ local shared = require('crappy.shared')
 plugin.name = 'Menubar'
 plugin.description = 'Set up the menubar, for 3.5+ only'
 plugin.id = 'crappy.startup.menubar'
+plugin.requires = {"crappy.shared.settings.terminal"}
 plugin.provides = {"crappy.shared.menubar"}
 
 function plugin.settingsDefault(settings)
@@ -26,7 +27,7 @@ function plugin.startup(awesomever, settings)
 
    shared.menubar = require("menubar")
 
-   shared.menubar.utils.terminal = crappy.config.settings.terminal
+   shared.menubar.utils.terminal = crappy.shared.settings.terminal
 
    if settings.dirs then
       shared.menubar.menu_gen.all_menu_dirs = settings.dirs

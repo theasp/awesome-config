@@ -5,12 +5,12 @@ local configManager = {}
 configManager.configver = 0.2
 
 configManager.json = require('crappy.configManager.JSON')
-configManager.default = require('crappy.configManager.default')
 
 function configManager.new()
-   local config = configManager.default.config()
-   config.configver = configManager.configver
-   return config
+   return {
+      configver = configManager.configver,
+      plugins = {}
+   }
 end
 
 function configManager.load(file)
@@ -30,8 +30,7 @@ function configManager.load(file)
       else
          print("The configuration in " .. file .. " is not a supported, using default")
       end
-      config = configManager.default.config()
-      config.configver = configManager.configver
+      config = configManager.new()
    end
 
    return config

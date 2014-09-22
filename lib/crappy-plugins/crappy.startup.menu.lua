@@ -18,11 +18,11 @@ function plugin.settingsDefault(settings)
                          ["table"] = {
                             {
                                ["name"] = "manual",
-                               ["result"] = "function() return crappy.config.settings.terminal .. \" -e man awesome\" end"
+                               ["result"] = "function() return crappy.shared.settings.terminal .. \" -e man awesome\" end"
                             },
                             {
                                ["name"] ="edit config",
-                               ["result"] = "function() return crappy.config.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
+                               ["result"] = "function() return crappy.shared.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
                             },
                             {
                                ["name"] = "restart",
@@ -36,7 +36,7 @@ function plugin.settingsDefault(settings)
                       },
                       {
                          ["name"] = "open terminal",
-                         ["result"] = "function() return crappy.config.settings.terminal end"
+                         ["result"] = "function() return crappy.shared.settings.terminal end"
                       },
                       {
                          ["name"] = "firefox",

@@ -33,7 +33,7 @@ function plugin.startup(awesomever, settings)
 
    shared.layouts = {}
 
-   for i, layoutName in ipairs(crappy.config.settings.layouts) do
+   for i, layoutName in ipairs(settings) do
       shared.layouts[i] = functionManager.getFunction(layoutName)
    end
 end

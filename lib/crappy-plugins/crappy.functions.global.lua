@@ -158,7 +158,7 @@ function plugin.startup(awesomever, settings)
    end
 
    function crappy.functions.global.spawnTerminal()
-      awful.util.spawn(crappy.config.settings.terminal)
+      awful.util.spawn(crappy.shared.settings.terminal)
    end
 
    function crappy.functions.global.wmfactInc()

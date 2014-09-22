@@ -35,8 +35,6 @@ function crappy.start(file)
       crappy.config.settings = {}
    end
 
-   default.settings(crappy.config.settings)
-
    local startupList = configManager.getStartupDefs(crappy.config)
    startupList = pluginManager.sortByDependency(startupList)
    pluginManager.simulateLoad(startupList)

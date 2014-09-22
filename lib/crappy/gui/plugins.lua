@@ -53,6 +53,10 @@ function plugins.buildUi(window, config)
       return name
    end
 
+   if not config.plugins then
+      config.plugins = {}
+   end
+   
    for id, pluginDef in pairs(config.plugins) do
       iter = pluginsFuncsListStore:append()
 
