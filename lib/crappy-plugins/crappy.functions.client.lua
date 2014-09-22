@@ -7,7 +7,7 @@ plugin.name = 'Client Functions'
 plugin.description = 'Functions that handle a client'
 plugin.id = 'crappy.functions.client'
 plugin.requires = {}
-plugin.provides = {"functions.client"}
+plugin.provides = {"crappy.functions.client"}
 plugin.functions = {
    ["crappy.functions.client.fullscreen"] = {
       class = "client",
@@ -47,47 +47,43 @@ function plugin.startup(awesomever, settings)
    local beautiful = misc.use('beautiful')
    local wibox = misc.use('wibox')
 
-   function fullscreen(c)
+   if not crappy.functions.client then
+      crappy.functions.client = {}
+   end
+
+   function crappy.functions.client.fullscreen(c)
       c.fullscreen = not c.fullscreen
    end
-   plugin.functions["crappy.functions.client.fullscreen"].func = fullscreen
 
-   function kill(c)
+   function crappy.functions.client.kill(c)
       c:kill()
    end
-   plugin.functions["crappy.functions.client.kill"].func = kill
 
-   function swapMaster(c)
+   function crappy.functions.client.swapMaster(c)
       c:swap(awful.client.getmaster())
    end
-   plugin.functions["crappy.functions.client.swapMaster"].func = swapMaster
 
-   function redraw(c)
+   function crappy.functions.client.redraw(c)
       c:redraw()
    end
-   plugin.functions["crappy.functions.client.redraw"].func = redraw
 
-   function ontop(c)
+   function crappy.functions.client.ontop(c)
       c.ontop = not c.ontop
    end
-   plugin.functions["crappy.functions.client.ontop"].func = ontop
 
-   function minimized(c)
+   function crappy.functions.client.minimized(c)
       c.minimized = not c.minimized
    end
-   plugin.functions["crappy.functions.client.minimized"].func = minimized
 
-   function maximized(c)
+   function crappy.functions.client.maximized(c)
       c.maximized_horizontal = not c.maximized_horizontal
       c.maximized_vertical   = not c.maximized_vertical
    end
-   plugin.functions["crappy.functions.client.maximized"].func = maximized
 
-   function focus(c)
+   function crappy.functions.client.focus(c)
       client.focus = c
       c:raise()
    end
-   plugin.functions["crappy.functions.client.focus"].func = focus
 end
 
 return plugin

@@ -1,9 +1,11 @@
 local plugin = {}
 
+local misc = require("crappy.misc")
+
 plugin.name = 'Theme'
 plugin.description = 'Set the theme used by beautiful'
 plugin.id = 'crappy.startup.theme'
-plugin.provides = {"theme"}
+plugin.provides = {"crappy.startup.theme"}
 
 function plugin.settingsDefault(settings)
    if settings.file == nil then
@@ -18,14 +20,7 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   local beautifulTmp
-   if (awesomever == 3.4) then
-      require("beautiful")
-      beautifulTmp = beautiful
-   else
-      beautifulTmp = require("beautiful")
-   end
-   local beautiful = beautifulTmp
+   local beautiful = misc.use("beautiful")
 
    plugin.settingsDefault(settings)
 

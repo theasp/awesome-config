@@ -6,7 +6,7 @@ local shared = require('crappy.shared')
 plugin.name = 'Menubar'
 plugin.description = 'Set up the menubar, for 3.5+ only'
 plugin.id = 'crappy.startup.menubar'
-plugin.provides = {"menubar"}
+plugin.provides = {"crappy.shared.menubar"}
 
 function plugin.settingsDefault(settings)
    if settings.dirs == nil then

@@ -6,8 +6,8 @@ local functionManager = require('crappy.functionManager')
 plugin.name = 'wibox'
 plugin.description = 'Set up the wibox'
 plugin.id = 'crappy.startup.wibox'
-plugin.requires = {"wibox-widget", "launcher"}
-plugin.provides = {"wibox"}
+plugin.requires = {"wibox-widget", "crappy.shared.launcher", "crappy.functions.global"}
+plugin.provides = {"crappy.shared.wibox", "crappy.startup.wibox"}
 
 function plugin.settingsDefault(settings)
    if settings.position == nil then

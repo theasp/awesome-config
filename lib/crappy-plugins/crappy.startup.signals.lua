@@ -6,7 +6,8 @@ local shared = require('crappy.shared')
 plugin.name = 'Signals'
 plugin.description = 'Set the signals for clients'
 plugin.id = 'crappy.startup.signals'
-plugin.provides = {"signals"}
+plugin.requires = {"crappy.functions.signals"}
+plugin.provides = {"crappy.startup.signals"}
 
 function plugin.settingsDefault(settings)
    if settings.manage == nil then

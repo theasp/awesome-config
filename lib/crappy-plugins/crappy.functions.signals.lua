@@ -6,8 +6,8 @@ local pluginManager = require("crappy.pluginManager")
 plugin.name = 'Signal Functions'
 plugin.description = 'Functions that handle signals'
 plugin.id = 'crappy.functions.signals'
-plugin.requires = {"settings.titlebar", "settings.sloppyfocus"}
-plugin.provides = {"functions.signals"}
+plugin.requires = {"crappy.shared.titlebar", "crappy.shared.sloppyfocus"}
+plugin.provides = {"crappy.functions.signals"}
 plugin.functions = {
    ["crappy.functions.signals.focus"] = {
       class = "signal",
@@ -27,17 +27,19 @@ function plugin.startup(awesomever, settings)
    local beautiful = misc.use('beautiful')
    local wibox = misc.use('wibox')
    
-   function focus(c)
+   if not crappy.functions.signals then
+      crappy.functions.signals = {}
+   end
+
+   function crappy.functions.signals.focus(c)
       c.border_color = beautiful.border_focus
    end
-   plugin.functions["crappy.functions.signals.focus"].func = focus
-      
-    function unfocus(c)
+   
+   function crappy.functions.signals.unfocus(c)
       c.border_color = beautiful.border_normal
    end
-   plugin.functions["crappy.functions.signals.unfocus"].func = unfocus
    
-   function manage(c, startup)
+   function crappy.functions.signals.manage(c, startup)
       -- Enable sloppy focus
       if crappy.config.settings.sloppyfocus == true then
          if c.connect_signal then
@@ -119,8 +121,6 @@ function plugin.startup(awesomever, settings)
          end
       end
    end
-
-   plugin.functions["crappy.functions.signals.manage"].func = manage
 end
 
 return plugin

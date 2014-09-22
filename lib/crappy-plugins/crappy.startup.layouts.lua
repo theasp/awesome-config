@@ -7,7 +7,7 @@ local shared = require('crappy.shared')
 plugin.name = 'Layouts'
 plugin.description = 'Initialize the layouts'
 plugin.id = 'crappy.startup.layouts'
-plugin.provides = {"layouts"}
+plugin.provides = {"crappy.shared.layouts"}
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then

@@ -6,8 +6,8 @@ local pluginManager = require("crappy.pluginManager")
 plugin.name = 'Global Functions'
 plugin.description = 'Functions that are used globally'
 plugin.id = 'crappy.functions.global'
-plugin.requires = {"mainmenu", "wibox"}
-plugin.provides = {"functions.global"}
+plugin.requires = {}
+plugin.provides = {"crappy.functions.global"}
 plugin.functions = {
    ["crappy.functions.global.focusNext"] = {
       class = "global",
@@ -98,121 +98,111 @@ plugin.functions = {
 function plugin.startup(awesomever, settings)
    local beautiful = misc.use('beautiful')
    local wibox = misc.use('wibox')
+   local crappy = require('crappy')
 
-   function focusNext()
+   if not crappy.functions.global then
+      crappy.functions.global = {}
+   end
+
+   function crappy.functions.global.focusNext()
       awful.client.focus.byidx( 1)
 
       if client.focus then
          client.focus:raise()
       end
    end
-   plugin.functions["crappy.functions.global.focusNext"].func = focusNext
 
-   function focusPrev()
+   function crappy.functions.global.focusPrev()
       awful.client.focus.byidx(-1)
 
       if client.focus then
          client.focus:raise()
       end
    end
-   plugin.functions["crappy.functions.global.focusPrev"].func = focusPrev
 
-   function focusPrevHist()
+   function crappy.functions.global.focusPrevHist()
       awful.client.focus.history.previous()
       if client.focus then
          client.focus:raise()
       end
    end
-   plugin.functions["crappy.functions.global.focusPrevHist"].func = focusPrevHist
 
-   function swapNext()
+   function crappy.functions.global.swapNext()
       awful.client.swap.byidx(  1)
    end
-   plugin.functions["crappy.functions.global.swapNext"].func = swapNext
 
-   function swapPrev()
+   function crappy.functions.global.swapPrev()
       awful.client.swap.byidx(  -1)
    end
-   plugin.functions["crappy.functions.global.swapPrev"].func = swapPrev
 
-   function showMenu()
+   function crappy.functions.global.showMenu()
       shared.mainmenu:show({keygrabber=true})
    end
-   plugin.functions["crappy.functions.global.showMenu"].func = showMenu
 
-   function toggleMenu()
+   function crappy.functions.global.toggleMenu()
       shared.mainmenu:toggle()
    end
-   plugin.functions["crappy.functions.global.toggleMenu"].func = toggleMenu
-   plugin.functions["crappy.functions.menu.toggle"].func = toggleMenu -- Old name
 
-   function focusNextScreen()
+   -- Old name
+   if not crappy.functions.menu then
+      crappy.functions.menu = {}
+   end
+   crappy.functions.menu.toggle = crappy.functions.global.toggleMenu
+
+   function crappy.functions.global.focusNextScreen()
       awful.screen.focus_relative( 1)
    end
-   plugin.functions["crappy.functions.global.focusNextScreen"].func = focusNextScreen
 
-   function focusPrevScreen()
+   function crappy.functions.global.focusPrevScreen()
       awful.screen.focus_relative( 1)
    end
-   plugin.functions["crappy.functions.global.focusPrevScreen"].func = focusPrevScreen
 
-   function spawnTerminal()
+   function crappy.functions.global.spawnTerminal()
       awful.util.spawn(crappy.config.settings.terminal)
    end
-   plugin.functions["crappy.functions.global.spawnTerminal"].func = spawnTerminal
 
-   function wmfactInc()
+   function crappy.functions.global.wmfactInc()
       awful.tag.incmwfact( 0.05)
    end
-   plugin.functions["crappy.functions.global.wmfactInc"].func = wmfactInc
 
-   function wmfactDec()
+   function crappy.functions.global.wmfactDec()
       awful.tag.incmwfact( 0.05)
    end
-   plugin.functions["crappy.functions.global.wmfactDec"].func = wmfactDec
 
-   function nmasterInc()
+   function crappy.functions.global.nmasterInc()
       awful.tag.incnmaster( 1)
    end
-   plugin.functions["crappy.functions.global.nmasterInc"].func = nmasterInc
 
-   function nmasterDec()
+   function crappy.functions.global.nmasterDec()
       awful.tag.incnmaster(-1)
    end
-   plugin.functions["crappy.functions.global.nmasterDec"].func = nmasterDec
 
-   function ncolInc()
+   function crappy.functions.global.ncolInc()
       awful.tag.incncol( 1)
    end
-   plugin.functions["crappy.functions.global.ncolInc"].func = ncolInc
 
-   function ncolDec()
+   function crappy.functions.global.ncolDec()
       awful.tag.incncol(-1)
    end
-   plugin.functions["crappy.functions.global.ncolDec"].func = ncolDec
 
-   function layoutInc()
+   function crappy.functions.global.layoutInc()
       awful.layout.inc(shared.layouts,  1)
    end
-   plugin.functions["crappy.functions.global.layoutInc"].func = layoutInc
 
-   function layoutDec()
+   function crappy.functions.global.layoutDec()
       awful.layout.inc(shared.layouts,  -1)
    end
-   plugin.functions["crappy.functions.global.layoutDec"].func = layoutDec
 
-   function showRunPrompt()
+   function crappy.functions.global.showRunPrompt()
       shared.wibox.promptbox[mouse.screen]:run()
    end
-   plugin.functions["crappy.functions.global.showRunPrompt"].func = showRunPrompt
 
-   function showLuaPrompt()
+   function crappy.functions.global.showLuaPrompt()
       awful.prompt.run({ prompt = "Run Lua code: " },
          shared.wibox.promptbox[mouse.screen].widget,
          awful.util.eval, nil,
          awful.util.getdir("cache") .. "/history_eval")
    end
-   plugin.functions["crappy.functions.global.showLuaPrompt"].func = showLuaPrompt
 end
 
 return plugin

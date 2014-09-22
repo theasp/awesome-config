@@ -6,8 +6,8 @@ local functionManager = require('crappy.functionManager')
 plugin.name = 'Rules'
 plugin.description = 'rules'
 plugin.id = 'crappy.startup.rules'
-plugin.requires = {"clientkeys", "clientbuttons", "tags"}
-plugin.provides = {"signals"}
+plugin.requires = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons", "crappy.shared.tags", "crappy.startup.signals"}
+plugin.provides = {"crappy.startup.rules"}
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then

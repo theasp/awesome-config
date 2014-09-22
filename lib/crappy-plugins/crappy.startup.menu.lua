@@ -6,7 +6,7 @@ local functionManager = require('crappy.functionManager')
 plugin.name = 'Menu'
 plugin.description = 'Build the menu'
 plugin.id = 'crappy.startup.menu'
-plugin.provides = {"mainmenu", "launcher"}
+plugin.provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"}
 
 
 function plugin.settingsDefault(settings)

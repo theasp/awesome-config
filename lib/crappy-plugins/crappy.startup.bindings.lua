@@ -7,8 +7,8 @@ local shared = require('crappy.shared')
 plugin.name = 'Bindings'
 plugin.description = 'Build standards keybindings'
 plugin.id = 'crappy.startup.bindings'
-plugin.requires = {"mainmenu", "layouts", "functions.client", "functions.global"}
-plugin.provides = {"clientkeys", "clientbuttons"}
+plugin.requires = {"crappy.shared.mainmenu", "crappy.shared.layouts", "crappy.functions.client", "crappy.functions.global"}
+plugin.provides = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons"}
 
 function plugin.settingsDefault(settings)
    if settings.modkey == nil then

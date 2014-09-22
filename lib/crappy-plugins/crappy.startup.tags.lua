@@ -5,7 +5,7 @@ local functionManager = require('crappy.functionManager')
 plugin.name = 'Tags'
 plugin.description = 'Tags'
 plugin.id = 'crappy.startup.tags'
-plugin.provides = {'tags'}
+plugin.provides = {'crappy.shared.tags', 'crappy.startup.tags'}
 
 function plugin.settingsDefault(settings)
    if settings.default == nil then
