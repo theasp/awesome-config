@@ -21,10 +21,6 @@ function pluginManager.loadPlugin(file)
       pluginManager.plugins[plugin.id] = plugin
 
       if plugin.functions then
-         if plugin.initFunctions and awful then
-            plugin.initFunctions()
-         end
-
          functionManager.registerPlugin(plugin)
       end
    else

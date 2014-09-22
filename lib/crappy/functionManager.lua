@@ -10,18 +10,24 @@ function functionManager.registerPlugin(plugin)
          functionsByClass[funcDef.class] = {}
       end
       
-      functions[funcName] = funcDef.func
+      functions[funcName] = funcDef
+      functionsByClass[funcDef.class][funcName] = funcDef
    end
 end
 
 function functionManager.getFunction(funcName)
-   if functions[funcName] then
-      return functions[funcName]
+   local funcDef = functions[funcName]
+   if funcDef and funcDef.func then
+      return funcDef.func
    end
 
    local func = misc.getFunction(funcName)
    if func then
-      functions[funcName] = func
+      functions[funcName] = {
+         class = 'unknown',
+         description = 'Unknown',
+         func = func
+      }
    end
 
    return func

@@ -7,6 +7,13 @@ plugin.name = 'Menu'
 plugin.description = 'Build the menu'
 plugin.id = 'crappy.startup.menu'
 plugin.provides = {"mainmenu", "launcher"}
+plugin.functions = {
+   ["crappy.functions.menu.toggle"] = {
+      class = "global",
+      description = "Toggle the main menu",
+   }
+}
+
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then
@@ -93,6 +100,12 @@ function plugin.startup(awesomever, settings)
 
    shared.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                              menu = shared.mainmenu })
+
+   function toggle()
+      shared.mainmenu:toggle()
+   end
+
+   plugin.functions["crappy.functions.menu.toggle"].func = toggle
 end
 
 return plugin

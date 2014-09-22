@@ -23,7 +23,7 @@ plugin.functions = {
    }
 }
 
-function plugin.initFunctions()
+function plugin.startup(awesomever, settings)
    local beautiful = misc.use('beautiful')
    local wibox = misc.use('wibox')
    
