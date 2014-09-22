@@ -44,25 +44,31 @@ function plugins.buildUi(window, config)
       [pluginsFuncsColumns.ID] = GObject.Type.STRING,
    }
 
+   function namePlugin(plugin)
+      local name = plugin.name
+      if plugin.buildUi == nil then
+         name = name .. ' (No UI)'
+      end
+
+      return name
+   end
+
    for id, pluginDef in pairs(config.plugins) do
       iter = pluginsFuncsListStore:append()
 
+      if pluginDef.settings == nil then
+         pluginDef.settings = {}
+      end
+
       if not pluginDef.type or pluginDef.type == 'plugin' then
-         local name
          local plugin = pluginManager.plugins[id]
          if plugin then
-            name = plugin.name
-            if plugin.buildUi == nil then
-               name = name .. ' (No UI)'
-            end
-
-            if pluginDef.settings == nil then
-               pluginDef.settings = {}
-            end
+            name = namePlugin(name)
 
             if plugin.settingsDefault then
                plugin.settingsDefault(pluginDef.settings)
             end
+
          else
             name = pluginDef.plugin .. ' (Missing)'
          end
@@ -94,7 +100,7 @@ function plugins.buildUi(window, config)
             plugin.settingsDefault(settings)
          end
 
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = plugin.name
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = namePlugin(plugin.name)
          pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = id
          pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE] = 'plugin'
          pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = false
