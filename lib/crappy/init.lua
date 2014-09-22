@@ -5,7 +5,6 @@ local util = require('awful.util')
 local pluginManager = require('crappy.pluginManager')
 local configManager = require('crappy.configManager')
 local functionManager = require('crappy.functionManager')
-local default = require('crappy.configManager.default')
 local misc = require('crappy.misc')
 
 -- The following need to be global
