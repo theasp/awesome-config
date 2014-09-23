@@ -56,7 +56,7 @@ function plugins.buildUi(window, config)
    if not config.plugins then
       config.plugins = {}
    end
-   
+
    for id, pluginDef in pairs(config.plugins) do
       iter = pluginsFuncsListStore:append()
 
@@ -135,6 +135,9 @@ function plugins.buildUi(window, config)
          iter = pluginsFuncsListStore:next(iter)
       end
    end
+
+   -- Do this on load so that new plugins get added to config
+   updatePluginsFuncs()
 
    function pluginsFuncsListStore:on_row_deleted()
       updatePluginsFuncs()
