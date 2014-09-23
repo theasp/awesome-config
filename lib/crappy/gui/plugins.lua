@@ -108,7 +108,7 @@ function plugins.buildUi(window, config)
          pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = namePlugin(plugin)
          pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = id
          pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE] = 'plugin'
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = false
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = true
          pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID] = storeSettings(settings)
       end
    end
