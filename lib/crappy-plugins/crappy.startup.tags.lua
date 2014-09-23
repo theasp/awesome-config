@@ -34,24 +34,31 @@ function plugin.startup(awesomever, settings)
    shared.tags = {}
 
    for s = 1, screen.count() do
+      sName = tostring(s)
       -- Start with the "default" settings
-      local screenSettings = settings.default;
+      local screenSettings = {}
+      misc.mergeTable(screenSettings, settings.default);
 
       -- If this is the last screen, apply the "last" settings
-      if s == screen.count() and settings.last ~= nil then
+      if s == screen.count() and settings.last then
          screenSettings = misc.mergeTable(screenSettings, settings.last)
       end
 
-      -- Finally apply the specific screen settings
-      if settings[tostring(s)] ~= nil then
-         screenSettings = misc.mergeTable(screenSettings, settings[tostring(s)])
+      -- Finally apply the specific screen settings, using the number
+      -- or string to deal with how it is stored in the config
+      if settings[s] then
+         screenSettings = misc.mergeTable(screenSettings, settings[s])
+      end
+      if settings[sName] then
+         screenSettings = misc.mergeTable(screenSettings, settings[sName])
       end
 
       shared.tags[s] = awful.tag(screenSettings.tags, s, functionManager.getFunction(screenSettings.layout))
-      if screenSettings.tagLayouts ~= nil then
+      if screenSettings.tagLayouts then
          for tagName, tagLayout in pairs(screenSettings.tagLayouts) do
-            if shared.tags[s][tostring(tagName)] ~= nil and tagLayout ~= nil then
-               awful.layout.set(functionManager.getFunction(tagLayout), shared.tags[s][tostring(tagName)])
+            tagName = tostring(tagName)
+            if shared.tags[s][tagName] and tagLayout then
+               awful.layout.set(functionManager.getFunction(tagLayout), shared.tags[s][tagName])
             end
          end
       end

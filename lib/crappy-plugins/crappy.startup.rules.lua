@@ -61,16 +61,16 @@ function plugin.startup(awesomever, settings)
       if rule.properties ~= nil then
          -- As we need to find a reference to the tag, use tag and screen
          -- to find it.  If tag is supplied without screen, set it to nil.
-         if rule.properties.tag ~= nil then
-            if rule.properties.screen ~= nil and shared.tags[rule.properties.screen] ~= nil then
-               rule.properties.tag = shared.tags[rule.properties.screen][rule.properties.tag]
+         if rule.properties.tag then
+            if rule.properties.screen and shared.tags[rule.properties.screen] then
+               rule.properties.tag = shared.tags[tonumber(rule.properties.screen)][tostring(rule.properties.tag)]
             else
                rule.properties.tag = nil
             end
          end
       end
 
-      if rule.callback ~= nil then
+      if rule.callback then
          rule.callback = functionManager.getFunction(rule.callback)
       end
 
