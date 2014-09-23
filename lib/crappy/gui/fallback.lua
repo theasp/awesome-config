@@ -1,7 +1,7 @@
 local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
 local Pango = lgi.require('Pango')
-local json = require('crappy.configManager.JSON')
+local json = require('crappy.JSON')
 
 local fallback = {}
 

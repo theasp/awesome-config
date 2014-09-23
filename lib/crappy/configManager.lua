@@ -4,7 +4,7 @@ local configManager = {}
 
 configManager.configver = 0.2
 
-configManager.json = require('crappy.configManager.JSON')
+configManager.json = require('crappy.JSON')
 
 function configManager.new()
    return {
