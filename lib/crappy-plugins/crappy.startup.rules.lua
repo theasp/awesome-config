@@ -11,26 +11,28 @@ plugin.provides = {"crappy.startup.rules"}
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then
-      table.insert(settings, {
-                      {
-                         rule = {
-                            class = "MPlayer"
-                         },
-                         properties = {
-                            floating = true
-                         }
-                      },
-                      {
-                         rule = {
-                            class = "pinentry"
-                         },
-                         properties = {
-                            floating = true
-                         }
-                      }
-      })
+      local newSettings = {
+         {
+            rule = {
+               class = "MPlayer"
+            },
+            properties = {
+               floating = true
+            }
+         },
+         {
+            rule = {
+               class = "pinentry"
+            },
+            properties = {
+               floating = true
+            }
+         }
+      }
+
+      misc.mergeTable(settings, newSettings)
    end
-   
+
    return settings
 end
 
@@ -38,7 +40,7 @@ function plugin.startup(awesomever, settings)
    local shared = require('crappy.shared')
    local awful = misc.use('awful')
    awful.rules = misc.use('awful.rules')
-   
+
    plugin.settingsDefault(settings)
 
    assert(shared.clientkeys ~= nil)

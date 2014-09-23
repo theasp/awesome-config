@@ -11,7 +11,7 @@ plugin.provides = {"crappy.shared.layouts"}
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then
-      settings = {
+      local newSettings = {
          "awful.layout.suit.floating",
          "awful.layout.suit.tile",
          "awful.layout.suit.tile.left",
@@ -25,6 +25,8 @@ function plugin.settingsDefault(settings)
          "awful.layout.suit.max.fullscreen",
          "awful.layout.suit.magnifier"
       }
+
+      misc.mergeTable(settings, newSettings)
    end
 end
 
