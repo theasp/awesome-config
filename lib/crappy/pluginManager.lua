@@ -14,15 +14,45 @@ pluginManager.pluginPaths = {
    HOME .. '/.config/awesome/crappy-plugins',
 }
 
+function pluginManager.registerPlugin(plugin)
+   if not plugin.provides then
+      provides = {}
+   end
+
+   if not plugin.provides then
+      requires = {}
+   end
+
+   if not plugin.type then
+      plugin.type = "plugin"
+   end
+
+   pluginManager.plugins[plugin.id] = plugin
+
+   if plugin.functions then
+      functionManager.registerPlugin(plugin)
+   end
+end
+
+function pluginManager.makePluginFromFunc(pluginId, pluginDef)
+   local plugin = {
+      id = pluginId,
+      startup = pluginManager.getFunction(pluginId),
+      requires = pluginDef.requires,
+      provides = pluginDef.provides,
+      type = "func"
+   }
+
+   pluginManager.registerPlugin(plugin)
+
+   return plugin
+end
+
 function pluginManager.loadPlugin(file)
    local plugin = dofile(file)
 
    if plugin then
-      pluginManager.plugins[plugin.id] = plugin
-
-      if plugin.functions then
-         functionManager.registerPlugin(plugin)
-      end
+      pluginManager.registerPlugin(plugin)
    else
       print('Warning: Unable to load plugin ' .. file)
    end
