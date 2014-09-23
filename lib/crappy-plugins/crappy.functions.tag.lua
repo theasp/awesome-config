@@ -34,27 +34,27 @@ function plugin.startup(awesomever, settings)
    
    function crappy.functions.tag.show(i)
       local screen = mouse.screen
-      if shared.tags[screen][i] then
-         awful.tag.viewonly(shared.tags[screen][i])
+      if crappy.shared.tags[screen][i] then
+         awful.tag.viewonly(crappy.shared.tags[screen][i])
       end
    end
 
    function crappy.functions.tag.toggle(i)
       local screen = mouse.screen
-      if shared.tags[screen][i] then
-         awful.tag.viewtoggle(shared.tags[screen][i])
+      if crappy.shared.shared.tags[screen][i] then
+         awful.tag.viewtoggle(crappy.shared.tags[screen][i])
       end
    end
 
    function crappy.functions.tag.clientMoveTo(i)
-      if client.focus and shared.tags[client.focus.screen][i] then
-         awful.client.movetotag(shared.tags[client.focus.screen][i])
+      if client.focus and crappy.shared.tags[client.focus.screen][i] then
+         awful.client.movetotag(crappy.shared.tags[client.focus.screen][i])
       end
    end
 
    function crappy.functions.tag.clientToggle(i)
-      if client.focus and shared.tags[client.focus.screen][i] then
-         awful.client.toggletag(shared.tags[client.focus.screen][i])
+      if client.focus and crappy.shared.tags[client.focus.screen][i] then
+         awful.client.toggletag(crappy.shared.tags[client.focus.screen][i])
       end
    end
 end

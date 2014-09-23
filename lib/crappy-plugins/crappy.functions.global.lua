@@ -136,11 +136,11 @@ function plugin.startup(awesomever, settings)
    end
 
    function crappy.functions.global.showMenu()
-      shared.mainmenu:show({keygrabber=true})
+      crappy.shared.mainmenu:show({keygrabber=true})
    end
 
    function crappy.functions.global.toggleMenu()
-      shared.mainmenu:toggle()
+      crappy.shared.mainmenu:toggle()
    end
 
    -- Old name
@@ -186,20 +186,20 @@ function plugin.startup(awesomever, settings)
    end
 
    function crappy.functions.global.layoutInc()
-      awful.layout.inc(shared.layouts,  1)
+      awful.layout.inc(crappy.shared.layouts,  1)
    end
 
    function crappy.functions.global.layoutDec()
-      awful.layout.inc(shared.layouts,  -1)
+      awful.layout.inc(crappy.shared.layouts,  -1)
    end
 
    function crappy.functions.global.showRunPrompt()
-      shared.wibox.promptbox[mouse.screen]:run()
+      crappy.shared.wibox.promptbox[mouse.screen]:run()
    end
 
    function crappy.functions.global.showLuaPrompt()
       awful.prompt.run({ prompt = "Run Lua code: " },
-         shared.wibox.promptbox[mouse.screen].widget,
+         crappy.shared.wibox.promptbox[mouse.screen].widget,
          awful.util.eval, nil,
          awful.util.getdir("cache") .. "/history_eval")
    end

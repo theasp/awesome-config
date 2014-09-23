@@ -56,7 +56,7 @@ function plugins.buildUi(window, config)
    if not config.plugins then
       config.plugins = {}
    end
-   
+
    for id, pluginDef in pairs(config.plugins) do
       iter = pluginsFuncsListStore:append()
 
@@ -108,7 +108,7 @@ function plugins.buildUi(window, config)
          pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = namePlugin(plugin)
          pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = id
          pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE] = 'plugin'
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = false
+         pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = true
          pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID] = storeSettings(settings)
       end
    end
@@ -135,6 +135,9 @@ function plugins.buildUi(window, config)
          iter = pluginsFuncsListStore:next(iter)
       end
    end
+
+   -- Do this on load so that new plugins get added to config
+   updatePluginsFuncs()
 
    function pluginsFuncsListStore:on_row_deleted()
       updatePluginsFuncs()

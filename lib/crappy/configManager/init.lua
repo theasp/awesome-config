@@ -22,6 +22,9 @@ function configManager.load(file)
    f:close()
 
    local config = configManager.json:decode(configJson)
+   if not config then
+      config = {}
+   end
 
    -- Stupid numbers!
    if tonumber(config.configver) ~= tonumber(configManager.configver) then

@@ -12,38 +12,40 @@ plugin.provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"}
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then
-      table.insert(settings, {
-                      {
-                         ["name"] = "awesome",
-                         ["iconresult"] = "function() return beautiful.awesome_icon end",
-                         ["table"] = {
-                            {
-                               ["name"] = "manual",
-                               ["result"] = "function() return crappy.shared.settings.terminal .. \" -e man awesome\" end"
-                            },
-                            {
-                               ["name"] ="edit config",
-                               ["result"] = "function() return crappy.shared.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
-                            },
-                            {
-                               ["name"] = "restart",
-                               ["func"] = "awesome.restart"
-                            },
-                            {
-                               ["name"] = "quit",
-                               ["func"] = "awesome.quit"
-                            }
-                         }
-                      },
-                      {
-                         ["name"] = "open terminal",
-                         ["result"] = "function() return crappy.shared.settings.terminal end"
-                      },
-                      {
-                         ["name"] = "firefox",
-                         ["string"] = "firefox"
-                      }
-      })
+      local newSettings = {
+         {
+            ["name"] = "awesome",
+            ["iconresult"] = "function() return beautiful.awesome_icon end",
+            ["table"] = {
+               {
+                  ["name"] = "manual",
+                  ["result"] = "function() return crappy.shared.settings.terminal .. \" -e man awesome\" end"
+               },
+               {
+                  ["name"] ="edit config",
+                  ["result"] = "function() return crappy.shared.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
+               },
+               {
+                  ["name"] = "restart",
+                  ["func"] = "awesome.restart"
+               },
+               {
+                  ["name"] = "quit",
+                  ["func"] = "awesome.quit"
+               }
+            }
+         },
+         {
+            ["name"] = "open terminal",
+            ["result"] = "function() return crappy.shared.settings.terminal end"
+         },
+         {
+            ["name"] = "firefox",
+            ["string"] = "firefox"
+         }
+      }
+
+      misc.mergeTable(settings, newSettings)
    end
 
    return settings
