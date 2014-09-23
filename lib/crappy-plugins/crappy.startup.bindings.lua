@@ -7,7 +7,7 @@ local shared = require('crappy.shared')
 plugin.name = 'Bindings'
 plugin.description = 'Build standards keybindings'
 plugin.id = 'crappy.startup.bindings'
-plugin.requires = {"crappy.shared.mainmenu", "crappy.shared.layouts", "crappy.functions.client", "crappy.functions.global"}
+plugin.requires = {"crappy.shared.mainmenu", "crappy.shared.layouts", "crappy.functions.client", "crappy.functions.global", "crappy.shared.settings.terminal"}
 plugin.provides = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons"}
 
 function plugin.settingsDefault(settings)
