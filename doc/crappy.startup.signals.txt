@@ -1,0 +1,33 @@
+                        ━━━━━━━━━━━━━━━━━━━━━━━━
+                         CRAPPY.STARTUP.SIGNALS
+
+
+                            Andrew Phillips
+                        ━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+Table of Contents
+─────────────────
+
+
+
+
+Set the functions to handle signals.
+
+Settings:
+• `manage' - The name of the function to run when clients are managed
+• `focus' - The name of the function to run when clients gain focus
+• `unfocus' - The name of the function to run when clients lose focus
+
+Example:
+╭────
+│ {
+│     "func": "crappy.startup.signals",
+│     "enabled": true,
+│     "settings": {
+│         "manage": "crappy.functions.signals.manage",
+│         "focus": "crappy.functions.signals.focus",
+│         "unfocus": "crappy.functions.signals.unfocus"
+│     }
+│ }
+╰────

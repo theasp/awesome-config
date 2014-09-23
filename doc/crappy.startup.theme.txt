@@ -1,0 +1,27 @@
+                         ━━━━━━━━━━━━━━━━━━━━━━
+                          CRAPPY.STARTUP.THEME
+
+
+                            Andrew Phillips
+                         ━━━━━━━━━━━━━━━━━━━━━━
+
+
+Table of Contents
+─────────────────
+
+
+
+
+Set up the theme using beautiful.
+
+Settings:
+• `file' (string) - Theme file passed to beautiful
+• `font' (string) - Override the font in the theme file
+
+Example:
+╭────
+│ "settings": {
+│     "file": "/usr/share/awesome/themes/default/theme.lua",
+│     "font": "sans 10"
+│ }
+╰────

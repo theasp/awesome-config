@@ -1,0 +1,29 @@
+                       ━━━━━━━━━━━━━━━━━━━━━━━━━
+                        CRAPPY.STARTUP.SETTINGS
+
+
+                            Andrew Phillips
+                       ━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+Table of Contents
+─────────────────
+
+
+
+
+• `terminal' - The command to run for a terminal
+• `editor' - The command to run for an editor
+• `sloppyfocus' - A boolean which controls whether the focus will follow
+  the mouse
+• `titlebar' (boolean) - A boolean which controls whether Windows should
+  have titlebars
+
+Example:
+╭────
+│ "settings": {
+│     "terminal": "x-terminal-emulator",
+│     "sloppyfocus": true,
+│     "titlebar": true,
+│ }
+╰────

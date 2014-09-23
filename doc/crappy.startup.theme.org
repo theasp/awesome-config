@@ -1,0 +1,20 @@
+#+TITLE: crappy.startup.theme
+
+Set up the theme using beautiful.
+
+Settings:
+- =file= (string) - Theme file passed to beautiful
+- =font= (string) - Override the font in the theme file
+
+Example:
+#+BEGIN_SRC js
+  "settings": {
+      "file": "/usr/share/awesome/themes/default/theme.lua",
+      "font": "sans 10"
+  }
+#+END_SRC
+
+# Local variables:
+# org-ascii-charset: utf-8
+# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii)) nil t)
+# end:

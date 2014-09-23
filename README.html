@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Awesome Configuration</title>
+<!-- 2014-09-23 Tue 16:22 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Andrew Phillips" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Awesome Configuration</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Crappy</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Installation</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Awesome Config</a></li>
+<li><a href="#sec-3">3. Configuration File</a>
+<ul>
+<li><a href="#sec-3-1">3.1. plugins</a></li>
+<li><a href="#sec-3-2">3.2. Extending</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. Code Used</a></li>
+</ul>
+</div>
+</div>
+<p>
+This repository includes the following:
+</p>
+<ul class="org-ul">
+<li>awesome-config - A GUI for manipulating the 
+</li>
+<li>crappy - A library for reading configuration files for Awesome
+</li>
+</ul>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Crappy</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is to be able to move between multiple versions of Awesome and maintain the same basic configuration in a relatively easy to edit file.  JSON was chosen to allow for tools to be written in languages other than Lua to modify the configuration.
+</p>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Installation</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Backup your configuration directory:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">cp -a ~/.config/awesome ~/.config/awesome.bak-$(<span style="color: #ff875f;">date</span> +%F-%T)
+</pre>
+</div>
+
+<p>
+Clone the repository anywhere you want:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">git clone https://github.com/theasp/awesome-config.git
+</pre>
+</div>
+
+<p>
+Make a symlink from your awesome config directory to the libraries:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">ln -s $(<span style="color: #ff875f;">pwd</span>)/awesome-config/lib/* ~/.config/awesome/
+</pre>
+</div>
+
+<p>
+Copy the example <code>rc.lua</code> and <code>crappy.json</code> to your config directory:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">cp awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
+</pre>
+</div>
+
+<p>
+Start awesome.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Awesome Config</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+TODO
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Configuration File</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Edit <code>~/.config/awesome/config.json</code>. as desired.  The configuration file is divided into <code>settings</code> and <code>startup</code>.  You can use your own functions in the configuration file by defining or requiring them <code>rc.lua</code> before starting crappy, or using anonymous functions.
+</p>
+
+<p>
+Note that JSON does not allow comments.
+</p>
+</div>
+
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> plugins</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Plugins is a list of plugins (or psuedo-plugins using functions) and their configuration.
+</p>
+
+<p>
+Each entry in the list is labelled with a plugin name which maps to information about the plugin, like whether it is enabled or it's settings.
+</p>
+
+<p>
+See the contents of the <code>docs</code> directory for information about each plugin and it's settings.
+</p>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #ffaf87;">"plugins"</span>: {
+    <span style="color: #ffaf87;">"crappy.startup.theme"</span>: {
+        <span style="color: #ffaf87;">"enabled"</span>: <span style="color: #87ffd7;">true</span>,
+        <span style="color: #ffaf87;">"settings"</span>: {
+            <span style="color: #ffaf87;">"file"</span>: <span style="color: #ffaf87;">"/usr/share/awesome/themes/default/theme.lua"</span>,
+            <span style="color: #ffaf87;">"font"</span>: <span style="color: #ffaf87;">"sans 10"</span>
+        }
+    },
+    ...
+    <span style="color: #ffaf87;">"crappy.startup.menubar"</span>: {
+        <span style="color: #ffaf87;">"enabled"</span>: <span style="color: #87ffd7;">true</span>
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Extending</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+TODO
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Code Used</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>crappy by Andrew Phillips <theasp@gmail.com> <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a> includes code from:
+<ul class="org-ul">
+<li>ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a>
+<ul class="org-ul">
+<li><a href="https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua">https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua</a>
+</li>
+</ul>
+</li>
+<li>JSON Encode/Decode in Pure LUA by Jeffrey Friedl  <a href="http://creativecommons.org/licenses/by/3.0/">CC-BY 3.0</a>
+<ul class="org-ul">
+<li><a href="http://regex.info/blog/lua/json">http://regex.info/blog/lua/json</a>
+</li>
+</ul>
+</li>
+<li>rc.lua from Awesome by the awesome project <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a>
+<ul class="org-ul">
+<li><a href="http://awesome.naquadah.org/">http://awesome.naquadah.org/</a>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Andrew Phillips <<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>></p>
+<p class="date">Date: 2014-09-23 Tue 16:22</p>
+</div>
+</body>
+</html>

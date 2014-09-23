@@ -1,0 +1,51 @@
+                         ━━━━━━━━━━━━━━━━━━━━━━
+                          CRAPPY.STARTUP.WIBOX
+
+
+                            Andrew Phillips
+                         ━━━━━━━━━━━━━━━━━━━━━━
+
+
+Table of Contents
+─────────────────
+
+
+
+
+Set up the wibox for each screen.
+
+Settings:
+• `position' - Where the wibox is positioned, top or bottom.
+• `bgcolor' - Set background color, or null to use the theme's color.
+• `widgets' - A list of the three possible positions of widgets.
+  • `left' - A list of named functions which should return a widget that
+    can be added to an alignment, which will be aligned to the left.
+  • `middle' - Widgets aligned to the middle, or aligned right on 3.4.x.
+  • `right' - Widgets aligned to the right.
+
+Example:
+╭────
+│ {
+│     "func": "crappy.startup.wibox",
+│     "enabled": true,
+│     "settings": {
+│         "position": "top",
+│         "bgcolor": null,
+│         "widgets": {
+│             "left": [
+│                 "crappy.startup.widget.launcher",
+│                 "crappy.startup.widget.taglist",
+│                 "crappy.startup.widget.prompt"
+│             ],
+│             "middle": [
+│                 "crappy.startup.widget.tasklist"
+│             ],
+│             "right": [
+│                 "crappy.startup.widget.systray",
+│                 "crappy.startup.widget.textclock",
+│                 "crappy.startup.widget.layout"
+│             ]
+│         }
+│     }
+│ }
+╰────

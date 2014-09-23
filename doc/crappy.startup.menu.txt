@@ -1,0 +1,69 @@
+                         ━━━━━━━━━━━━━━━━━━━━━
+                          CRAPPY.STARTUP.MENU
+
+
+                            Andrew Phillips
+                         ━━━━━━━━━━━━━━━━━━━━━
+
+
+Table of Contents
+─────────────────
+
+
+
+
+Build the menu used for the launcher on the wibox or the menu on the
+root window.
+
+The settings is an array of menu items, which can be nested.  Each
+element of the array has the following hash:
+• `name' - Name of the menu item
+• `icon' - Path to the icon
+• `iconresult' - A function that returns the name of the icon
+• `table' - An array of the same form for a submenu
+• `result' - A function that returns the command to run, or a table of
+  menu items using the standard used by awful
+• `func' - A function to run instead of a command
+• `string' - A command to run
+
+You should only apply one of `table', `result', `func' and `string', as
+well one of `icon' and `iconresult'.
+
+Example:
+╭────
+│ "settings": [
+│     { "name": "awesome",
+│       "iconresult": "function() return beautiful.awesome_icon end",
+│       "table": [
+│           {
+│               "name": "manual",
+│               "result": "function() return crappy.config.settings.terminal .. \" -e man awesome\" end"
+│           },
+│           {
+│               "name":"edit config",
+│               "result": "function() return crappy.config.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"
+│           },
+│           {
+│               "name": "restart",
+│               "func": "awesome.restart"
+│           },
+│           {
+│               "name": "quit",
+│               "func": "awesome.quit"
+│           }
+│       ]
+│     },
+│     {
+│         "name": "Debian",
+│         "result": "function() return debian.menu.Debian_menu.Debian end"
+│     },
+│     {
+│         "name": "open terminal",
+│         "result": "function() return crappy.config.settings.terminal end"
+│     },
+│     {
+│         "name": "firefox",
+│         "string": "firefox"
+│     }
+│ ]
+╰────

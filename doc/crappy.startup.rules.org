@@ -1,0 +1,39 @@
+#+TITLE: crappy.startup.rules
+
+Rules map to the same structure as in a normal rc.lua.  See the wiki page on rules for more information:
+http://awesome.naquadah.org/wiki/Understanding_Rules
+
+Crappy has the following differences:
+- =tag= - To have a client moved to a specific tag you need to specify =screen= and =tag=.  If the tag doesn't exist, it is not applied.
+- =callback= - Callback cannot be an array, if you wish to use multiple callbacks, use an anonymous function to call them.
+
+Example:
+#+BEGIN_SRC js
+    {
+        "func": "crappy.startup.rules",
+        "enabled": true,
+        "settings": [
+            {
+                "rule": {
+                    "class": "MPlayer"
+                },
+                "properties": {
+                    "floating": true
+                }
+            },
+            {
+                "rule": {
+                    "class": "pinentry"
+                },
+                "properties": {
+                    "floating": true
+                }
+            }
+        ]
+    }
+#+END_SRC
+
+# Local variables:
+# org-ascii-charset: utf-8
+# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii)) nil t)
+# end:

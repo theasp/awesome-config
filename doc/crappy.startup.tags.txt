@@ -1,0 +1,42 @@
+                         ━━━━━━━━━━━━━━━━━━━━━━
+                          CRAPPY.STARTUP.THEME
+
+
+                            Andrew Phillips
+                         ━━━━━━━━━━━━━━━━━━━━━━
+
+
+Table of Contents
+─────────────────
+
+
+
+
+Build the tags table for each screen and assign their default layouts.
+
+The top level of the settings refers to the screen, and are applied in
+the order listed:
+• `default' - Settings inside are applied to all screens.
+• `last' - Settings inside are applied to the last screen.
+• `<#>' - Settings inside are applied to the screen number given.
+
+Each of the above, allows the following:
+• `layout' - The name of the default layout function.
+• `tags' - The names of each of the tags for the screen.
+• `tagLayouts' - A hash mapping a tag name to a named layout function
+
+Example:
+╭────
+│ "settings": {
+│     "default": {
+│         "layout": "awful.layout.suit.fair",
+│         "tags": ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+│     },
+│     "last": {
+│         "layout": "awful.layout.suit.max",
+│         "tagLayout": {
+│             "2": "awful.layout.suit.tile"
+│         }
+│     }
+│ }
+╰────

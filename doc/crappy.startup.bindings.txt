@@ -1,0 +1,83 @@
+                       ━━━━━━━━━━━━━━━━━━━━━━━━━
+                        CRAPPY.STARTUP.BINDINGS
+
+
+                            Andrew Phillips
+                       ━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+Table of Contents
+─────────────────
+
+
+
+
+Assign keyboard and mouse buttons to functions.  Uses the ezconfig
+library by Georgi Valkov to describe the binding using a string.  The
+modifiers `M' (modkey), `A' (alt), `S' (shift) and `C' (control) can be
+combined using a `-' with a key name for a key or mouse button
+combination.
+
+Settings:
+• `modkey' - The name of the key to use for "M", defaults to Mod4
+  (windows key).
+• `modkey' - The name of the key to use for "A", defaults to Mod1 (Alt
+  key).
+• `buttons' - The mapping of mouse buttons to functions
+  • `root' - Mouse buttons that apply to the root window
+  • `client' - Mouse buttons that apply to client windows.  The
+    functions are called with the client as an argument.
+• `keys' - The mapping of keyboard keys to functions
+  • `global' - Keys that work everywhere
+  • `client' - Keys that work on client windows.  The functions are
+    called with the client as an argument.
+
+Example:
+╭────
+│ "settings": {
+│     "modkey": "Mod4",
+│     "altkey": "Mod1",
+│     "buttons": {
+│         "root": {
+│             "3": "crappy.functions.menu.toggle",
+│             "4": "awful.tag.viewnext",
+│             "5": "awful.tag.viewprev"
+│         },
+│         "client": {
+│             "1": "crappy.functions.client.focus",
+│             "2": "crappy.functions.client.focus",
+│             "3": "crappy.functions.client.focus",
+│             "M-1": "awful.mouse.client.move",
+│             "M-3": "awful.mouse.client.resize"
+│         }
+│     },
+│     "keys": {
+│         "global": {
+│             "M-<Left>": "awful.tag.viewprev",
+│             "M-<Right>": "awful.tag.viewnext",
+│             "M-<Escape>": "awful.tag.history.restore",
+│ 
+│             "M-j": "crappy.functions.global.focusNext",
+│             "M-k": "crappy.functions.global.focusPrev",
+│             "M-w": "crappy.functions.global.showMenu",
+│             "M-<Tab>": "crappy.functions.global.focusNext",
+│             "M-`": "crappy.functions.global.focusPrevHist",
+│ 
+│                 ...
+│ 
+│             "M-p": "menubar.show"
+│         },
+│         "client": {
+│             "M-f": "crappy.functions.client.fullscreen",
+│             "M-S-c": "crappy.functions.client.kill",
+│             "M-C-<space>": "awful.client.floating.toggle",
+│             "M-C-<Return>": "crappy.functions.client.swapMaster",
+│             "M-o": "awful.client.movetoscreen",
+│             "M-r": "crappy.functions.client.redraw",
+│             "M-t": "crappy.functions.client.ontop",
+│             "M-n": "crappy.functions.client.minimized",
+│             "M-m": "crappy.functions.client.maximized"
+│         }
+│     }
+│ }
+╰────
