@@ -6,6 +6,7 @@ local functionManager = require('crappy.functionManager')
 plugin.name = 'Menu'
 plugin.description = 'Build the menu'
 plugin.id = 'crappy.startup.menu'
+plugin.requires = {"crappy.shared.settings.terminal", "crappy.shared.settings.editor"}
 plugin.provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"}
 
 
@@ -85,6 +86,7 @@ local function buildMenuTable(menu)
 end
 
 function plugin.startup(awesomever, settings)
+   local crappy = require('crappy')
    local shared = require('crappy.shared')
 
    plugin.settingsDefault(settings)
