@@ -34,14 +34,21 @@ function crappy.start(file)
       crappy.config.settings = {}
    end
 
-   local startupList = configManager.getStartupDefs(crappy.config)
-   startupList = pluginManager.sortByDependency(startupList)
+   configManager.buildFunctionPlugins(crappy.config)
+
+   local enabledPlugins = configManager.getEnabledPlugins(crappy.config)
+   local startupList = pluginManager.sortByDependency(enabledPlugins)
    pluginManager.simulateLoad(startupList)
 
-   for k, v in pairs(startupList) do
-      if v.func then
-         print("Starting " .. v.name)
-         v.func(ver, v.settings)
+   for k, plugin in ipairs(startupList) do
+      if plugin.startup then
+         local settings = {}
+         if crappy.config.plugins[plugin.id] then
+            settings = crappy.config.plugins[plugin.id].settings
+         end
+
+         print("Starting " .. plugin.name .. " (" .. plugin.id .. ")")
+         plugin.startup(ver, settings)
       end
    end
 

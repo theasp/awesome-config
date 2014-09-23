@@ -69,72 +69,35 @@ function configManager.json:onDecodeError(message, text, location, etc)
    end
 end
 
-function configManager.getStartupDefs(config)
-   local startupList = {}
+function configManager.buildFunctionPlugins(config)
+   --local startupList = {}
 
-   -- Iterate over the list of plugins/functions
-   for name, startupDef in pairs(config.plugins) do
-      if startupDef.enabled == nil or startupDef.enabled then
-         if not startupDef.settings then
-            startupDef.settings = {}
-         end
-
-         if not startupDef.provides then
-            startupDef.provides = {}
-         end
-
-         if not startupDef.requires then
-            startupDef.requires = {}
-         end
-
-         if not startupDef.type or startupDef.type == 'plugin' then
-            local plugin = pluginManager.plugins[name]
-
-            if plugin then
-               if plugin.requires then
-                  for k, v in ipairs(plugin.requires) do
-                     table.insert(startupDef.requires, v)
-                  end
-               end
-
-               for k, v in ipairs(plugin.provides) do
-                  table.insert(startupDef.provides, v)
-               end
-
-               table.insert(startupList, {
-                               id = plugin.id,
-                               plugin = plugin,
-                               name = plugin.name .. " (" .. plugin.id .. ")",
-                               requires = startupDef.requires,
-                               provides = startupDef.provides,
-                               func = plugin.startup,
-                               settings = startupDef.settings
-               })
-            else
-               print("Warning: Unable to find startup plugin " .. name)
-            end
-         elseif startupDef.type == 'func' then
-            local func = functionManager.getFunction(name)
-            if func then
-               table.insert(startupList, {
-                               id = name,
-                               name = name,
-                               plugin = plugin,
-                               requires = startupDef.requires,
-                               provides = startupDef.provides,
-                               func = func,
-                               settings = startupDef.settings
-               })
-            else
-               print("Warning: Unable to find startup function " .. startupDef.func)
-            end
+   -- Loop over the plugins in the config to detect missing plugins,
+   -- and generate function based plugins.
+   for pluginId, pluginDef in pairs(config.plugins) do
+      if not pluginManager.plugins[pluginId] then
+         if not config.type or config.type == 'plugin' then
+            print("Warning: Mssing plugin " .. pluginId)
+         elseif config.type == 'func' then
+            pluginManager.makePluginFromFunc(pluginId, pluginDef)
          else
             print("Warning: Unknown plugin type " .. startupDef.type)
          end
       end
    end
 
-   return startupList
+end
+
+function configManager.getEnabledPlugins(config)
+   local enabledPlugins = {}
+
+   for pluginId, plugin in pairs(pluginManager.plugins) do
+      if not (config.plugins[pluginId] and config.plugins[pluginId].enabled and config.plugins[pluginId].enabled == false) then
+         table.insert(enabledPlugins, plugin)
+      end
+   end
+
+   return enabledPlugins
 end
 
 return configManager
