@@ -6,7 +6,7 @@ local functionManager = require('crappy.functionManager')
 plugin.name = 'wibox'
 plugin.description = 'Set up the wibox'
 plugin.id = 'crappy.startup.wibox'
-plugin.requires = {"wibox-widget", "crappy.shared.launcher", "crappy.functions.global"}
+plugin.requires = {"wibox-widget", "crappy.shared.launcher", "crappy.functions.global", "crappy.startup.theme"}
 plugin.provides = {"crappy.shared.wibox", "crappy.startup.wibox"}
 
 function plugin.settingsDefault(settings)
