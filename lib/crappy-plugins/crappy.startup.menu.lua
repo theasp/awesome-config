@@ -88,7 +88,6 @@ local function buildMenuTable(menu)
 end
 
 function plugin.startup(awesomever, settings)
-   local crappy = require('crappy')
    local shared = require('crappy.shared')
 
    plugin.settingsDefault(settings)

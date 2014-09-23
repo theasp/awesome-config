@@ -5,7 +5,7 @@ local misc = require("crappy.misc")
 plugin.name = 'Theme'
 plugin.description = 'Set the theme used by beautiful'
 plugin.id = 'crappy.startup.theme'
-plugin.provides = {"crappy.startup.theme"}
+plugin.provides = {}
 
 function plugin.settingsDefault(settings)
    if settings.file == nil then

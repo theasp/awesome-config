@@ -7,7 +7,7 @@ plugin.name = 'Rules'
 plugin.description = 'rules'
 plugin.id = 'crappy.startup.rules'
 plugin.requires = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons", "crappy.shared.tags", "crappy.startup.signals"}
-plugin.provides = {"crappy.startup.rules"}
+plugin.provides = {}
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then

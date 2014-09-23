@@ -7,7 +7,7 @@ plugin.name = 'Settings'
 plugin.description = "Settings that don't belong anywhere else"
 plugin.id = 'crappy.startup.settings'
 plugin.requires = {}
-plugin.provides = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus", "crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.shared.settings", "crappy.startup.settings"}
+plugin.provides = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus", "crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.shared.settings"}
 
 function plugin.settingsDefault(settings)
    if settings.terminal == nil then

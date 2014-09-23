@@ -27,6 +27,8 @@ function pluginManager.registerPlugin(plugin)
       plugin.type = "plugin"
    end
 
+   table.insert(plugin.provides, plugin.id)
+
    pluginManager.plugins[plugin.id] = plugin
 
    if plugin.functions then

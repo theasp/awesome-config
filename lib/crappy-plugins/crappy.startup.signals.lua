@@ -7,7 +7,7 @@ plugin.name = 'Signals'
 plugin.description = 'Set the signals for clients'
 plugin.id = 'crappy.startup.signals'
 plugin.requires = {"crappy.functions.signals"}
-plugin.provides = {"crappy.startup.signals"}
+plugin.provides = {}
 
 function plugin.settingsDefault(settings)
    if settings.manage == nil then
