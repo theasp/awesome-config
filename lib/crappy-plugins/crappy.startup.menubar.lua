@@ -8,6 +8,7 @@ plugin.description = 'Set up the menubar, for 3.5+ only'
 plugin.id = 'crappy.startup.menubar'
 plugin.requires = {"crappy.shared.settings.terminal"}
 plugin.provides = {"crappy.shared.menubar"}
+plugin.before = {"crappy.startup.bindings"}
 
 function plugin.settingsDefault(settings)
    if settings.dirs == nil then
