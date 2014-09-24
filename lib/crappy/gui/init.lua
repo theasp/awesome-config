@@ -12,15 +12,20 @@ local gui = {}
 
 gui.plugins = require('crappy.gui.plugins')
 
-function gui.run()
+local function quit()
+   Gtk.main_quit()
+end
+
+local function activate_action(action)
+   log.message('Action "%s" activated', action.name)
+end
+
+local app = Gtk.Application {application_id = 'awesome-config.crappy.gui'}
+
+function app:on_activate()
    local config = configManager.new()
    HOME=os.getenv('HOME')
    local file = HOME .. "/.config/awesome/crappy.json"
-
-   local window = Gtk.ApplicationWindow {
-      title = 'Awesome Config',
-      on_destroy = quit
-   }
 
    local pluginsUi = nil
    local pluginsBox = Gtk.Box {
@@ -40,14 +45,6 @@ function gui.run()
          pluginsBox:add(pluginsUi)
          pluginsUi:show_all()
       end
-   end
-
-   local function activate_action(action)
-      log.message('Action "%s" activated', action.name)
-   end
-
-   local function quit()
-      Gtk.main_quit()
    end
 
    local function newFile()
@@ -131,6 +128,13 @@ function gui.run()
       log.message('building menus failed: %s', err)
    end
 
+   local window = Gtk.ApplicationWindow {
+      type = Gtk.WindowType.TOPLEVEL,
+      application = app,
+      title = 'Awesome Config',
+      on_destroy = quit
+   }
+
    window:add(Gtk.Box {
                  orientation = 'VERTICAL',
                  ui:get_widget('/MenuBar'),
@@ -151,6 +155,10 @@ function gui.run()
    -- Show window and start the loop.
    window:show_all()
    Gtk.main()
+end
+
+function gui.run()
+   app:run {}
 end
 
 return gui
