@@ -6,7 +6,7 @@ local functionManager = require('crappy.functionManager')
 plugin.name = 'wibox'
 plugin.description = 'Set up the wibox'
 plugin.id = 'crappy.startup.wibox'
-plugin.requires = {"wibox-widget", "crappy.shared.launcher", "crappy.functions.global", "crappy.startup.theme"}
+plugin.requires = {"crappy.functions.widgets", "crappy.shared.launcher", "crappy.functions.global", "crappy.startup.theme"}
 plugin.provides = {"crappy.shared.wibox"}
 
 function plugin.settingsDefault(settings)
@@ -20,23 +20,23 @@ function plugin.settingsDefault(settings)
 
    if settings.widgets.left == nil then
       settings.widgets.left = {
-         "widget.launcher",
-         "widget.taglist",
-         "widget.prompt"
+         "crappy.functions.widgets.launcher",
+         "crappy.functions.widgets.taglist",
+         "crappy.functions.widgets.prompt"
       }
    end
 
    if settings.widgets.middle == nil then
       settings.widgets.middle = {
-         "widget.tasklist"
+         "crappy.functions.widgets.tasklist"
       }
    end
 
    if settings.widgets.right == nil then
       settings.widgets.right = {
-         "widget.systray",
-         "widget.textclock",
-         "widget.layout"
+         "crappy.functions.widgets.systray",
+         "crappy.functions.widgets.textclock",
+         "crappy.functions.widgets.layout"
       }
    end
 
@@ -46,128 +46,9 @@ end
 
 function plugin.startup(awesomever, settings)
    local wibox = misc.use("wibox")
-   local ezconfig = require("crappy.ezconfig")
    local shared = require('crappy.shared')
 
    plugin.settingsDefault(settings)
-
-   widget = {}
-
-   function widget.launcher(s)
-      return shared.launcher
-   end
-
-   function widget.prompt(s)
-      if shared.wibox.promptbox[s] == nil then
-         shared.wibox.promptbox[s] = awful.widget.prompt()
-      end
-
-      return shared.wibox.promptbox[s]
-   end
-
-   function widget.textclock(s)
-      return awful.widget.textclock()
-   end
-
-   function widget.layout(s)
-      local layoutbox = awful.widget.layoutbox(s)
-      layoutbox:buttons(awful.util.table.join(
-                           awful.button({ }, 1, crappy.functions.global.layoutInc),
-                           awful.button({ }, 3, crappy.functions.global.layoutDec),
-                           awful.button({ }, 4, crappy.functions.global.layoutInc),
-                           awful.button({ }, 5, crappy.functions.global.layoutDec)))
-      return layoutbox
-   end
-
-   function widget.systray(s)
-      if shared.systray == nil then
-         if wibox.widget.systray then
-            shared.systray = wibox.widget.systray()
-         else
-            shared.systray = widget({ type = "systray" })
-         end
-         return shared.systray
-      end
-
-      return nil
-   end
-
-   function widget.tasklist(s)
-      local mytasklist = {}
-      mytasklist.buttons = awful.util.table.join(
-         awful.button({ }, 1, function (c)
-               if c == client.focus then
-                  c.minimized = true
-               else
-                  -- Without this, the following
-                  -- :isvisible() makes no sense
-                  c.minimized = false
-                  if not c:isvisible() then
-                     awful.tag.viewonly(c:tags()[1])
-                  end
-                  -- This will also un-minimize
-                  -- the client, if needed
-                  client.focus = c
-                  c:raise()
-               end
-         end),
-         awful.button({ }, 3, function ()
-               if instance then
-                  instance:hide()
-                  instance = nil
-               else
-                  -- Width is for 3.4, theme is for 3.5+
-                  --instance = awful.menu.clients({ width=250, theme = {width = 250} })
-                  instance = awful.menu.clients({ theme = {width = 250} })
-               end
-         end),
-         awful.button({ }, 4, function ()
-               awful.client.focus.byidx(1)
-               if client.focus then client.focus:raise() end
-         end),
-         awful.button({ }, 5, function ()
-               awful.client.focus.byidx(-1)
-               if client.focus then client.focus:raise() end
-      end))
-
-      -- awful.widget.tasklist.filter.currenttags is 3.5+
-      if awful.widget.tasklist.filter.currenttags then
-         return awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
-      else
-         return awful.widget.tasklist(function(c) return awful.widget.tasklist.label.currenttags(c, s)  end, mytasklist.buttons)
-      end
-   end
-
-
-   function widget.taglist(s)
-      local mytaglist = {}
-
-      -- awful.widget.taglist.filter.all is 3.5+
-      if awful.widget.taglist.filter.all then
-         mytaglist.buttons = awful.util.table.join(
-            awful.button({ }, 1, awful.tag.viewonly),
-            awful.button({ ezconfig.modkey }, 1, awful.client.movetotag),
-            awful.button({ }, 3, awful.tag.viewtoggle),
-            awful.button({ ezconfig.modkey }, 3, awful.client.toggletag),
-            awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-            awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
-         )
-
-         return awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
-      else      
-         mytaglist.buttons = awful.util.table.join(
-            awful.button({ }, 1, awful.tag.viewonly),
-            awful.button({ ezconfig.modkey }, 1, awful.client.movetotag),
-            awful.button({ }, 3, awful.tag.viewtoggle),
-            awful.button({ ezconfig.modkey }, 3, awful.client.toggletag),
-            awful.button({ }, 4, awful.tag.viewnext),
-            awful.button({ }, 5, awful.tag.viewprev)
-         )
-
-         return awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
-      end
-   end
-
 
    shared.wibox = {}
    shared.wibox.promptbox = {}
