@@ -101,6 +101,7 @@ function pluginManager.sortByDependency(plugins)
    local function edges(n, plugins)
       local result = {}
 
+      -- Process the plugins to see what plugins this plugin requires
       if n.requires then
          for x, req in ipairs(n.requires) do
             for y, plugin in pairs(plugins) do
@@ -110,6 +111,18 @@ function pluginManager.sortByDependency(plugins)
                         table.insert(result, plugin)
                      end
                   end
+               end
+            end
+         end
+      end
+
+      -- Process the plugins to see if anything needs to be before the
+      -- current plugin
+      for y, plugin in pairs(plugins) do
+         if plugin.before then
+            for z, before in ipairs(plugin.before) do
+               if n.id == before then
+                  table.insert(result, plugin)
                end
             end
          end
