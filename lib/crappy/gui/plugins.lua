@@ -9,39 +9,54 @@ local log = lgi.log.domain('awesome-config/plugins')
 
 local plugins = {}
 
+local objStore = {}
+
+function objStore.new()
+   local self = {}
+
+   function self:store(obj)
+      self.count = self.count + 1
+      self.objs[self.count] = obj
+      return self.count
+   end
+
+   function self:get(count)
+      return self.objs[count]
+   end
+
+   function self:remove(count)
+      table.remove(self.objs, count)
+   end
+
+   function self:clear()
+      self.count = 0
+      self.objs = {}
+   end
+
+   self:clear()
+
+   return self
+end
+
 function plugins.buildUi(window, config)
-   local settingsRefs = {}
-   local settingsCount = 0
+   local settingsObjs = objStore.new()
 
-   local function storeSettings(settings)
-      if settings == nil then
-         settings = {}
-      end
-
-      settingsCount = settingsCount + 1
-      settingsRefs[settingsCount] = settings
-
-      return settingsCount
-   end
-
-   local function removeSettings(settingsId)
-      table.remove(settingsRefs, settingsId)
-   end
-
-   local pluginsFuncsColumns = {
+   local pluginsColumns = {
       ENABLED = 1,
       NAME = 2,
       SETTINGSID = 3,
       TYPE = 4,
       ID = 5,
+      UI = 6,
    }
 
-   local pluginsFuncsListStore = Gtk.ListStore.new {
-      [pluginsFuncsColumns.ENABLED] = GObject.Type.BOOLEAN,
-      [pluginsFuncsColumns.NAME] = GObject.Type.STRING,
-      [pluginsFuncsColumns.SETTINGSID] = GObject.Type.UINT,
-      [pluginsFuncsColumns.TYPE] = GObject.Type.STRING,
-      [pluginsFuncsColumns.ID] = GObject.Type.STRING,
+   local pluginsListStore = Gtk.ListStore.new {
+      [pluginsColumns.ENABLED] = GObject.Type.BOOLEAN,
+      [pluginsColumns.NAME] = GObject.Type.STRING,
+      [pluginsColumns.SETTINGSID] = GObject.Type.UINT,
+      [pluginsColumns.TYPE] = GObject.Type.STRING,
+      [pluginsColumns.ID] = GObject.Type.STRING,
+      [pluginsColumns.UI] = GObject.Type.UINT
    }
 
    function namePlugin(plugin)
@@ -58,7 +73,7 @@ function plugins.buildUi(window, config)
    end
 
    for id, pluginDef in pairs(config.plugins) do
-      iter = pluginsFuncsListStore:append()
+      iter = pluginsListStore:append()
 
       if pluginDef.settings == nil then
          pluginDef.settings = {}
@@ -78,109 +93,118 @@ function plugins.buildUi(window, config)
             name = pluginDef.plugin .. ' (Missing)'
          end
 
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = name
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = id
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE] = 'plugin'
+         pluginsListStore[iter][pluginsColumns.NAME] = name
+         pluginsListStore[iter][pluginsColumns.ID] = id
+         pluginsListStore[iter][pluginsColumns.TYPE] = 'plugin'
       elseif pluginDef.type == 'func' then
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = id .. ' (Function)'
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = id
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE] = 'func'
+         pluginsListStore[iter][pluginsColumns.NAME] = id .. ' (Function)'
+         pluginsListStore[iter][pluginsColumns.ID] = id
+         pluginsListStore[iter][pluginsColumns.TYPE] = 'func'
       else
          log.message("Unknown plugin type " .. pluginDef.type)
       end
 
-      pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = pluginDef.enabled
-      pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID] = storeSettings(pluginDef.settings)
-
-      log.message('Added %s', pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME])
+      pluginsListStore[iter][pluginsColumns.ENABLED] = pluginDef.enabled
+      pluginsListStore[iter][pluginsColumns.SETTINGSID] = settingsObjs:store(pluginDef.settings)
    end
 
    -- Add in new plugins
    for id, plugin in pairs(pluginManager.plugins) do
       if not config.plugins[id] then
-         local iter = pluginsFuncsListStore:append()
+         local iter = pluginsListStore:append()
 
          local settings = {}
          if plugin.settingsDefault then
             plugin.settingsDefault(settings)
          end
 
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = namePlugin(plugin)
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = id
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE] = 'plugin'
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = true
-         pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID] = storeSettings(settings)
+         pluginsListStore[iter][pluginsColumns.NAME] = namePlugin(plugin)
+         pluginsListStore[iter][pluginsColumns.ID] = id
+         pluginsListStore[iter][pluginsColumns.TYPE] = 'plugin'
+         pluginsListStore[iter][pluginsColumns.ENABLED] = true
+         pluginsListStore[iter][pluginsColumns.SETTINGSID] = settingsObjs:store(settings)
       end
    end
 
-   local function updatePluginsFuncs()
+   local function updatePlugins()
       config.plugins = {}
 
-      local iter = pluginsFuncsListStore:get_iter_first()
+      local iter = pluginsListStore:get_iter_first()
       while iter do
-         local id = pluginsFuncsListStore[iter][pluginsFuncsColumns.ID]
-         local name = pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME]
-         local enabled = pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED]
-         local settingsId = pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID]
-         local pluginsType = pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE]
+         local id = pluginsListStore[iter][pluginsColumns.ID]
+         local name = pluginsListStore[iter][pluginsColumns.NAME]
+         local enabled = pluginsListStore[iter][pluginsColumns.ENABLED]
+         local settingsId = pluginsListStore[iter][pluginsColumns.SETTINGSID]
+         local pluginsType = pluginsListStore[iter][pluginsColumns.TYPE]
          local val
 
-         log.message('Updating %s', name)
          config.plugins[id] = {
             enabled = enabled,
             type = pluginType,
-            settings = settingsRefs[settingsId]
+            settings = settingsObjs:get(settingsId)
          }
 
-         iter = pluginsFuncsListStore:next(iter)
+         iter = pluginsListStore:next(iter)
       end
    end
 
    -- Do this on load so that new plugins get added to config
-   updatePluginsFuncs()
+   updatePlugins()
 
-   function pluginsFuncsListStore:on_row_deleted()
-      updatePluginsFuncs()
+   function pluginsListStore:on_row_deleted()
+      updatePlugins()
    end
 
    -- As inserts are done without values this is used for new rows too
-   function pluginsFuncsListStore:on_row_changed()
-      updatePluginsFuncs()
+   function pluginsListStore:on_row_changed()
+      updatePlugins()
    end
 
-   local pluginsFuncsNameCellRenderer = Gtk.CellRendererText { }
+   pluginsListStore:set_sort_func(pluginsColumns.NAME,
+                                  function(model, a, b)
+                                     a = model[a][pluginsColumns.NAME]
+                                     b = model[b][pluginsColumns.NAME]
+                                     if a == b then return 0
+                                     elseif a < b then return -1
+                                     else return 1 end
+                                  end
+   )
 
-   local pluginsFuncsNameTreeViewColumn = Gtk.TreeViewColumn {
+   pluginsListStore:set_sort_column_id(pluginsColumns.NAME, Gtk.SortType.ASCENDING)
+
+   local pluginsNameCellRenderer = Gtk.CellRendererText { }
+
+   local pluginsNameTreeViewColumn = Gtk.TreeViewColumn {
       title = 'Name',
       expand = false,
       {
-         pluginsFuncsNameCellRenderer, { text = pluginsFuncsColumns.NAME }
+         pluginsNameCellRenderer, { text = pluginsColumns.NAME }
       }
    }
 
-   local pluginsFuncsEnabledCellRenderer = Gtk.CellRendererToggle {
+   local pluginsEnabledCellRenderer = Gtk.CellRendererToggle {
       activatable = true
    }
 
-   function pluginsFuncsEnabledCellRenderer:on_toggled(path, text)
-      local iter = pluginsFuncsListStore:get_iter(Gtk.TreePath.new_from_string(path))
-      pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = not pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED]
+   function pluginsEnabledCellRenderer:on_toggled(path, text)
+      local iter = pluginsListStore:get_iter(Gtk.TreePath.new_from_string(path))
+      pluginsListStore[iter][pluginsColumns.ENABLED] = not pluginsListStore[iter][pluginsColumns.ENABLED]
    end
 
-   local pluginsFuncsEnabledTreeViewColumn = Gtk.TreeViewColumn {
+   local pluginsEnabledTreeViewColumn = Gtk.TreeViewColumn {
       expand = false,
       {
-         pluginsFuncsEnabledCellRenderer, { active = pluginsFuncsColumns.ENABLED }
+         pluginsEnabledCellRenderer, { active = pluginsColumns.ENABLED }
       }
    }
 
-   local pluginsFuncsTreeView = Gtk.TreeView {
-      model = pluginsFuncsListStore,
-      id = 'settings.pluginsFuncs',
+   local pluginsTreeView = Gtk.TreeView {
+      model = pluginsListStore,
+      id = 'settings.plugins',
       reorderable = true,
       activate_on_single_click = true,
-      pluginsFuncsEnabledTreeViewColumn,
-      pluginsFuncsNameTreeViewColumn
+      pluginsEnabledTreeViewColumn,
+      pluginsNameTreeViewColumn
    }
 
    local settingsBox = Gtk.Box {
@@ -191,22 +215,22 @@ function plugins.buildUi(window, config)
 
    local settingsUi = nil
 
-   local pluginsFuncsSelection = pluginsFuncsTreeView:get_selection()
-   pluginsFuncsSelection.mode = 'SINGLE'
+   local pluginsSelection = pluginsTreeView:get_selection()
+   pluginsSelection.mode = 'SINGLE'
 
-   function pluginsFuncsSelection:on_changed()
+   function pluginsSelection:on_changed()
       if settingsUi then
          settingsUi:destroy()
       end
 
-      local model, iter = pluginsFuncsSelection:get_selected()
+      local model, iter = pluginsSelection:get_selected()
       if iter then
-         local pluginsType = pluginsFuncsListStore[iter][pluginsFuncsColumns.TYPE]
-         local settingsId = pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID]
-         local settings = settingsRefs[settingsId]
+         local pluginsType = pluginsListStore[iter][pluginsColumns.TYPE]
+         local settingsId = pluginsListStore[iter][pluginsColumns.SETTINGSID]
+         local settings = settingsObjs:get(settingsId)
 
          if pluginsType == 'plugin' then
-            local pluginId = pluginsFuncsListStore[iter][pluginsFuncsColumns.ID]
+            local pluginId = pluginsListStore[iter][pluginsColumns.ID]
             local plugin = pluginManager.plugins[pluginId]
 
             if plugin.buildUi then
@@ -267,19 +291,18 @@ function plugins.buildUi(window, config)
             if func ~= '' then
                local iter
 
-               local model, selectedIter = pluginsFuncsSelection:get_selected()
+               local model, selectedIter = pluginsSelection:get_selected()
                if model and selectedIter then
-                  iter = pluginsFuncsListStore:insert_after(selectedIter)
+                  iter = pluginsListStore:insert_after(selectedIter)
                else
-                  iter = pluginsFuncsListStore:append()
+                  iter = pluginsListStore:append()
                end
 
-               pluginsFuncsListStore[iter][pluginsFuncsColumns.NAME] = func
-               pluginsFuncsListStore[iter][pluginsFuncsColumns.ID] = func
-               pluginsFuncsListStore[iter][pluginsFuncsColumns.ENABLED] = true
-               pluginsFuncsListStore[iter][pluginsFuncsColumns.SETTINGSID] = storeSettings({})
-
-               log.message('Added function %s', func)
+               pluginsListStore[iter][pluginsColumns.NAME] = func
+               pluginsListStore[iter][pluginsColumns.ID] = func
+               pluginsListStore[iter][pluginsColumns.TYPE] = 'func'
+               pluginsListStore[iter][pluginsColumns.ENABLED] = true
+               pluginsListStore[iter][pluginsColumns.SETTINGSID] = settingsObjs:store({})
             end
          end
 
@@ -297,7 +320,7 @@ function plugins.buildUi(window, config)
    }
 
    function removeButton:on_clicked()
-      local model, iter = pluginsFuncsSelection:get_selected()
+      local model, iter = pluginsSelection:get_selected()
       if model and iter then
          model:remove(iter)
       end
@@ -319,7 +342,7 @@ function plugins.buildUi(window, config)
             shadow_type = 'ETCHED_IN',
             hexpand = false,
             vexpand = true,
-            pluginsFuncsTreeView
+            pluginsTreeView
          },
 
          Gtk.Box {
