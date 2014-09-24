@@ -14,7 +14,7 @@ function configManager.new()
 end
 
 function configManager.load(file)
-   print("Loading configManager file " .. file .. "...")
+   print("Loading config file " .. file)
 
    -- TODO: Error handling
    local f = assert(io.open(file, "r"), "Unable to open file: " .. file)
@@ -44,7 +44,7 @@ function configManager.show(config)
 end
 
 function configManager.save(file, config)
-   print("Saving configManager file " .. file .. "...")
+   print("Saving configManager file " .. file)
 
    -- TODO: Error handling
    local f = assert(io.open(file, "w"), "Unable to open file: " .. file)
@@ -80,7 +80,7 @@ function configManager.buildFunctionPlugins(config)
    for pluginId, pluginDef in pairs(config.plugins) do
       if not pluginManager.plugins[pluginId] then
          if not config.type or config.type == 'plugin' then
-            print("Warning: Mssing plugin " .. pluginId)
+            print("Warning: Missing plugin " .. pluginId)
          elseif config.type == 'func' then
             pluginManager.makePluginFromFunc(pluginId, pluginDef)
          else
