@@ -6,7 +6,7 @@ local pluginManager = require("crappy.pluginManager")
 plugin.name = 'Widget Functions'
 plugin.description = 'Functions produce widgets for use in a wibox'
 plugin.id = 'crappy.functions.widgets'
-plugin.requires = {"crappy.shared.launcher"}
+plugin.requires = {"crappy.shared.launcher", "crappy.shared.tags"}
 plugin.provides = {}
 plugin.functions = {
    ["crappy.functions.widgets.launcher"] = {
@@ -150,7 +150,7 @@ function plugin.startup(awesomever, settings)
          )
 
          return awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
-      else      
+      else
          mytaglist.buttons = awful.util.table.join(
             awful.button({ }, 1, awful.tag.viewonly),
             awful.button({ ezconfig.modkey }, 1, awful.client.movetotag),
