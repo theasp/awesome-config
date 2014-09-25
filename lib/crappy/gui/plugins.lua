@@ -6,57 +6,23 @@ local pluginManager = require('crappy.pluginManager')
 local fallback = require('crappy.gui.fallback')
 
 local log = lgi.log.domain('awesome-config/plugins')
+local misc = require('crappy.misc')
 
 local plugins = {}
 
-local objStore = {}
-
-function objStore.new()
-   local self = {}
-
-   function self:store(obj)
-      self.count = self.count + 1
-      self.objs[self.count] = obj
-      return self.count
-   end
-
-   function self:get(count)
-      return self.objs[count]
-   end
-
-   function self:remove(count)
-      table.remove(self.objs, count)
-   end
-
-   function self:clear()
-      self.count = 0
-      self.objs = {}
-   end
-
-   self:clear()
-
-   return self
-end
-
 function plugins.buildUi(window, config)
-   local settingsObjs = objStore.new()
-
    local pluginsColumns = {
       ENABLED = 1,
       NAME = 2,
-      SETTINGSID = 3,
-      TYPE = 4,
-      ID = 5,
-      UI = 6,
+      TYPE = 3,
+      ID = 4,
    }
 
    local pluginsListStore = Gtk.ListStore.new {
       [pluginsColumns.ENABLED] = GObject.Type.BOOLEAN,
       [pluginsColumns.NAME] = GObject.Type.STRING,
-      [pluginsColumns.SETTINGSID] = GObject.Type.UINT,
       [pluginsColumns.TYPE] = GObject.Type.STRING,
       [pluginsColumns.ID] = GObject.Type.STRING,
-      [pluginsColumns.UI] = GObject.Type.UINT
    }
 
    function namePlugin(plugin)
@@ -68,27 +34,14 @@ function plugins.buildUi(window, config)
       return name
    end
 
-   if not config.plugins then
-      config.plugins = {}
-   end
-
    for id, pluginDef in pairs(config.plugins) do
       iter = pluginsListStore:append()
-
-      if pluginDef.settings == nil then
-         pluginDef.settings = {}
-      end
 
       if not pluginDef.type or pluginDef.type == 'plugin' then
          local plugin = pluginManager.plugins[id]
          local name
          if plugin then
             name = namePlugin(plugin)
-
-            if plugin.settingsDefault then
-               plugin.settingsDefault(pluginDef.settings)
-            end
-
          else
             name = pluginDef.plugin .. ' (Missing)'
          end
@@ -105,7 +58,6 @@ function plugins.buildUi(window, config)
       end
 
       pluginsListStore[iter][pluginsColumns.ENABLED] = pluginDef.enabled
-      pluginsListStore[iter][pluginsColumns.SETTINGSID] = settingsObjs:store(pluginDef.settings)
    end
 
    -- Add in new plugins
@@ -113,51 +65,11 @@ function plugins.buildUi(window, config)
       if not config.plugins[id] then
          local iter = pluginsListStore:append()
 
-         local settings = {}
-         if plugin.settingsDefault then
-            plugin.settingsDefault(settings)
-         end
-
          pluginsListStore[iter][pluginsColumns.NAME] = namePlugin(plugin)
          pluginsListStore[iter][pluginsColumns.ID] = id
          pluginsListStore[iter][pluginsColumns.TYPE] = 'plugin'
          pluginsListStore[iter][pluginsColumns.ENABLED] = true
-         pluginsListStore[iter][pluginsColumns.SETTINGSID] = settingsObjs:store(settings)
       end
-   end
-
-   local function updatePlugins()
-      config.plugins = {}
-
-      local iter = pluginsListStore:get_iter_first()
-      while iter do
-         local id = pluginsListStore[iter][pluginsColumns.ID]
-         local name = pluginsListStore[iter][pluginsColumns.NAME]
-         local enabled = pluginsListStore[iter][pluginsColumns.ENABLED]
-         local settingsId = pluginsListStore[iter][pluginsColumns.SETTINGSID]
-         local pluginsType = pluginsListStore[iter][pluginsColumns.TYPE]
-         local val
-
-         config.plugins[id] = {
-            enabled = enabled,
-            type = pluginType,
-            settings = settingsObjs:get(settingsId)
-         }
-
-         iter = pluginsListStore:next(iter)
-      end
-   end
-
-   -- Do this on load so that new plugins get added to config
-   updatePlugins()
-
-   function pluginsListStore:on_row_deleted()
-      updatePlugins()
-   end
-
-   -- As inserts are done without values this is used for new rows too
-   function pluginsListStore:on_row_changed()
-      updatePlugins()
    end
 
    pluginsListStore:set_sort_func(pluginsColumns.NAME,
@@ -200,9 +112,7 @@ function plugins.buildUi(window, config)
 
    local pluginsTreeView = Gtk.TreeView {
       model = pluginsListStore,
-      id = 'settings.plugins',
       reorderable = true,
-      activate_on_single_click = true,
       pluginsEnabledTreeViewColumn,
       pluginsNameTreeViewColumn
    }
@@ -218,36 +128,61 @@ function plugins.buildUi(window, config)
    local pluginsSelection = pluginsTreeView:get_selection()
    pluginsSelection.mode = 'SINGLE'
 
-   function pluginsSelection:on_changed()
+   function replacePluginInfo()
       if settingsUi then
          settingsUi:destroy()
       end
 
       local model, iter = pluginsSelection:get_selected()
       if iter then
-         local pluginsType = pluginsListStore[iter][pluginsColumns.TYPE]
-         local settingsId = pluginsListStore[iter][pluginsColumns.SETTINGSID]
-         local settings = settingsObjs:get(settingsId)
+         local pluginId = pluginsListStore[iter][pluginsColumns.ID]
+         settingsUi = fallback.buildUi(window, config.plugins[pluginId])
+      end
 
-         if pluginsType == 'plugin' then
-            local pluginId = pluginsListStore[iter][pluginsColumns.ID]
-            local plugin = pluginManager.plugins[pluginId]
-
-            if plugin.buildUi then
-               settingsUi = plugin.buildUi(window, settings)
-            else
-               settingsUi = fallback.buildUi(window, settings)
-            end
-         else
-            settingsUi = fallback.buildUi(window, settings)
-         end
-
-         if settingsUi then
-            settingsBox:add(settingsUi)
-            settingsUi:show_all()
-         end
+      if settingsUi then
+         settingsBox:add(settingsUi)
+         settingsUi:show_all()
       end
    end
+
+   function pluginsSelection:on_changed()
+      replacePluginInfo()
+   end
+
+   local function updatePlugins()
+      local iter = pluginsListStore:get_iter_first()
+      while iter do
+         local id = pluginsListStore[iter][pluginsColumns.ID]
+         local name = pluginsListStore[iter][pluginsColumns.NAME]
+         local enabled = pluginsListStore[iter][pluginsColumns.ENABLED]
+
+         if not config.plugins[id] then
+            config.plugins[id] = {
+               enabled = true,
+               settings = {}
+            }
+         end
+         config.plugins[id].enabled = enabled
+
+         iter = pluginsListStore:next(iter)
+      end
+
+      replacePluginInfo()
+   end
+
+   -- As inserts are done without values this is used for new rows too
+   function pluginsListStore:on_row_changed()
+      updatePlugins()
+   end
+
+
+   -- Do this on load so that new plugins get added to config
+   updatePlugins()
+
+   function pluginsListStore:on_row_deleted()
+      updatePlugins()
+   end
+
 
    local addButton = Gtk.Button {
       id = 'add',
@@ -281,7 +216,6 @@ function plugins.buildUi(window, config)
 
       dialog:get_content_area():add(content)
 
-      functionEntry:set_activates_default(true)
       dialog:set_default_response(Gtk.ResponseType.OK)
 
       function dialog:on_response(response)
@@ -302,7 +236,6 @@ function plugins.buildUi(window, config)
                pluginsListStore[iter][pluginsColumns.ID] = func
                pluginsListStore[iter][pluginsColumns.TYPE] = 'func'
                pluginsListStore[iter][pluginsColumns.ENABLED] = true
-               pluginsListStore[iter][pluginsColumns.SETTINGSID] = settingsObjs:store({})
             end
          end
 
@@ -332,28 +265,30 @@ function plugins.buildUi(window, config)
       expand = true,
       orientation = 'HORIZONTAL',
 
-      Gtk.Box {
-         orientation = 'VERTICAL',
-         spacing = 6,
-         hexpand = false,
-         vexpand = true,
-
-         Gtk.ScrolledWindow {
-            shadow_type = 'ETCHED_IN',
+      Gtk.Paned {
+         Gtk.Box {
+            orientation = 'VERTICAL',
+            spacing = 6,
             hexpand = false,
             vexpand = true,
-            pluginsTreeView
-         },
 
-         Gtk.Box {
-            orientation = 'HORIZONTAL',
-            spacing = 4,
-            homogeneous = true,
-            addButton,
-            removeButton
-         }
-      },
-      settingsBox
+            Gtk.ScrolledWindow {
+               shadow_type = 'ETCHED_IN',
+               hexpand = false,
+               vexpand = true,
+               pluginsTreeView
+            },
+
+            Gtk.Box {
+               orientation = 'HORIZONTAL',
+               spacing = 4,
+               homogeneous = true,
+               addButton,
+               removeButton
+            }
+         },
+         settingsBox
+      }
    }
 end
 

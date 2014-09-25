@@ -5,69 +5,127 @@ local log = lgi.log.domain('awesome-config-gui')
 
 local configManager = require('crappy.configManager')
 local pluginManager = require('crappy.pluginManager')
+local misc = require('crappy.misc')
 
 pluginManager.loadAllPlugins()
 
 local gui = {}
 
+gui.pluginTabs = {}
+
 gui.plugins = require('crappy.gui.plugins')
-
-local function quit()
-   Gtk.main_quit()
-end
-
-local function activate_action(action)
-   log.message('Action "%s" activated', action.name)
-end
 
 local app = Gtk.Application {application_id = 'awesome-config.crappy.gui'}
 
+gui.config = configManager.new()
+
+function gui.quit()
+   Gtk.main_quit()
+end
+
+function gui.activate_action(action)
+   log.message('Action "%s" activated', action.name)
+end
+
+local objStore = {}
+
+function objStore.new()
+   local self = {}
+
+   function self:store(obj)
+      self.count = self.count + 1
+      self.objs[self.count] = obj
+      return self.count
+   end
+
+   function self:get(count)
+      return self.objs[count]
+   end
+
+   function self:remove(count)
+      table.remove(self.objs, count)
+   end
+
+   function self:clear()
+      self.count = 0
+      self.objs = {}
+   end
+
+   self:clear()
+
+   return self
+end
+
+
 function app:on_activate()
-   local config = configManager.new()
    HOME=os.getenv('HOME')
    local file = HOME .. "/.config/awesome/crappy.json"
 
-   local pluginsUi = nil
-   local pluginsBox = Gtk.Box {
-      margin = 0,
-      spacing = 0,
-      expand = true,
-   }
-
-   local function updateUi()
-      if pluginsUi then
-         pluginsUi:destroy()
+   local function addPluginTab(plugin)
+      print("Adding tab " .. plugin.id)
+      local label = Gtk.Label { label = plugin.name }
+      local settings = gui.config.plugins[plugin.id].settings
+      if not settings then
+         settings = {}
+         gui.config.plugins[plugin.id].settings = settings
       end
 
-      pluginsUi = gui.plugins.buildUi(window, config)
+      local ui = plugin.buildUi(window, settings)
+      if ui then
+         ui:show_all()
+         gui.mainNotebook:append_page(ui, label)
+      end
+   end
 
-      if pluginsUi then
-         pluginsBox:add(pluginsUi)
-         pluginsUi:show_all()
+   local function updateUi()
+      if (gui.pluginsUi) then
+         gui.pluginsUi:destroy()
+      end
+
+      gui.pluginsUi = gui.plugins.buildUi(window, gui.config)
+      gui.pluginsUiLabel = Gtk.Label { label = "Plugins"}
+      gui.pluginsUi:show_all()
+      gui.mainNotebook:append_page(gui.pluginsUi, gui.pluginsUiLabel)
+
+      for i, pluginTab in pairs(gui.pluginTabs) do
+         pluginTab:destroy()
+      end
+
+      local enabledPlugins = configManager.getEnabledPlugins(gui.config)
+      table.sort(enabledPlugins,
+                 function(a,b)
+                    if a.name < b.name then
+                       return true
+                    end
+                 end
+      )
+
+      for i, plugin in ipairs(enabledPlugins) do
+         if plugin.buildUi then
+            addPluginTab(plugin)
+         end
       end
    end
 
    local function newFile()
       log.message('New file')
 
-      config = configManager.new()
+      gui.config = configManager.new()
       updateUi()
    end
 
    local function loadFile()
       log.message("Loading file " .. file)
 
-      config = configManager.load(file)
+      gui.config = configManager.load(file)
       updateUi()
    end
 
    local function saveFile()
       log.message('Save file')
 
-      configManager.save(file, config)
+      configManager.save(file, gui.config)
    end
-
-   local pluginsUi = nil
 
    local actions = Gtk.ActionGroup {
       name = 'Actions',
@@ -79,7 +137,7 @@ function app:on_activate()
         accelerator = '<control>N', },
       { Gtk.Action { name = 'Open', stock_id = Gtk.STOCK_OPEN, label = "_Open",
                      tooltip = "Open a file",
-                     on_activate = activate_action },
+                     on_activate = gui.activate_action },
         accelerator = '<control>O', },
       { Gtk.Action { name = 'Save', stock_id = Gtk.STOCK_SAVE, label = "_Save",
                      tooltip = "Save current file",
@@ -90,11 +148,11 @@ function app:on_activate()
                    on_activate = activate_action },
       { Gtk.Action { name = 'Quit', stock_id = Gtk.STOCK_QUIT,
                      tooltip = "Quit",
-                     on_activate = quit },
+                     on_activate = gui.quit },
         accelerator = '<control>Q', },
       { Gtk.Action { name = 'About', stock_id = Gtk.STOCK_ABOUT, label = "_About",
                      tooltip = "About",
-                     on_activate = activate_action }
+                     on_activate = gui.activate_action }
       }
    }
 
@@ -132,28 +190,26 @@ function app:on_activate()
       type = Gtk.WindowType.TOPLEVEL,
       application = app,
       title = 'Awesome Config',
-      on_destroy = quit
+      on_destroy = gui.quit
    }
+
+   gui.mainNotebook = Gtk.Notebook {}
 
    window:add(Gtk.Box {
                  orientation = 'VERTICAL',
                  ui:get_widget('/MenuBar'),
                  ui:get_widget('/ToolBar'),
-                 Gtk.Notebook {
-                    {
-                       tab_label = "Plugins",
-                       pluginsBox
-                    },
-                 }
+                 gui.mainNotebook
 
    })
 
    window:add_accel_group(ui:get_accel_group())
 
-   loadFile()
-
    -- Show window and start the loop.
    window:show_all()
+
+   loadFile()
+
    Gtk.main()
 end
 
