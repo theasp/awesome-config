@@ -11,6 +11,7 @@ local gui = {}
 
 gui.plugins = require('crappy.gui.plugins')
 gui.pluginTabs = {}
+gui.file = nil
 
 local objStore = {}
 
@@ -50,9 +51,6 @@ function gui.on_shutdown(app)
 end
 
 function gui.on_activate(app)
-   HOME=os.getenv('HOME')
-   local file = HOME .. "/.config/awesome/crappy.json"
-
    local function addPluginTab(plugin)
       print("Adding tab " .. plugin.id)
       local label = Gtk.Label { label = plugin.name }
@@ -99,15 +97,14 @@ function gui.on_activate(app)
       end
    end
 
-   function quit()
+   local function quit()
       log.message("Quitting...")
       app:quit()
    end
 
-   function activate_action(action)
+   local function activate_action(action)
       log.message('Action "%s" activated', action.name)
    end
-
 
    local function newFile()
       log.message('New file')
@@ -117,13 +114,13 @@ function gui.on_activate(app)
    end
 
    local function loadFile()
-      log.message("Loading file " .. file)
+      log.message("Loading file " .. gui.file)
 
-      gui.config = configManager.load(file)
+      gui.config = configManager.load(gui.file)
       updateUi()
    end
 
-   local function saveFile()
+   local function saveFile(file)
       log.message('Save file')
 
       configManager.save(file, gui.config)
@@ -202,7 +199,6 @@ function gui.on_activate(app)
                  ui:get_widget('/MenuBar'),
                  ui:get_widget('/ToolBar'),
                  gui.mainNotebook
-
    })
 
    window:add_accel_group(ui:get_accel_group())
@@ -210,6 +206,8 @@ function gui.on_activate(app)
    -- Show window and start the loop.
    window:show_all()
 
+   HOME=os.getenv('HOME')
+   gui.file = HOME .. "/.config/awesome/crappy.json"
    loadFile()
 
    return window
