@@ -10,8 +10,7 @@ local misc = require('crappy.misc')
 -- The following need to be global
 awful = misc.use('awful')
 beautiful = misc.use('beautiful')
-
-local crappy = {}
+crappy = {}
 
 local ver = tonumber(awesome.version:match('%d.%d'))
 
@@ -29,12 +28,6 @@ function crappy.start(file)
 
    crappy.config = configManager.load(file)
    pluginManager.loadAllPlugins()
-
-   if crappy.config.settings == nil then
-      crappy.config.settings = {}
-   end
-
-   configManager.buildFunctionPlugins(crappy.config)
 
    local enabledPlugins = configManager.getEnabledPlugins(crappy.config)
    local startupList = pluginManager.sortByDependency(enabledPlugins)
