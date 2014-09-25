@@ -65,7 +65,9 @@ function plugin.buildUi(window, settings)
    end
 
    local function updateLayouts()
-      settings = {}
+      for i, v in ipairs(settings) do
+         settings[i] = nil
+      end
 
       local iter = layoutsListStore:get_iter_first()
       while iter do
@@ -236,7 +238,7 @@ function plugin.buildUi(window, settings)
          orientation = 'VERTICAL',
          margin = 6,
          spacing = 6,
-         
+
          Gtk.ScrolledWindow {
             shadow_type = 'ETCHED_IN',
             layoutsTreeView
