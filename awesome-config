@@ -10,5 +10,14 @@ package.path = package.path .. ';/usr/local/share/awesome/lib/?/init.lua'
 package.path = package.path .. ';/usr/share/awesome/lib/?.lua'
 package.path = package.path .. ';/usr/share/awesome/lib/?/init.lua'
 
+local lgi = require 'lgi'
+local Gtk = lgi.require('Gtk')
+
 local gui = require('crappy.gui')
-gui.run()
+
+local app = Gtk.Application {application_id = 'awesome-config.crappy.gui'}
+app.on_activate = gui.on_activate
+app.on_startup = gui.on_startup
+app.on_shutdown = gui.on_shutdown
+
+app:run { arg[0], ... }

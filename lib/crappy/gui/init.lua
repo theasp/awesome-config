@@ -7,25 +7,10 @@ local configManager = require('crappy.configManager')
 local pluginManager = require('crappy.pluginManager')
 local misc = require('crappy.misc')
 
-pluginManager.loadAllPlugins()
-
 local gui = {}
 
-gui.pluginTabs = {}
-
 gui.plugins = require('crappy.gui.plugins')
-
-local app = Gtk.Application {application_id = 'awesome-config.crappy.gui'}
-
-gui.config = configManager.new()
-
-function gui.quit()
-   Gtk.main_quit()
-end
-
-function gui.activate_action(action)
-   log.message('Action "%s" activated', action.name)
-end
+gui.pluginTabs = {}
 
 local objStore = {}
 
@@ -56,8 +41,15 @@ function objStore.new()
    return self
 end
 
+function gui.on_startup(app)
+   pluginManager.loadAllPlugins()
+   gui.config = configManager.new()
+end
 
-function app:on_activate()
+function gui.on_shutdown(app)
+end
+
+function gui.on_activate(app)
    HOME=os.getenv('HOME')
    local file = HOME .. "/.config/awesome/crappy.json"
 
@@ -107,6 +99,16 @@ function app:on_activate()
       end
    end
 
+   function quit()
+      log.message("Quitting...")
+      app:quit()
+   end
+
+   function activate_action(action)
+      log.message('Action "%s" activated', action.name)
+   end
+
+
    local function newFile()
       log.message('New file')
 
@@ -137,7 +139,7 @@ function app:on_activate()
         accelerator = '<control>N', },
       { Gtk.Action { name = 'Open', stock_id = Gtk.STOCK_OPEN, label = "_Open",
                      tooltip = "Open a file",
-                     on_activate = gui.activate_action },
+                     on_activate = activate_action },
         accelerator = '<control>O', },
       { Gtk.Action { name = 'Save', stock_id = Gtk.STOCK_SAVE, label = "_Save",
                      tooltip = "Save current file",
@@ -148,11 +150,11 @@ function app:on_activate()
                    on_activate = activate_action },
       { Gtk.Action { name = 'Quit', stock_id = Gtk.STOCK_QUIT,
                      tooltip = "Quit",
-                     on_activate = gui.quit },
+                     on_activate = quit },
         accelerator = '<control>Q', },
       { Gtk.Action { name = 'About', stock_id = Gtk.STOCK_ABOUT, label = "_About",
                      tooltip = "About",
-                     on_activate = gui.activate_action }
+                     on_activate = activate_action }
       }
    }
 
@@ -190,7 +192,7 @@ function app:on_activate()
       type = Gtk.WindowType.TOPLEVEL,
       application = app,
       title = 'Awesome Config',
-      on_destroy = gui.quit
+      on_destroy = quit
    }
 
    gui.mainNotebook = Gtk.Notebook {}
@@ -210,11 +212,7 @@ function app:on_activate()
 
    loadFile()
 
-   Gtk.main()
-end
-
-function gui.run()
-   app:run {}
+   return window
 end
 
 return gui
