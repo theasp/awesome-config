@@ -43,7 +43,7 @@ function plugins.buildUi(window, config)
          if plugin then
             name = namePlugin(plugin)
          else
-            name = pluginDef.plugin .. ' (Missing)'
+            name = id .. ' (Missing)'
          end
 
          pluginsListStore[iter][pluginsColumns.NAME] = name
