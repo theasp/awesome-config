@@ -46,18 +46,24 @@ function plugin.startup(awesomever, settings)
 
       -- Finally apply the specific screen settings, using the number
       -- or string to deal with how it is stored in the config
-      if settings[s] then
-         screenSettings = misc.mergeTable(screenSettings, settings[s])
-      end
-      if settings[sName] then
-         screenSettings = misc.mergeTable(screenSettings, settings[sName])
+      for k, v in pairs(settings) do
+         if tostring(k) == sName then
+            screenSettings = misc.mergeTable(screenSettings, v)
+         end
       end
 
       shared.tags[s] = awful.tag(screenSettings.tags, s, functionManager.getFunction(screenSettings.layout))
-      if screenSettings.tagLayouts then
-         for tagName, tagLayout in pairs(screenSettings.tagLayouts) do
+
+      if screenSettings.tagLayout then
+         for tagName, tagLayout in pairs(screenSettings.tagLayout) do
+            -- Lua is weird with strings being numbers and tables
+            local tagNum = tonumber(tagName)
             tagName = tostring(tagName)
-            if shared.tags[s][tagName] and tagLayout then
+            if shared.tags[s][tagNum] then
+               tagName = tagNum
+            end
+
+            if shared.tags[s][tagName] then
                awful.layout.set(functionManager.getFunction(tagLayout), shared.tags[s][tagName])
             end
          end
