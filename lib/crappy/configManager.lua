@@ -73,29 +73,40 @@ function configManager.json:onDecodeError(message, text, location, etc)
 end
 
 function configManager.buildFunctionPlugins(config)
-   --local startupList = {}
-
    -- Loop over the plugins in the config to detect missing plugins,
    -- and generate function based plugins.
    for pluginId, pluginDef in pairs(config.plugins) do
-      if not pluginManager.plugins[pluginId] then
-         if not config.type or config.type == 'plugin' then
-            print("Warning: Missing plugin " .. pluginId)
-         elseif config.type == 'func' then
-            pluginManager.makePluginFromFunc(pluginId, pluginDef)
-         else
-            print("Warning: Unknown plugin type " .. startupDef.type)
-         end
+      if config.type and config.type == 'func' then
+         pluginManager.makePluginFromFunc(pluginId, pluginDef)
       end
    end
 
+   return config
+end
+
+function configManager.makeFullConfig(config)
+   configManager.buildFunctionPlugins(config)
+
+   for pluginId, plugin in pairs(pluginManager.plugins) do
+      if not config.plugins[pluginId] then
+         config.plugins[pluginId] = {}
+      end
+
+      if config.plugins[pluginId].enabled == nil then
+         config.plugins[pluginId].enabled = true
+      end
+   end
+
+   return config
 end
 
 function configManager.getEnabledPlugins(config)
    local enabledPlugins = {}
 
+   configManager.makeFullConfig(config)
+
    for pluginId, plugin in pairs(pluginManager.plugins) do
-      if not (config.plugins[pluginId] and config.plugins[pluginId].enabled and config.plugins[pluginId].enabled == false) then
+      if config.plugins[pluginId].enabled then
          table.insert(enabledPlugins, plugin)
       end
    end
