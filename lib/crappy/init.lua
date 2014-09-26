@@ -10,6 +10,7 @@ local misc = require('crappy.misc')
 -- The following need to be global
 awful = misc.use('awful')
 beautiful = misc.use('beautiful')
+naughty = misc.use('naughty')
 crappy = {}
 
 local ver = tonumber(awesome.version:match('%d.%d'))
