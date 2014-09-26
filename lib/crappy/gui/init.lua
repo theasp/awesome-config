@@ -170,7 +170,7 @@ function gui.on_activate(app)
         accelerator = '<control>Q', },
       { Gtk.Action { name = 'About', stock_id = Gtk.STOCK_ABOUT, label = "_About",
                      tooltip = "About",
-                     on_activate = activate_action }
+                     on_activate = about }
       }
    }
 
