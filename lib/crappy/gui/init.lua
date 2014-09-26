@@ -56,7 +56,8 @@ end
 
 function gui.on_activate(app)
    local function addPluginTab(plugin)
-      print("Adding tab " .. plugin.id)
+      log.message("Adding tab " .. plugin.id)
+      local pluginLog = lgi.log.domain('gui/' .. plugin.id)
       local label = Gtk.Label { label = plugin.name }
       local settings = gui.config.plugins[plugin.id].settings
       if not settings then
@@ -64,7 +65,7 @@ function gui.on_activate(app)
          gui.config.plugins[plugin.id].settings = settings
       end
 
-      local ui = plugin.buildUi(window, settings)
+      local ui = plugin.buildUi(window, settings, pluginLog)
       if ui then
          ui:show_all()
          gui.mainNotebook:append_page(ui, label)
