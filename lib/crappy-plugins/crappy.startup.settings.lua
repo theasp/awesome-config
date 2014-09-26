@@ -38,11 +38,9 @@ function plugin.startup(awesomever, settings)
    shared.settings = settings
 end
 
-function plugin.buildUi(window, settings)
+function plugin.buildUi(window, settings, log)
    local lgi = require 'lgi'
    local Gtk = lgi.require('Gtk')
-
-   local log = lgi.log.domain('awesome-config.startup/plugin/' .. plugin.id)
 
    local titlebarCheckButton = Gtk.CheckButton {
       label = 'Show _Titlebar',
