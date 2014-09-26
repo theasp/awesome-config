@@ -209,6 +209,8 @@ function gui.on_activate(app)
       type = Gtk.WindowType.TOPLEVEL,
       application = app,
       title = 'Awesome Config',
+      default_width = 600,
+      default_height = 400,
       on_destroy = quit
    }
 
