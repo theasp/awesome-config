@@ -9,6 +9,10 @@ local misc = require('crappy.misc')
 
 local gui = {}
 
+gui.version = "0.2"
+gui.authors = {
+   "Andrew Phillips",
+}
 gui.plugins = require('crappy.gui.plugins')
 gui.pluginTabs = {}
 gui.file = nil
@@ -120,11 +124,26 @@ function gui.on_activate(app)
       updateUi()
    end
 
-   local function saveFile(file)
+   local function saveFile()
       log.message('Save file')
 
-      configManager.save(file, gui.config)
+      configManager.save(gui.file, gui.config)
    end
+
+   local function about()
+      local about = Gtk.AboutDialog {
+         title = "About Awesome Config",
+         program_name = "Awesome Config",
+         version = gui.version,
+         copyright = "© 2014 Andrew Phillips",
+         license_type = 'GPL_2_0',
+         website = 'http://github.com/theasp/awesome-config',
+         authors = gui.authors
+      }
+      about:run()
+      about:hide()
+   end
+
 
    local actions = Gtk.ActionGroup {
       name = 'Actions',
