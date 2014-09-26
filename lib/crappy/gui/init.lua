@@ -1,7 +1,7 @@
 local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
 
-local log = lgi.log.domain('awesome-config-gui')
+local log = lgi.log.domain('gui')
 
 local configManager = require('crappy.configManager')
 local pluginManager = require('crappy.pluginManager')
