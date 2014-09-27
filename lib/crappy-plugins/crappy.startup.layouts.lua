@@ -3,7 +3,6 @@ local plugin = {}
 local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
-local widgets = require('crappy.gui.widgets')
 
 plugin.name = 'Layouts'
 plugin.description = 'Initialize the layouts'
@@ -45,16 +44,14 @@ end
 function plugin.buildUi(window, settings, log)
    local lgi = require 'lgi'
    local Gtk = lgi.require('Gtk')
+   local widgets = require('crappy.gui.widgets')
 
    local valid = functionManager.getFunctionsForClass('layout')
    table.sort(valid)
 
    local layoutsBox = widgets.functionList(valid, settings, true, true)
 
-   return Gtk.ScrolledWindow {
-      shadow_type = 'ETCHED_IN',
-      layoutsBox
-   }
+   return layoutsBox
 end
 
 
