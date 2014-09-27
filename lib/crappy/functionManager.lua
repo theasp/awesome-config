@@ -15,7 +15,7 @@ function functionManager.registerFunction(funcDef)
    functions[funcDef.id] = funcDef
    functionsByClass[funcDef.class][funcDef.id] = funcDef
 end
-   
+
 function functionManager.registerPlugin(plugin)
    for funcId, funcDef in pairs(plugin.functions) do
       funcDef.id = funcId
@@ -47,6 +47,8 @@ function functionManager.getFunctionsForClass(class)
    for i, v in pairs(functionsByClass[class]) do
       table.insert(list, i)
    end
+
+   table.sort(list)
 
    return list
 end
