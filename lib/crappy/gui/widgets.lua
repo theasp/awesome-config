@@ -283,7 +283,6 @@ function widgets.functionList(valid, current, reorderable)
    buttonBox:add(addButton)
 
    local removeButton = Gtk.Button {
-      id = 'remove',
       use_stock = true,
       label = Gtk.STOCK_REMOVE,
    }
