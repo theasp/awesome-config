@@ -214,7 +214,9 @@ function gui.on_activate(app)
       on_destroy = quit
    }
 
-   gui.mainNotebook = Gtk.Notebook {}
+   gui.mainNotebook = Gtk.Notebook {
+      scrollable = true,
+   }
 
    window:add(Gtk.Box {
                  orientation = 'VERTICAL',
