@@ -89,52 +89,47 @@ function plugin.buildUi(window, settings, log)
       return row
    end
 
-   return Gtk.ScrolledWindow {
-      shadow_type = 'ETCHED_IN',
+   return Gtk.Grid {
+      row_spacing = 6,
+      column_spacing = 6,
+      margin = 6,
       expand = true,
 
-      Gtk.Grid {
-         row_spacing = 6,
-         column_spacing = 6,
-         margin = 6,
-         expand = true,
+      {
+         left_attach = 0, top_attach = nextRow(),
+         titlebarCheckButton
+      },
 
-         {
-            left_attach = 0, top_attach = nextRow(),
-            titlebarCheckButton
-         },
+      {
+         left_attach = 0, top_attach = nextRow(),
+         sloppyfocusCheckButton
+      },
 
-         {
-            left_attach = 0, top_attach = nextRow(),
-            sloppyfocusCheckButton
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = 'Te_rminal Emulator:',
+            use_underline = true,
+            mnemonic_widget = terminalEntry
          },
+      },
+      {
+         left_attach = 1, top_attach = row,
+         terminalEntry
+      },
 
-         {
-            left_attach = 0, top_attach = nextRow(),
-            Gtk.Label {
-               label = 'Te_rminal Emulator:',
-               use_underline = true,
-               mnemonic_widget = terminalEntry
-            },
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = '_Editor:',
+            use_underline = true,
+            mnemonic_widget = editorEntry
          },
-         {
-            left_attach = 1, top_attach = row,
-            terminalEntry
-         },
-
-         {
-            left_attach = 0, top_attach = nextRow(),
-            Gtk.Label {
-               label = '_Editor:',
-               use_underline = true,
-               mnemonic_widget = editorEntry
-            },
-         },
-         {
-            left_attach = 1, top_attach = row,
-            editorEntry
-         },
-      }
+      },
+      {
+         left_attach = 1, top_attach = row,
+         editorEntry
+      },
    }
 end
 
