@@ -61,48 +61,43 @@ function plugin.buildUi(window, settings, log)
       return row
    end
 
-   return Gtk.ScrolledWindow {
-      shadow_type = 'ETCHED_IN',
+   return Gtk.Box {
+      orientation = 'VERTICAL',
+      spacing = 6,
       expand = true,
+      valign = 'START',
 
-      Gtk.Box {
-         orientation = 'VERTICAL',
-         spacing = 6,
+      Gtk.Grid {
+         row_spacing = 6,
+         column_spacing = 6,
+         margin = 6,
          expand = true,
-         valign = 'START',
-         
-         Gtk.Grid {
-            row_spacing = 6,
-            column_spacing = 6,
-            margin = 6,
-            expand = true,
 
-            {
-               left_attach = 0, top_attach = nextRow(),
-               Gtk.Label {
-                  label = '_Theme File:',
-                  use_underline = true,
-                  mnemonic_widget = fileEntry
-               },
+         {
+            left_attach = 0, top_attach = nextRow(),
+            Gtk.Label {
+               label = '_Theme File:',
+               use_underline = true,
+               mnemonic_widget = fileEntry
             },
-            {
-               left_attach = 1, top_attach = row,
-               fileEntry
+         },
+         {
+            left_attach = 1, top_attach = row,
+            fileEntry
+         },
+         {
+            left_attach = 0, top_attach = nextRow(),
+            Gtk.Label {
+               label = '_Font Override:',
+               use_underline = true,
+               mnemonic_widget = fontEntry
             },
-            {
-               left_attach = 0, top_attach = nextRow(),
-               Gtk.Label {
-                  label = '_Font Override:',
-                  use_underline = true,
-                  mnemonic_widget = fontEntry
-               },
-            },
-            {
-               left_attach = 1, top_attach = row,
-               fontEntry
-            }
-
+         },
+         {
+            left_attach = 1, top_attach = row,
+            fontEntry
          }
+
       }
    }
 end
