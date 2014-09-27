@@ -118,4 +118,55 @@ function plugin.startup(awesomever, settings)
    end
 end
 
+function plugin.buildUi(window, settings, log)
+   local lgi = require('lgi')
+   local Gtk = lgi.require('Gtk')
+   local widgets = require('crappy.gui.widgets')
+
+   local positionRadioButton = Gtk.RadioButton {
+      label = 'Position:'
+   }
+
+   local posComboBox = Gtk.ComboBoxText {
+   }
+   posComboBox:append("top", "Top")
+   posComboBox:append("bottom", "Bottom")
+   posComboBox:set_active_id(settings.position)
+
+   function posComboBox:on_changed()
+      settings.position = posComboBox:get_active_id()
+   end
+
+   local valid = functionManager.getFunctionsForClass('widget')
+   table.sort(valid)
+
+   local leftWidgets = widgets.functionList(valid, settings.widgets.left, true, true)
+   local middleWidgets = widgets.functionList(valid, settings.widgets.middle, true, true)
+   local rightWidgets = widgets.functionList(valid, settings.widgets.right, true, true)
+
+   return Gtk.Box {
+      orientation = 'VERTICAL',
+      spacing = 6,
+      margin = 6,
+      Gtk.Box {
+         orientation = 'HORIZONTAL',
+         spacing = 4,
+         Gtk.Label {
+            halign = 'START',
+            label = 'Position:'
+         },
+         posComboBox,
+      },
+      Gtk.Frame {
+         label = "Widgets:",
+         Gtk.Notebook {
+            margin = 6,
+            { tab_label = "Left", leftWidgets },
+            { tab_label = "Middle" , middleWidgets },
+            { tab_label = "Right", rightWidgets }
+         }
+      }
+   }
+end
+
 return plugin
