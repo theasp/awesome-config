@@ -9,8 +9,8 @@ Vcs-Git: https://github.com/theasp/awesome-config
 Vcs-Browser: https://github.com/theasp/awesome-config
 
 Package: awesome-config
-Architecture: any
-Depends: awesome (>= 3.4.11), lua-lgi (>= 0.5.0), lua-filesystem
+Architecture: all
+Depends: awesome (>= 3.4.11), lua-lgi (>= 0.5.0)
 Description: Configuration library and GUI for the awesome window manager
  A library for reading a configuration file for Awesome, and a GUI to
  edit the configuration file.
