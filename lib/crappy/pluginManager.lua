@@ -1,4 +1,6 @@
-local lfs = require('lfs')
+local lgi = require 'lgi'
+local Gio = lgi.require('Gio')
+
 local functionManager = require("crappy.functionManager")
 
 local pluginManager = {}
@@ -61,17 +63,17 @@ function pluginManager.loadPlugin(file)
 end
 
 function pluginManager.loadPlugins(path)
-   local res, files, iter = pcall(lfs.dir, path)
+   local dir = Gio.File.new_for_path(path)
+   local dirEnumerator = dir:enumerate_children('*', 'NONE', nil)
 
-   if res then
-      local file = iter:next()
+   if dirEnumerator then
+      local file = dirEnumerator:next_file()
       while file do
-         if string.match(file, '.lua$') then
-            pluginManager.loadPlugin(path .. '/' .. file)
+         if string.match(file:get_name(), '.lua$') then
+            pluginManager.loadPlugin(dir:get_path() .. '/' .. file:get_name())
          end
-         file = iter:next()
+         file = dirEnumerator:next_file()
       end
-      iter:close()
    end
 end
 
