@@ -10,10 +10,10 @@ pluginManager.plugins = {}
 HOME=os.getenv('HOME')
 
 pluginManager.pluginPaths = {
-   '/usr/share/awesome/lib/crappy-plugins',
-   '/usr/local/share/awesome/lib/crappy-plugins',
-   '/etc/xdg/awesome/crappy-plugins',
-   HOME .. '/.config/awesome/crappy-plugins',
+   '/usr/share/awesome/lib',
+   '/usr/local/share/awesome/lib',
+   '/etc/xdg/awesome',
+   HOME .. '/.config/awesome',
 }
 
 function pluginManager.registerPlugin(plugin)
@@ -77,9 +77,28 @@ function pluginManager.loadPlugins(path)
    end
 end
 
+function pluginManager.loadSubdirPlugins(path)
+   local dir = Gio.File.new_for_path(path)
+   local dirEnumerator = dir:enumerate_children('*', 'NONE', nil)
+
+   if dirEnumerator then
+      local file = dirEnumerator:next_file()
+      while file do
+         if file:get_file_type() == 'DIRECTORY' then
+            if file:get_name() == 'crappy-plugins' then
+               pluginManager.loadPlugins(dir:get_path() .. '/' .. file:get_name())
+            else
+               pluginManager.loadSubdirPlugins(dir:get_path() .. '/' .. file:get_name())
+            end
+         end
+         file = dirEnumerator:next_file()
+      end
+   end
+end
+
 function pluginManager.loadAllPlugins()
    for i, path in ipairs(pluginManager.pluginPaths) do
-      pluginManager.loadPlugins(path)
+      pluginManager.loadSubdirPlugins(path)
    end
 end
 
