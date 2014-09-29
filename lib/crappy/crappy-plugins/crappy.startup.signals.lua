@@ -39,4 +39,70 @@ function plugin.startup(awesomever, settings)
    end
 end
 
+function plugin.buildUi(window, settings, log)
+   local lgi = require 'lgi'
+   local Gtk = lgi.require('Gtk')
+   local widgets = require('crappy.gui.widgets')
+
+   local valid = functionManager.getFunctionsForClass('signal')
+   table.sort(valid)
+   
+   local manageComboBox = widgets.functionComboBox(valid, settings.manage)   
+   local focusComboBox = widgets.functionComboBox(valid, settings.focus)
+   local unfocusComboBox = widgets.functionComboBox(valid, settings.unfocus)
+
+   local row = -1;
+   local function nextRow()
+      row = row + 1
+      return row
+   end
+
+   return Gtk.Grid {
+      row_spacing = 6,
+      column_spacing = 6,
+      margin = 6,
+      expand = true,
+
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = '_Manage Signal:',
+            use_underline = true,
+            mnemonic_widget = manageComboBox
+         },
+      },
+      {
+         left_attach = 1, top_attach = row,
+         manageComboBox
+      },
+
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = '_Focus Signal:',
+            use_underline = true,
+            mnemonic_widget = focusComboBox
+         },
+      },
+      {
+         left_attach = 1, top_attach = row,
+         focusComboBox
+      },
+
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = '_Unfocus Signal:',
+            use_underline = true,
+            mnemonic_widget = unfocusComboBox
+         },
+      },
+      {
+         left_attach = 1, top_attach = row,
+         unfocusComboBox
+      },
+   }
+end
+
+
 return plugin
