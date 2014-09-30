@@ -15,7 +15,7 @@ plugin.functions = {
    },
    ["crappy.functions.signals.unfocus"] = {
       class = "signal",
-      description = "Signal for when a client is focused",
+      description = "Signal for when a client is unfocused",
    },
    ["crappy.functions.signals.manage"] = {
       class = "signal",
@@ -121,6 +121,10 @@ function plugin.startup(awesomever, settings)
          end
       end
    end
+end
+
+function plugin.buildUi(window, settings, log)
+   return nil
 end
 
 return plugin

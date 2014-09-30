@@ -76,4 +76,8 @@ function plugin.startup(awesomever, settings)
    plugin.functions["awful.layout.suit.magnifier"].func = awful.layout.suit.magnifier
 end
 
+function plugin.buildUi(window, settings, log)
+   return nil
+end
+
 return plugin

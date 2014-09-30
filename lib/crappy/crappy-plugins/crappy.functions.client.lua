@@ -86,4 +86,8 @@ function plugin.startup(awesomever, settings)
    end
 end
 
+function plugin.buildUi(window, settings, log)
+   return nil
+end
+
 return plugin
