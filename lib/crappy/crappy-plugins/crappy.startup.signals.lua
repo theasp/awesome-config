@@ -46,10 +46,24 @@ function plugin.buildUi(window, settings, log)
 
    local valid = functionManager.getFunctionsForClass('signal')
    table.sort(valid)
-   
-   local manageComboBox = widgets.functionComboBox(valid, settings.manage)   
+
+   local manageComboBox = widgets.functionComboBox(valid, settings.manage)
+   function manageComboBox:on_changed()
+      local entry = self:get_child()
+      settings.manage = entry:get_text()
+   end
+
    local focusComboBox = widgets.functionComboBox(valid, settings.focus)
+   function focusComboBox:on_changed()
+      local entry = self:get_child()
+      settings.focus = entry:get_text()
+   end
+
    local unfocusComboBox = widgets.functionComboBox(valid, settings.unfocus)
+   function unfocusComboBox:on_changed()
+      local entry = self:get_child()
+      settings.unfocus = entry:get_text()
+   end
 
    local row = -1;
    local function nextRow()
