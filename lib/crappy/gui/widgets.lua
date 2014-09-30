@@ -313,35 +313,20 @@ function widgets.functionList(valid, current, reorderable)
 end
 
 function widgets.functionComboBox(valid, current)
-   print(current)
-   local column = {
-      NAME = 1,
-      DESC = 2
-   }
-
-   local validListStore = Gtk.ListStore.new {
-      [column.NAME] = GObject.Type.STRING,
-      [column.DESC] = GObject.Type.STRING
+   local comboBox = Gtk.ComboBoxText {
+      has_entry = true,
+      entry_text_column = 1,
+      hexpand = true,
    }
 
    for i, v in ipairs(valid) do
       if v ~= '' then
          local funcDef = functionManager.functions[v]
-         local iter = validListStore:append()
-         --print(funcDef.id)
-         validListStore[iter][column.NAME] = funcDef.id
-         validListStore[iter][column.DESC] = funcDef.description
+         comboBox:append(v, funcDef.description)
       end
    end
 
-   local comboBox = Gtk.ComboBoxText {
-      model = validListStore,
-      --has_entry = true,
-      entry_text_column = column.NAME,
-      id_column = column.NAME,
-      active_id = current,
-      hexpand = true,
-   }
+   comboBox:set_active_id(current)
 
    return comboBox
 end
