@@ -19,35 +19,6 @@ gui.plugins = require('crappy.gui.plugins')
 gui.pluginTabs = {}
 gui.file = nil
 
-local objStore = {}
-
-function objStore.new()
-   local self = {}
-
-   function self:store(obj)
-      self.count = self.count + 1
-      self.objs[self.count] = obj
-      return self.count
-   end
-
-   function self:get(count)
-      return self.objs[count]
-   end
-
-   function self:remove(count)
-      table.remove(self.objs, count)
-   end
-
-   function self:clear()
-      self.count = 0
-      self.objs = {}
-   end
-
-   self:clear()
-
-   return self
-end
-
 function gui.on_startup(app)
    pluginManager.loadAllPlugins()
    gui.config = configManager.new()
