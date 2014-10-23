@@ -51,6 +51,7 @@ function gui.on_activate(app)
       if ui then
          ui:show_all()
          gui.mainNotebook:append_page(ui, label)
+         table.insert(gui.pluginTabs, ui)
       end
    end
 
