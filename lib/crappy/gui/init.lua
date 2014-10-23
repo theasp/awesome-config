@@ -61,6 +61,8 @@ function gui.on_activate(app)
          gui.pluginsUi:destroy()
       end
 
+      configManager.makeFullConfig(gui.config)
+
       gui.pluginsUi = gui.plugins.buildUi(window, gui.config)
       gui.pluginsUiLabel = Gtk.Label { label = "Plugins"}
       gui.pluginsUi:show_all()
