@@ -36,6 +36,8 @@ function plugin.buildUi(window, settings, log)
    local lgi = require 'lgi'
    local Gtk = lgi.require('Gtk')
 
+   plugin.settingsDefault(settings)
+
    local fileEntry = Gtk.Entry {
       text = settings.file,
       expand = true

@@ -42,6 +42,8 @@ function plugin.buildUi(window, settings, log)
    local lgi = require 'lgi'
    local Gtk = lgi.require('Gtk')
 
+   plugin.settingsDefault(settings)
+
    local titlebarCheckButton = Gtk.CheckButton {
       label = 'Show _Titlebar',
       use_underline = true,

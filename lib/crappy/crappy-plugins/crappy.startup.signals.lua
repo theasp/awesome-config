@@ -44,6 +44,8 @@ function plugin.buildUi(window, settings, log)
    local Gtk = lgi.require('Gtk')
    local widgets = require('crappy.gui.widgets')
 
+   plugin.settingsDefault(settings)
+
    local valid = functionManager.getFunctionsForClass('signal')
    table.sort(valid)
 
