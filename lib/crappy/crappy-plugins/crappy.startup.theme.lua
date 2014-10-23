@@ -77,6 +77,7 @@ function plugin.buildUi(window, settings, log)
             left_attach = 0, top_attach = nextRow(),
             Gtk.Label {
                label = '_Theme File:',
+               halign = 'END',
                use_underline = true,
                mnemonic_widget = fileEntry
             },
@@ -89,6 +90,7 @@ function plugin.buildUi(window, settings, log)
             left_attach = 0, top_attach = nextRow(),
             Gtk.Label {
                label = '_Font Override:',
+               halign = 'END',
                use_underline = true,
                mnemonic_widget = fontEntry
             },

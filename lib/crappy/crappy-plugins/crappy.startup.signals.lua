@@ -81,6 +81,7 @@ function plugin.buildUi(window, settings, log)
          left_attach = 0, top_attach = nextRow(),
          Gtk.Label {
             label = '_Manage Signal:',
+            halign = 'END',
             use_underline = true,
             mnemonic_widget = manageComboBox
          },
@@ -94,6 +95,7 @@ function plugin.buildUi(window, settings, log)
          left_attach = 0, top_attach = nextRow(),
          Gtk.Label {
             label = '_Focus Signal:',
+            halign = 'END',
             use_underline = true,
             mnemonic_widget = focusComboBox
          },
@@ -107,6 +109,7 @@ function plugin.buildUi(window, settings, log)
          left_attach = 0, top_attach = nextRow(),
          Gtk.Label {
             label = '_Unfocus Signal:',
+            halign = 'END',
             use_underline = true,
             mnemonic_widget = unfocusComboBox
          },

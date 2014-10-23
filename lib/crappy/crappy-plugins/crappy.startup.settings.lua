@@ -108,6 +108,7 @@ function plugin.buildUi(window, settings, log)
          left_attach = 0, top_attach = nextRow(),
          Gtk.Label {
             label = 'Te_rminal Emulator:',
+            halign = 'END',
             use_underline = true,
             mnemonic_widget = terminalEntry
          },
@@ -121,6 +122,7 @@ function plugin.buildUi(window, settings, log)
          left_attach = 0, top_attach = nextRow(),
          Gtk.Label {
             label = '_Editor:',
+            halign = 'END',
             use_underline = true,
             mnemonic_widget = editorEntry
          },
