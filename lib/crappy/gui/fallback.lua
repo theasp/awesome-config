@@ -5,9 +5,7 @@ local json = require('crappy.JSON')
 
 local fallback = {}
 
-local log = lgi.log.domain('awesome-config/startup.fallback')
-
-function fallback.buildUi(window, settings)
+function fallback.buildUi(window, settings, log)
    local settingsJson = json:encode_pretty(settings)
    local buffer = Gtk.TextBuffer {}
    buffer.text = settingsJson
