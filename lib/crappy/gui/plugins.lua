@@ -10,6 +10,63 @@ local misc = require('crappy.misc')
 
 local plugins = {}
 
+function plugins.buildPluginUi(window, plugin, pluginConfig, log)
+   if plugin == nil then
+      plugin = {name='Unknown', id='Unknown', description='Unknown'}
+   end
+
+   local row = -1;
+   local function nextRow()
+      row = row + 1
+      return row
+   end
+
+   local grid = Gtk.Grid {
+      row_spacing = 6,
+      column_spacing = 6,
+      margin = 6,
+      expand = true,
+
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = 'Description:',
+            halign = 'END',
+         }
+      },
+      {
+         left_attach = 1, top_attach = row,
+         Gtk.Label {
+            label = plugin.description,
+            selectable = true,
+            halign = 'START',
+         }
+      },
+
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
+            label = 'Id:',
+            halign = 'END',
+         }
+      },
+      {
+         left_attach = 1, top_attach = row,
+         Gtk.Label {
+            label = plugin.id,
+            selectable = true,
+            halign = 'START',
+         }
+      },
+   }
+
+   return Gtk.ScrolledWindow {
+      shadow_type = 'ETCHED_IN',
+      expand = true,
+      grid
+   }
+end
+
 function plugins.buildUi(window, config)
    local pluginsColumns = {
       ENABLED = 1,
@@ -114,25 +171,26 @@ function plugins.buildUi(window, config)
       expand = true,
    }
 
-   local settingsUi = nil
+   local pluginUi = nil
 
    local pluginsSelection = pluginsTreeView:get_selection()
    pluginsSelection.mode = 'SINGLE'
 
    function replacePluginInfo()
-      if settingsUi then
-         settingsUi:destroy()
+      if pluginUi then
+         pluginUi:destroy()
       end
 
       local model, iter = pluginsSelection:get_selected()
       if iter then
          local pluginId = pluginsListStore[iter][pluginsColumns.ID]
-         settingsUi = fallback.buildUi(window, config.plugins[pluginId])
+         local plugin = pluginManager.plugins[pluginId]
+         pluginUi = plugins.buildPluginUi(window, plugin, config.plugins[pluginId], log)
       end
 
-      if settingsUi then
-         settingsBox:add(settingsUi)
-         settingsUi:show_all()
+      if pluginUi then
+         settingsBox:add(pluginUi)
+         pluginUi:show_all()
       end
    end
 
