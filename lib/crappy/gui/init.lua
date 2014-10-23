@@ -33,10 +33,6 @@ function gui.on_activate(app)
       local pluginLog = lgi.log.domain('gui/' .. plugin.id)
       local label = Gtk.Label { label = plugin.name }
       local settings = gui.config.plugins[plugin.id].settings
-      if not settings then
-         settings = {}
-         gui.config.plugins[plugin.id].settings = settings
-      end
 
       -- Use the plugin's buildUi function to populate the tab,
       -- otherwise use the fallback.
