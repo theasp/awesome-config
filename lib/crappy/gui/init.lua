@@ -7,6 +7,8 @@ local configManager = require('crappy.configManager')
 local pluginManager = require('crappy.pluginManager')
 local misc = require('crappy.misc')
 
+local fallback = require('crappy.gui.fallback')
+
 local gui = {}
 
 gui.version = "0.2"
@@ -65,7 +67,13 @@ function gui.on_activate(app)
          gui.config.plugins[plugin.id].settings = settings
       end
 
-      local ui = plugin.buildUi(window, settings, pluginLog)
+      local ui
+      if plugin.buildUi then
+         ui = plugin.buildUi(window, settings, pluginLog)
+      else
+         ui = fallback.buildUi(window, settings, pluginLog)
+      end
+
       if ui then
          ui:show_all()
          gui.mainNotebook:append_page(ui, label)
@@ -96,9 +104,7 @@ function gui.on_activate(app)
       )
 
       for i, plugin in ipairs(enabledPlugins) do
-         if plugin.buildUi then
-            addPluginTab(plugin)
-         end
+         addPluginTab(plugin)
       end
    end
 
