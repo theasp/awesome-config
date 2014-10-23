@@ -95,6 +95,14 @@ function configManager.makeFullConfig(config)
       if config.plugins[pluginId].enabled == nil then
          config.plugins[pluginId].enabled = true
       end
+
+      if config.plugins[pluginId].settings == nil then
+         config.plugins[pluginId].settings = {}
+      end
+
+      if plugin.settingsDefault then
+         plugin.settingsDefault(config.plugins[pluginId].settings)
+      end
    end
 
    return config
