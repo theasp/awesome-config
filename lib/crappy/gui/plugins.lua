@@ -176,7 +176,7 @@ function plugins.buildUi(window, config)
    local pluginsSelection = pluginsTreeView:get_selection()
    pluginsSelection.mode = 'SINGLE'
 
-   function replacePluginInfo()
+   local function replacePluginInfo()
       if pluginUi then
          pluginUi:destroy()
       end
