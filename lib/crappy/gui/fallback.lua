@@ -20,15 +20,20 @@ function fallback.buildUi(window, settings, log)
       label = Gtk.STOCK_UNDO,
    }
 
-   function undoButton:on_clicked()
-      buffer.text = settingsJson
-      disableButtons()
-   end
-
    local applyButton = Gtk.Button {
       use_stock = true,
       label = Gtk.STOCK_APPLY,
    }
+
+   local function disableButtons()
+      undoButton:set_sensitive(false)
+      applyButton:set_sensitive(false)
+   end
+
+   local function enableButtons()
+      undoButton:set_sensitive(true)
+      applyButton:set_sensitive(true)
+   end
 
    function applyButton:on_clicked()
       local ok = true
@@ -61,7 +66,6 @@ function fallback.buildUi(window, settings, log)
       end
 
       newSettings = json:decode(buffer.text)
-      print(newSettings)
 
       if ok and type(newSettings) == 'table' then
          -- Clear the settings table, we want to keep the same
@@ -97,18 +101,13 @@ function fallback.buildUi(window, settings, log)
       end
    end
 
-   function disableButtons()
-      undoButton:set_sensitive(false)
-      applyButton:set_sensitive(false)
-   end
-
-   function enableButtons()
-      undoButton:set_sensitive(true)
-      applyButton:set_sensitive(true)
-   end
-
    function buffer:on_changed(modifed)
       enableButtons()
+   end
+
+   function undoButton:on_clicked()
+      buffer.text = settingsJson
+      disableButtons()
    end
 
    disableButtons()
