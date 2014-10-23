@@ -28,8 +28,8 @@ function gui.on_shutdown(app)
 end
 
 function gui.on_activate(app)
+   -- Function to add a plugin tab
    local function addPluginTab(plugin)
-      log.message("Adding tab " .. plugin.id)
       local pluginLog = lgi.log.domain('gui/' .. plugin.id)
       local label = Gtk.Label { label = plugin.name }
       local settings = gui.config.plugins[plugin.id].settings
@@ -38,6 +38,8 @@ function gui.on_activate(app)
          gui.config.plugins[plugin.id].settings = settings
       end
 
+      -- Use the plugin's buildUi function to populate the tab,
+      -- otherwise use the fallback.
       local ui
       if plugin.buildUi then
          ui = plugin.buildUi(window, settings, pluginLog)
@@ -45,12 +47,14 @@ function gui.on_activate(app)
          ui = fallback.buildUi(window, settings, pluginLog)
       end
 
+      -- Don't add a tab if the plugin's buildUi function returned nil
       if ui then
          ui:show_all()
          gui.mainNotebook:append_page(ui, label)
       end
    end
 
+   -- Function to reset the GUI based on the current config
    local function updateUi()
       if (gui.pluginsUi) then
          gui.pluginsUi:destroy()
