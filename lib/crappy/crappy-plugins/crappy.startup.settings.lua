@@ -82,7 +82,6 @@ function plugin.buildUi(window, settings, log)
       settings.editor = editorEntry:get_text()
    end
 
-
    local row = -1;
    local function nextRow()
       row = row + 1
