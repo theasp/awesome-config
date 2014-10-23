@@ -185,7 +185,7 @@ function gui.on_activate(app)
    ui:insert_action_group(actions, 0)
 
    local ok, err = ui:add_ui_from_string(
-      [[
+[[
 <ui>
   <menubar name='MenuBar'>
     <menu action='FileMenu'>
@@ -205,7 +205,8 @@ function gui.on_activate(app)
     <toolitem action='Save'/>
     <toolitem action='Quit'/>
   </toolbar>
-</ui>]], -1)
+</ui>
+]], -1)
 
    if not ok then
       log.message('building menus failed: %s', err)
