@@ -31,6 +31,22 @@ function plugins.buildPluginUi(window, pluginId, pluginConfig, log)
       {
          left_attach = 0, top_attach = nextRow(),
          Gtk.Label {
+            label = 'Id:',
+            halign = 'END',
+         }
+      },
+      {
+         left_attach = 1, top_attach = row,
+         Gtk.Label {
+            label = plugin.id,
+            selectable = true,
+            halign = 'START',
+         }
+      },
+
+      {
+         left_attach = 0, top_attach = nextRow(),
+         Gtk.Label {
             label = 'Description:',
             halign = 'END',
          }
@@ -44,21 +60,6 @@ function plugins.buildPluginUi(window, pluginId, pluginConfig, log)
          }
       },
 
-      {
-         left_attach = 0, top_attach = nextRow(),
-         Gtk.Label {
-            label = 'Id:',
-            halign = 'END',
-         }
-      },
-      {
-         left_attach = 1, top_attach = row,
-         Gtk.Label {
-            label = plugin.id,
-            selectable = true,
-            halign = 'START',
-         }
-      },
    }
 
    return Gtk.ScrolledWindow {
