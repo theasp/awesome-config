@@ -10,9 +10,10 @@ local misc = require('crappy.misc')
 
 local plugins = {}
 
-function plugins.buildPluginUi(window, plugin, pluginConfig, log)
+function plugins.buildPluginUi(window, pluginId, pluginConfig, log)
+   local plugin = pluginManager.plugins[pluginId]
    if plugin == nil then
-      plugin = {name='Unknown', id='Unknown', description='Unknown'}
+      plugin = {name='Unknown', id=pluginId, description='Unknown'}
    end
 
    local row = -1;
@@ -184,8 +185,7 @@ function plugins.buildUi(window, config)
       local model, iter = pluginsSelection:get_selected()
       if iter then
          local pluginId = pluginsListStore[iter][pluginsColumns.ID]
-         local plugin = pluginManager.plugins[pluginId]
-         pluginUi = plugins.buildPluginUi(window, plugin, config.plugins[pluginId], log)
+         pluginUi = plugins.buildPluginUi(window, pluginId, config.plugins[pluginId], log)
       end
 
       if pluginUi then
