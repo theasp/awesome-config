@@ -33,16 +33,12 @@ end
 function plugin.startup(awesomever, settings)
    local beautiful = misc.use("beautiful")
 
-   plugin.settingsDefault(settings)
-
    shared.settings = settings
 end
 
 function plugin.buildUi(window, settings, log)
    local lgi = require 'lgi'
    local Gtk = lgi.require('Gtk')
-
-   plugin.settingsDefault(settings)
 
    local titlebarCheckButton = Gtk.CheckButton {
       label = 'Show _Titlebar',

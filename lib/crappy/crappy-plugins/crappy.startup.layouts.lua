@@ -32,8 +32,6 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   plugin.settingsDefault(settings)
-
    shared.layouts = {}
 
    for i, layoutName in ipairs(settings) do
@@ -45,8 +43,6 @@ function plugin.buildUi(window, settings, log)
    local lgi = require 'lgi'
    local Gtk = lgi.require('Gtk')
    local widgets = require('crappy.gui.widgets')
-
-   plugin.settingsDefault(settings)
 
    local valid = functionManager.getFunctionsForClass('layout')
    table.sort(valid)

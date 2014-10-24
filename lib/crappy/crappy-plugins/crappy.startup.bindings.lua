@@ -147,8 +147,6 @@ function plugin.startup(awesomever, settings)
    local ezconfig = require("crappy.ezconfig")
    local awful = misc.use('awful')
 
-   plugin.settingsDefault(settings)
-
    assert(crappy.shared.settings.terminal ~= nil)
    assert(shared.mainmenu ~= nil)
    assert(shared.layouts ~= nil)

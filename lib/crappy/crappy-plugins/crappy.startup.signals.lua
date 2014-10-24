@@ -26,8 +26,6 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   plugin.settingsDefault(settings)
-
    if client.connect_signal then
       client.connect_signal("manage", functionManager.getFunction(settings.manage))
       client.connect_signal("focus", functionManager.getFunction(settings.focus))
@@ -43,8 +41,6 @@ function plugin.buildUi(window, settings, log)
    local lgi = require 'lgi'
    local Gtk = lgi.require('Gtk')
    local widgets = require('crappy.gui.widgets')
-
-   plugin.settingsDefault(settings)
 
    local valid = functionManager.getFunctionsForClass('signal')
    table.sort(valid)

@@ -48,8 +48,6 @@ function plugin.startup(awesomever, settings)
    local wibox = misc.use("wibox")
    local shared = require('crappy.shared')
 
-   plugin.settingsDefault(settings)
-
    shared.wibox = {}
    shared.wibox.promptbox = {}
 
@@ -122,8 +120,6 @@ function plugin.buildUi(window, settings, log)
    local lgi = require('lgi')
    local Gtk = lgi.require('Gtk')
    local widgets = require('crappy.gui.widgets')
-
-   plugin.settingsDefault(settings)
 
    local positionRadioButton = Gtk.RadioButton {
       label = 'Position:'

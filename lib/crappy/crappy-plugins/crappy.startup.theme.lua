@@ -22,8 +22,6 @@ end
 function plugin.startup(awesomever, settings)
    local beautiful = misc.use("beautiful")
 
-   plugin.settingsDefault(settings)
-
    beautiful.init(settings.file)
 
    if settings.font ~= '' then
@@ -35,8 +33,6 @@ end
 function plugin.buildUi(window, settings, log)
    local lgi = require 'lgi'
    local Gtk = lgi.require('Gtk')
-
-   plugin.settingsDefault(settings)
 
    local fileEntry = Gtk.Entry {
       text = settings.file,

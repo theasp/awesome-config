@@ -90,8 +90,6 @@ end
 function plugin.startup(awesomever, settings)
    local shared = require('crappy.shared')
 
-   plugin.settingsDefault(settings)
-
    local menu = buildMenuTable(settings)
    shared.mainmenu = awful.menu({ items = menu })
 

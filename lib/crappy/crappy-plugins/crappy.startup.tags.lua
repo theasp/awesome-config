@@ -29,8 +29,6 @@ function plugin.startup(awesomever, settings)
    local shared = require('crappy.shared')
    local awful = misc.use('awful')
 
-   plugin.settingsDefault(settings)
-
    shared.tags = {}
 
    for s = 1, screen.count() do

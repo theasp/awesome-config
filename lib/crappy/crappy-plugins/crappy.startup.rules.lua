@@ -41,8 +41,6 @@ function plugin.startup(awesomever, settings)
    local awful = misc.use('awful')
    awful.rules = misc.use('awful.rules')
 
-   plugin.settingsDefault(settings)
-
    assert(shared.clientkeys ~= nil)
    assert(shared.clientbuttons ~= nil)
 
