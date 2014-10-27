@@ -9,9 +9,9 @@ local plugin = {
    requires = {},
    provides = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus", "crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.shared.settings"},
    defaults = {
-      settings.terminal = "x-terminal-emulator",
-      settings.titlebar = true,
-      settings.sloppyfocus = true
+      terminal = "x-terminal-emulator",
+      titlebar = true,
+      sloppyfocus = true
    }
 }
 local log = lgi.log.domain(plugin.id)
