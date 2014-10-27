@@ -7,26 +7,21 @@ local plugin = {
    description = "Settings that don't belong anywhere else",
    id = 'crappy.startup.settings',
    requires = {},
-   provides = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus", "crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.shared.settings"}
+   provides = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus", "crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.shared.settings"},
+   defaults = {
+      settings.terminal = "x-terminal-emulator",
+      settings.titlebar = true,
+      settings.sloppyfocus = true
+   }
 }
 local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
-   if settings.terminal == nil then
-      settings.terminal = "x-terminal-emulator"
-   end
+   misc.mergeTable(settings, plugin.defaults)
 
    if settings.editor == nil then
       local editor = os.getenv("EDITOR") or "editor"
       settings.editor = settings.terminal .. " -e " .. editor
-   end
-
-   if settings.titlebar == nil then
-      settings.titlebar = true
-   end
-
-   if settings.sloppyfocus == nil then
-      settings.sloppyfocus = true
    end
 
    return settings
