@@ -8,136 +8,147 @@ local plugin = {
    description = 'Build standards keybindings',
    id = 'crappy.startup.bindings',
    requires = {"crappy.shared.mainmenu", "crappy.shared.layouts", "crappy.functions.client", "crappy.functions.global", "crappy.shared.settings.terminal"},
-   provides = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons"}
-}
+   provides = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons"},
+   defaults = {
+      modkey = "Mod4",
+      altkey = "Mod1",
+      buttons = {
+         root = {
+            ["3"] = "crappy.functions.menu.toggle",
+            ["4"] = "awful.tag.viewnext",
+            ["5"] = "awful.tag.viewprev"
+         },
+         client = {
+            ["1"] = "crappy.functions.client.focus",
+            ["2"] = "crappy.functions.client.focus",
+            ["3"] = "crappy.functions.client.focus",
+            ["M-1"] = "awful.mouse.client.move",
+            ["M-3"] = "awful.mouse.client.resize"
+         }
+      },
+      keys = {
+         global = {
+            ["M-<Left>"] = "awful.tag.viewprev",
+            ["M-<Right>"] = "awful.tag.viewnext",
+            ["M-<Escape>"] = "awful.tag.history.restore",
 
+            ["M-j"] = "crappy.functions.global.focusNext",
+            ["M-k"] = "crappy.functions.global.focusPrev",
+            ["M-w"] = "crappy.functions.global.showMenu",
+            ["M-<Tab>"] = "crappy.functions.global.focusNext",
+            ["M-`"] = "crappy.functions.global.focusPrevHist",
+
+            ["M-S-j"] = "crappy.functions.global.swapNext",
+            ["M-S-k"] = "crappy.functions.global.swapPrev",
+            ["M-C-j"] = "crappy.functions.global.focusNextScreen",
+            ["M-C-k"] = "crappy.functions.global.focusPrevScreen",
+            ["M-u"] = "awful.client.urgent.jumpto",
+
+            ["M-<Return>"] = "crappy.functions.global.spawnTerminal",
+            ["M-x"] = "crappy.functions.global.spawnTerminal",
+            ["M-S-x"] = "crappy.functions.global.spawnTerminal",
+            ["M-C-r"] = "awesome.restart",
+            ["M-S-q"] = "awesome.quit",
+
+            ["M-l"] = "crappy.functions.global.wmfactInc",
+            ["M-h"] = "crappy.functions.global.wmfactDec",
+            ["M-S-h"] = "crappy.functions.global.nmasterInc",
+            ["M-S-l"] = "crappy.functions.global.nmasterDec",
+            ["M-C-h"] = "crappy.functions.global.ncolInc",
+            ["M-C-l"] = "crappy.functions.global.ncolDec",
+            ["M-<space>"] = "crappy.functions.global.layoutInc",
+            ["M-S-<space>"] = "crappy.functions.global.layoutDec",
+
+            ["M-r"] = "crappy.functions.global.showRunPrompt",
+            ["M-C-x"] = "crappy.functions.global.showLuaPrompt",
+
+            ["M-<F1>"] = "function() crappy.functions.tag.show(1) end",
+            ["M-<F2>"] = "function() crappy.functions.tag.show(2) end",
+            ["M-<F3>"] = "function() crappy.functions.tag.show(3) end",
+            ["M-<F4>"] = "function() crappy.functions.tag.show(4) end",
+            ["M-<F5>"] = "function() crappy.functions.tag.show(5) end",
+            ["M-<F6>"] = "function() crappy.functions.tag.show(6) end",
+            ["M-<F7>"] = "function() crappy.functions.tag.show(7) end",
+            ["M-<F8>"] = "function() crappy.functions.tag.show(8) end",
+            ["M-<F9>"] = "function() crappy.functions.tag.show(9) end",
+
+            ["M-C-<F1>"] = "function() crappy.functions.tag.toggle(1) end",
+            ["M-C-<F2>"] = "function() crappy.functions.tag.toggle(2) end",
+            ["M-C-<F3>"] = "function() crappy.functions.tag.toggle(3) end",
+            ["M-C-<F4>"] = "function() crappy.functions.tag.toggle(4) end",
+            ["M-C-<F5>"] = "function() crappy.functions.tag.toggle(5) end",
+            ["M-C-<F6>"] = "function() crappy.functions.tag.toggle(6) end",
+            ["M-C-<F7>"] = "function() crappy.functions.tag.toggle(7) end",
+            ["M-C-<F8>"] = "function() crappy.functions.tag.toggle(8) end",
+            ["M-C-<F9>"] = "function() crappy.functions.tag.toggle(9) end",
+
+            ["M-S-<F1>"] = "function() crappy.functions.tag.clientMoveTo(1) end",
+            ["M-S-<F2>"] = "function() crappy.functions.tag.clientMoveTo(2) end",
+            ["M-S-<F3>"] = "function() crappy.functions.tag.clientMoveTo(3) end",
+            ["M-S-<F4>"] = "function() crappy.functions.tag.clientMoveTo(4) end",
+            ["M-S-<F5>"] = "function() crappy.functions.tag.clientMoveTo(5) end",
+            ["M-S-<F6>"] = "function() crappy.functions.tag.clientMoveTo(6) end",
+            ["M-S-<F7>"] = "function() crappy.functions.tag.clientMoveTo(7) end",
+            ["M-S-<F8>"] = "function() crappy.functions.tag.clientMoveTo(8) end",
+            ["M-S-<F9>"] = "function() crappy.functions.tag.clientMoveTo(9) end",
+
+            ["M-S-C-<F1>"] = "function() crappy.functions.tag.clientToggle(1) end",
+            ["M-S-C-<F2>"] = "function() crappy.functions.tag.clientToggle(2) end",
+            ["M-S-C-<F3>"] = "function() crappy.functions.tag.clientToggle(3) end",
+            ["M-S-C-<F4>"] = "function() crappy.functions.tag.clientToggle(4) end",
+            ["M-S-C-<F5>"] = "function() crappy.functions.tag.clientToggle(5) end",
+            ["M-S-C-<F6>"] = "function() crappy.functions.tag.clientToggle(6) end",
+            ["M-S-C-<F7>"] = "function() crappy.functions.tag.clientToggle(7) end",
+            ["M-S-C-<F8>"] = "function() crappy.functions.tag.clientToggle(8) end",
+            ["M-S-C-<F9>"] = "function() crappy.functions.tag.clientToggle(9) end"
+         },
+         client = {
+            ["M-f"] = "crappy.functions.client.fullscreen",
+            ["M-S-c"] = "crappy.functions.client.kill",
+            ["M-C-<space>"] = "awful.client.floating.toggle",
+            ["M-C-<Return>"] = "crappy.functions.client.swapMaster",
+            ["M-o"] = "awful.client.movetoscreen",
+            ["M-r"] = "crappy.functions.client.redraw",
+            ["M-t"] = "crappy.functions.client.ontop",
+            ["M-n"] = "crappy.functions.client.minimized",
+            ["M-m"] = "crappy.functions.client.maximized"
+         }
+      }
+   }
+}
 local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if settings.modkey == nil then
-      settings.modkey = "Mod4"
+      settings.modkey = plugin.defaults.modkey
    end
 
    if settings.altkey == nil then
-      settings.altkey = "Mod1"
+      settings.altkey = plugin.defaults.altkey
    end
 
    if settings.buttons == nil then
-      settings.buttons = {}
+      settings.buttons = misc.mergeTable({}, plugin.defaults.buttons)
    end
 
    if settings.buttons.root == nil then
-      settings.buttons.root = {
-         ["3"] = "crappy.functions.menu.toggle",
-         ["4"] = "awful.tag.viewnext",
-         ["5"] = "awful.tag.viewprev"
-      }
+      settings.buttons.root = misc.mergeTable({}, plugin.defaults.buttons.root)
    end
 
    if settings.buttons.client == nil then
-      settings.buttons.client = {
-         ["1"] = "crappy.functions.client.focus",
-         ["2"] = "crappy.functions.client.focus",
-         ["3"] = "crappy.functions.client.focus",
-         ["M-1"] = "awful.mouse.client.move",
-         ["M-3"] = "awful.mouse.client.resize"
-      }
+      settings.buttons.client = misc.mergeTable({}, plugin.defaults.buttons.root)
    end
 
    if settings.keys == nil then
-      settings.keys = {}
+      settings.keys = misc.mergeTable({}, plugin.defaults.keys)
    end
 
    if settings.keys.global == nil then
-      settings.keys.global = {
-         ["M-<Left>"] = "awful.tag.viewprev",
-         ["M-<Right>"] = "awful.tag.viewnext",
-         ["M-<Escape>"] = "awful.tag.history.restore",
-
-         ["M-j"] = "crappy.functions.global.focusNext",
-         ["M-k"] = "crappy.functions.global.focusPrev",
-         ["M-w"] = "crappy.functions.global.showMenu",
-         ["M-<Tab>"] = "crappy.functions.global.focusNext",
-         ["M-`"] = "crappy.functions.global.focusPrevHist",
-
-         ["M-S-j"] = "crappy.functions.global.swapNext",
-         ["M-S-k"] = "crappy.functions.global.swapPrev",
-         ["M-C-j"] = "crappy.functions.global.focusNextScreen",
-         ["M-C-k"] = "crappy.functions.global.focusPrevScreen",
-         ["M-u"] = "awful.client.urgent.jumpto",
-
-         ["M-<Return>"] = "crappy.functions.global.spawnTerminal",
-         ["M-x"] = "crappy.functions.global.spawnTerminal",
-         ["M-S-x"] = "crappy.functions.global.spawnTerminal",
-         ["M-C-r"] = "awesome.restart",
-         ["M-S-q"] = "awesome.quit",
-
-         ["M-l"] = "crappy.functions.global.wmfactInc",
-         ["M-h"] = "crappy.functions.global.wmfactDec",
-         ["M-S-h"] = "crappy.functions.global.nmasterInc",
-         ["M-S-l"] = "crappy.functions.global.nmasterDec",
-         ["M-C-h"] = "crappy.functions.global.ncolInc",
-         ["M-C-l"] = "crappy.functions.global.ncolDec",
-         ["M-<space>"] = "crappy.functions.global.layoutInc",
-         ["M-S-<space>"] = "crappy.functions.global.layoutDec",
-
-         ["M-r"] = "crappy.functions.global.showRunPrompt",
-         ["M-C-x"] = "crappy.functions.global.showLuaPrompt",
-
-         ["M-<F1>"] = "function() crappy.functions.tag.show(1) end",
-         ["M-<F2>"] = "function() crappy.functions.tag.show(2) end",
-         ["M-<F3>"] = "function() crappy.functions.tag.show(3) end",
-         ["M-<F4>"] = "function() crappy.functions.tag.show(4) end",
-         ["M-<F5>"] = "function() crappy.functions.tag.show(5) end",
-         ["M-<F6>"] = "function() crappy.functions.tag.show(6) end",
-         ["M-<F7>"] = "function() crappy.functions.tag.show(7) end",
-         ["M-<F8>"] = "function() crappy.functions.tag.show(8) end",
-         ["M-<F9>"] = "function() crappy.functions.tag.show(9) end",
-
-         ["M-C-<F1>"] = "function() crappy.functions.tag.toggle(1) end",
-         ["M-C-<F2>"] = "function() crappy.functions.tag.toggle(2) end",
-         ["M-C-<F3>"] = "function() crappy.functions.tag.toggle(3) end",
-         ["M-C-<F4>"] = "function() crappy.functions.tag.toggle(4) end",
-         ["M-C-<F5>"] = "function() crappy.functions.tag.toggle(5) end",
-         ["M-C-<F6>"] = "function() crappy.functions.tag.toggle(6) end",
-         ["M-C-<F7>"] = "function() crappy.functions.tag.toggle(7) end",
-         ["M-C-<F8>"] = "function() crappy.functions.tag.toggle(8) end",
-         ["M-C-<F9>"] = "function() crappy.functions.tag.toggle(9) end",
-
-         ["M-S-<F1>"] = "function() crappy.functions.tag.clientMoveTo(1) end",
-         ["M-S-<F2>"] = "function() crappy.functions.tag.clientMoveTo(2) end",
-         ["M-S-<F3>"] = "function() crappy.functions.tag.clientMoveTo(3) end",
-         ["M-S-<F4>"] = "function() crappy.functions.tag.clientMoveTo(4) end",
-         ["M-S-<F5>"] = "function() crappy.functions.tag.clientMoveTo(5) end",
-         ["M-S-<F6>"] = "function() crappy.functions.tag.clientMoveTo(6) end",
-         ["M-S-<F7>"] = "function() crappy.functions.tag.clientMoveTo(7) end",
-         ["M-S-<F8>"] = "function() crappy.functions.tag.clientMoveTo(8) end",
-         ["M-S-<F9>"] = "function() crappy.functions.tag.clientMoveTo(9) end",
-
-         ["M-S-C-<F1>"] = "function() crappy.functions.tag.clientToggle(1) end",
-         ["M-S-C-<F2>"] = "function() crappy.functions.tag.clientToggle(2) end",
-         ["M-S-C-<F3>"] = "function() crappy.functions.tag.clientToggle(3) end",
-         ["M-S-C-<F4>"] = "function() crappy.functions.tag.clientToggle(4) end",
-         ["M-S-C-<F5>"] = "function() crappy.functions.tag.clientToggle(5) end",
-         ["M-S-C-<F6>"] = "function() crappy.functions.tag.clientToggle(6) end",
-         ["M-S-C-<F7>"] = "function() crappy.functions.tag.clientToggle(7) end",
-         ["M-S-C-<F8>"] = "function() crappy.functions.tag.clientToggle(8) end",
-         ["M-S-C-<F9>"] = "function() crappy.functions.tag.clientToggle(9) end"
-      }
+      settings.keys.global = misc.mergeTable({}, plugin.defaults.keys.global)
    end
 
    if settings.keys.client == nil then
-      settings.keys.client = {
-         ["M-f"] = "crappy.functions.client.fullscreen",
-         ["M-S-c"] = "crappy.functions.client.kill",
-         ["M-C-<space>"] = "awful.client.floating.toggle",
-         ["M-C-<Return>"] = "crappy.functions.client.swapMaster",
-         ["M-o"] = "awful.client.movetoscreen",
-         ["M-r"] = "crappy.functions.client.redraw",
-         ["M-t"] = "crappy.functions.client.ontop",
-         ["M-n"] = "crappy.functions.client.minimized",
-         ["M-m"] = "crappy.functions.client.maximized"
-      }
+      settings.keys.client = misc.mergeTable({}, plugin.defaults.keys.client)
    end
 
    return settings
