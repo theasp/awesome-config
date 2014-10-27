@@ -7,20 +7,17 @@ local plugin = {
    id = 'crappy.startup.menubar',
    requires = {"crappy.shared.settings.terminal"},
    provides = {"crappy.shared.menubar"},
-   before = {"crappy.startup.bindings"}
+   before = {"crappy.startup.bindings"},
+   defaults = {
+      dirs = {
+         "/usr/share/applications/",
+         "/usr/local/share/applications/",
+         ".local/share/applications/"
+      }
+   }
 }
 
 local log = lgi.log.domain(plugin.id)
-
-function plugin.settingsDefault(settings)
-   if settings.dirs == nil then
-      settings.dirs = { "/usr/share/applications/",
-                        "/usr/local/share/applications/",
-                        ".local/share/applications/" }
-   end
-
-   return settings
-end
 
 function plugin.startup(awesomever, settings)
    if awesomever < 3.5 then
