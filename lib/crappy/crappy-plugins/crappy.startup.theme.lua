@@ -5,21 +5,14 @@ local plugin = {
    name = 'Theme',
    description = 'Set the theme used by beautiful',
    id = 'crappy.startup.theme',
-   provides = {}
+   provides = {},
+   defaults = {
+      file = "/usr/share/awesome/themes/default/theme.lua",
+      font = ''
+   }
 }
+
 local log = lgi.log.domain(plugin.id)
-
-function plugin.settingsDefault(settings)
-   if settings.file == nil then
-      settings.file = "/usr/share/awesome/themes/default/theme.lua"
-   end
-
-   if settings.font == nil then
-      settings.font = ''
-   end
-
-   return settings
-end
 
 function plugin.startup(awesomever, settings)
    local beautiful = misc.use("beautiful")
