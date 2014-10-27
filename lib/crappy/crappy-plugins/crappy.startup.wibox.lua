@@ -7,45 +7,26 @@ local plugin = {
    description = 'Set up the wibox',
    id = 'crappy.startup.wibox',
    requires = {"crappy.functions.widgets", "crappy.shared.launcher", "crappy.functions.global", "crappy.startup.theme"},
-   provides = {"crappy.shared.wibox"}
-}
-
-local log = lgi.log.domain(plugin.id)
-
-function plugin.settingsDefault(settings)
-   if settings.position == nil then
-      settings.position = "bottom"
-   end
-
-   if settings.widgets == nil then
-      settings.widgets = {}
-   end
-
-   if settings.widgets.left == nil then
-      settings.widgets.left = {
+   provides = {"crappy.shared.wibox"},
+   defaults = {
+      position = "bottom",
+      left = {
          "crappy.functions.widgets.launcher",
          "crappy.functions.widgets.taglist",
          "crappy.functions.widgets.prompt"
-      }
-   end
-
-   if settings.widgets.middle == nil then
-      settings.widgets.middle = {
+      },
+      middle = {
          "crappy.functions.widgets.tasklist"
-      }
-   end
-
-   if settings.widgets.right == nil then
-      settings.widgets.right = {
+      },
+      right = {
          "crappy.functions.widgets.systray",
          "crappy.functions.widgets.textclock",
          "crappy.functions.widgets.layout"
       }
-   end
+   }
+}
 
-   return settings
-end
-
+local log = lgi.log.domain(plugin.id)
 
 function plugin.startup(awesomever, settings)
    local wibox = misc.use("wibox")
@@ -66,8 +47,8 @@ function plugin.startup(awesomever, settings)
             layout = wibox.layout.fixed.horizontal()
          end
 
-         if settings.widgets[side] ~= nil then
-            for i, widget in ipairs(settings.widgets[side]) do
+         if settings[side] ~= nil then
+            for i, widget in ipairs(settings[side]) do
                f = functionManager.getFunction(widget)
                if f ~= nil then
                   local w = f(s)
@@ -140,9 +121,9 @@ function plugin.buildUi(window, settings)
    local valid = functionManager.getFunctionsForClass('widget')
    table.sort(valid)
 
-   local leftWidgets = widgets.functionList(valid, settings.widgets.left, true, true)
-   local middleWidgets = widgets.functionList(valid, settings.widgets.middle, true, true)
-   local rightWidgets = widgets.functionList(valid, settings.widgets.right, true, true)
+   local leftWidgets = widgets.functionList(valid, settings.left, true, true)
+   local middleWidgets = widgets.functionList(valid, settings.middle, true, true)
+   local rightWidgets = widgets.functionList(valid, settings.right, true, true)
 
    return Gtk.Box {
       orientation = 'VERTICAL',
