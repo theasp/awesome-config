@@ -10,7 +10,7 @@ local misc = require('crappy.misc')
 
 local plugins = {}
 
-function plugins.buildPluginUi(window, pluginId, pluginConfig, log)
+function plugins.buildPluginUi(window, pluginId, pluginConfig, log, updateUi)
    local plugin = pluginManager.plugins[pluginId]
    if plugin == nil then
       plugin = {name='Unknown', id=pluginId, description='Unknown'}
@@ -69,7 +69,7 @@ function plugins.buildPluginUi(window, pluginId, pluginConfig, log)
    }
 end
 
-function plugins.buildUi(window, config)
+function plugins.buildUi(window, config, updateUi)
    local pluginsColumns = {
       ENABLED = 1,
       NAME = 2,
@@ -151,6 +151,7 @@ function plugins.buildUi(window, config)
    function pluginsEnabledCellRenderer:on_toggled(path, text)
       local iter = pluginsListStore:get_iter(Gtk.TreePath.new_from_string(path))
       pluginsListStore[iter][pluginsColumns.ENABLED] = not pluginsListStore[iter][pluginsColumns.ENABLED]
+      updateUi()
    end
 
    local pluginsEnabledTreeViewColumn = Gtk.TreeViewColumn {
@@ -205,14 +206,15 @@ function plugins.buildUi(window, config)
          local id = pluginsListStore[iter][pluginsColumns.ID]
          local name = pluginsListStore[iter][pluginsColumns.NAME]
          local enabled = pluginsListStore[iter][pluginsColumns.ENABLED]
-
-         if not config.plugins[id] then
-            config.plugins[id] = {
-               enabled = true,
-               settings = {}
-            }
+         if id then
+            if not config.plugins[id] then
+               config.plugins[id] = {
+                  enabled = true,
+                  settings = {}
+               }
+            end
+            config.plugins[id].enabled = enabled
          end
-         config.plugins[id].enabled = enabled
 
          iter = pluginsListStore:next(iter)
       end
@@ -294,6 +296,7 @@ function plugins.buildUi(window, config)
 
       dialog:show_all()
       dialog:run()
+      updateUi()
    end
 
    local removeButton = Gtk.Button {
