@@ -33,7 +33,6 @@ function gui.on_activate(app)
 
    -- Function to add a plugin tab
    local function addPluginTab(plugin)
-      local pluginLog = lgi.log.domain('gui/' .. plugin.id)
       local label = Gtk.Label { label = plugin.name }
       local settings = config.plugins[plugin.id].settings
 
@@ -41,8 +40,9 @@ function gui.on_activate(app)
       -- otherwise use the fallback.
       local ui
       if plugin.buildUi then
-         ui = plugin.buildUi(window, settings, pluginLog)
+         ui = plugin.buildUi(window, settings)
       else
+         local pluginLog = lgi.log.domain('gui.fallback/' .. plugin.id)
          ui = fallback.buildUi(window, settings, pluginLog)
       end
 
