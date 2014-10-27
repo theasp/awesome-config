@@ -115,7 +115,7 @@ function configManager.getEnabledPlugins(config)
 
    for pluginId, plugin in pairs(pluginManager.plugins) do
       if config.plugins[pluginId].enabled then
-         table.insert(enabledPlugins, plugin)
+         enabledPlugins[pluginId] = plugin
       end
    end
 
