@@ -145,8 +145,6 @@ end
 
 
 function plugin.startup(awesomever, settings)
-   local misc = require('crappy.misc')
-   local shared = require('crappy.shared')
    local ezconfig = require("crappy.ezconfig")
    local awful = misc.use('awful')
 
