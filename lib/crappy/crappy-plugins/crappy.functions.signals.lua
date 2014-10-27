@@ -1,27 +1,29 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require('crappy.misc')
-local pluginManager = require("crappy.pluginManager")
 
-plugin.name = 'Signal Functions'
-plugin.description = 'Functions that handle signals'
-plugin.id = 'crappy.functions.signals'
-plugin.requires = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus"}
-plugin.provides = {}
-plugin.functions = {
-   ["crappy.functions.signals.focus"] = {
-      class = "signal",
-      description = "Signal for when a client is focused",
-   },
-   ["crappy.functions.signals.unfocus"] = {
-      class = "signal",
-      description = "Signal for when a client is unfocused",
-   },
-   ["crappy.functions.signals.manage"] = {
-      class = "signal",
-      description = "Signal for when a client (window) is created",
+local plugin = {
+   name = 'Signal Functions'
+   description = 'Functions that handle signals'
+   id = 'crappy.functions.signals'
+   requires = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus"}
+   provides = {}
+   functions = {
+      ["crappy.functions.signals.focus"] = {
+         class = "signal",
+         description = "Signal for when a client is focused",
+      },
+      ["crappy.functions.signals.unfocus"] = {
+         class = "signal",
+         description = "Signal for when a client is unfocused",
+      },
+      ["crappy.functions.signals.manage"] = {
+         class = "signal",
+         description = "Signal for when a client (window) is created",
+      }
    }
 }
+
+local log = lgi.log.domain(plugin.id)
 
 function plugin.startup(awesomever, settings)
    local beautiful = misc.use('beautiful')
@@ -123,7 +125,7 @@ function plugin.startup(awesomever, settings)
    end
 end
 
-function plugin.buildUi(window, settings, log)
+function plugin.buildUi(window, settings)
    return nil
 end
 

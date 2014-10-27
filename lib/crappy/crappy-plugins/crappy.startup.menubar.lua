@@ -1,14 +1,17 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require('crappy.misc')
 local shared = require('crappy.shared')
 
-plugin.name = 'Menubar'
-plugin.description = 'Set up the menubar, for 3.5+ only'
-plugin.id = 'crappy.startup.menubar'
-plugin.requires = {"crappy.shared.settings.terminal"}
-plugin.provides = {"crappy.shared.menubar"}
-plugin.before = {"crappy.startup.bindings"}
+local plugin = {
+   name = 'Menubar'
+   description = 'Set up the menubar, for 3.5+ only'
+   id = 'crappy.startup.menubar'
+   requires = {"crappy.shared.settings.terminal"}
+   provides = {"crappy.shared.menubar"}
+   before = {"crappy.startup.bindings"}
+}
+
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if settings.dirs == nil then

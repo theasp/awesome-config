@@ -1,11 +1,13 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local functionManager = require('crappy.functionManager')
 
-plugin.name = 'Tags'
-plugin.description = 'Tags'
-plugin.id = 'crappy.startup.tags'
-plugin.provides = {'crappy.shared.tags', 'crappy.startup.tags'}
+local plugin = {
+   name = 'Tags'
+   description = 'Tags'
+   id = 'crappy.startup.tags'
+   provides = {'crappy.shared.tags', 'crappy.startup.tags'}
+}
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if settings.default == nil then

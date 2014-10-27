@@ -1,13 +1,16 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
 
-plugin.name = 'Signals'
-plugin.description = 'Set the signals for clients'
-plugin.id = 'crappy.startup.signals'
-plugin.requires = {"crappy.functions.signals"}
-plugin.provides = {}
+local plugin = {
+   name = 'Signals'
+   description = 'Set the signals for clients'
+   id = 'crappy.startup.signals'
+   requires = {"crappy.functions.signals"}
+   provides = {}
+}
+
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if settings.manage == nil then
@@ -37,8 +40,7 @@ function plugin.startup(awesomever, settings)
    end
 end
 
-function plugin.buildUi(window, settings, log)
-   local lgi = require 'lgi'
+function plugin.buildUi(window, settings)
    local Gtk = lgi.require('Gtk')
    local widgets = require('crappy.gui.widgets')
 

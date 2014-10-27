@@ -1,14 +1,17 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
 
-plugin.name = 'Bindings'
-plugin.description = 'Build standards keybindings'
-plugin.id = 'crappy.startup.bindings'
-plugin.requires = {"crappy.shared.mainmenu", "crappy.shared.layouts", "crappy.functions.client", "crappy.functions.global", "crappy.shared.settings.terminal"}
-plugin.provides = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons"}
+local plugin = {
+   name = 'Bindings'
+   description = 'Build standards keybindings'
+   id = 'crappy.startup.bindings'
+   requires = {"crappy.shared.mainmenu", "crappy.shared.layouts", "crappy.functions.client", "crappy.functions.global", "crappy.shared.settings.terminal"}
+   provides = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons"}
+}
+
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if settings.modkey == nil then
@@ -158,10 +161,10 @@ function plugin.startup(awesomever, settings)
    for k, v in pairs(settings.buttons.root) do
       local f = functionManager.getFunction(v)
       if f ~= nil then
-         --print("Adding root button " .. k .. " -> " .. v)
+         --log.message("Adding root button " .. k .. " -> " .. v)
          table.insert(rootButtons, ezconfig.btn(k, f, awful.button))
       else
-         print("Not adding root button " .. k .. " -> " .. v .. ": Unable to find function")
+         log.warning("Not adding root button " .. k .. " -> " .. v .. ": Unable to find function")
       end
    end
    root.buttons(awful.util.table.join(unpack(rootButtons)))
@@ -170,10 +173,10 @@ function plugin.startup(awesomever, settings)
    for k, v in pairs(settings.keys.global) do
       local f = functionManager.getFunction(v)
       if f ~= nil then
-         --print("Adding global key " .. k .. " -> " .. v)
+         --log.message("Adding global key " .. k .. " -> " .. v)
          table.insert(globalKeys, ezconfig.key(k, f, awful.key))
       else
-         print("Not adding global key " .. k .. " -> " .. v .. ": Unable to find function")
+         log.warning("Not adding global key " .. k .. " -> " .. v .. ": Unable to find function")
       end
    end
    root.keys(awful.util.table.join(unpack(globalKeys)))
@@ -182,10 +185,10 @@ function plugin.startup(awesomever, settings)
    for k, v in pairs(settings.keys.client) do
       local f = functionManager.getFunction(v)
       if f ~= nil then
-         --print("Adding client key " .. k .. " -> " .. v)
+         --log.message("Adding client key " .. k .. " -> " .. v)
          table.insert(clientKeys, ezconfig.key(k, f, awful.key))
       else
-         print("Not adding client key " .. k .. " -> " .. v .. ": Unable to find function")
+         log.warning("Not adding client key " .. k .. " -> " .. v .. ": Unable to find function")
       end
    end
    shared.clientkeys = awful.util.table.join(unpack(clientKeys))
@@ -194,10 +197,10 @@ function plugin.startup(awesomever, settings)
    for k, v in pairs(settings.buttons.client) do
       local f = functionManager.getFunction(v)
       if f ~= nil then
-         --print("Adding client button " .. k .. " -> " .. v)
+         --log.message("Adding client button " .. k .. " -> " .. v)
          table.insert(clientButtons, ezconfig.btn(k, f, awful.button))
       else
-         print("Not adding client button " .. k .. " -> " .. v .. ": Unable to find function")
+         log.warning("Not adding client button " .. k .. " -> " .. v .. ": Unable to find function")
       end
    end
    shared.clientbuttons = awful.util.table.join(unpack(clientButtons))

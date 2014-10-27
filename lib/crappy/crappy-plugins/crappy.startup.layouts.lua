@@ -1,14 +1,17 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
 
-plugin.name = 'Layouts'
-plugin.description = 'Initialize the layouts'
-plugin.id = 'crappy.startup.layouts'
-plugin.requires = {"crappy.functions.layouts"}
-plugin.provides = {"crappy.shared.layouts"}
+local plugin = {
+   name = 'Layouts'
+   description = 'Initialize the layouts'
+   id = 'crappy.startup.layouts'
+   requires = {"crappy.functions.layouts"}
+   provides = {"crappy.shared.layouts"}
+}
+
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then
@@ -39,8 +42,7 @@ function plugin.startup(awesomever, settings)
    end
 end
 
-function plugin.buildUi(window, settings, log)
-   local lgi = require 'lgi'
+function plugin.buildUi(window, settings)
    local Gtk = lgi.require('Gtk')
    local widgets = require('crappy.gui.widgets')
 
@@ -51,6 +53,5 @@ function plugin.buildUi(window, settings, log)
 
    return layoutsBox
 end
-
 
 return plugin

@@ -1,13 +1,15 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 
-plugin.name = 'Rules'
-plugin.description = 'rules'
-plugin.id = 'crappy.startup.rules'
-plugin.requires = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons", "crappy.shared.tags", "crappy.startup.signals"}
-plugin.provides = {}
+local plugin = {
+   name = 'Rules'
+   description = 'rules'
+   id = 'crappy.startup.rules'
+   requires = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons", "crappy.shared.tags", "crappy.startup.signals"}
+   provides = {}
+}
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then

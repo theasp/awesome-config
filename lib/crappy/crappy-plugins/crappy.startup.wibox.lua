@@ -1,13 +1,15 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 
-plugin.name = 'wibox'
-plugin.description = 'Set up the wibox'
-plugin.id = 'crappy.startup.wibox'
-plugin.requires = {"crappy.functions.widgets", "crappy.shared.launcher", "crappy.functions.global", "crappy.startup.theme"}
-plugin.provides = {"crappy.shared.wibox"}
+local plugin = {
+   name = 'wibox'
+   description = 'Set up the wibox'
+   id = 'crappy.startup.wibox'
+   requires = {"crappy.functions.widgets", "crappy.shared.launcher", "crappy.functions.global", "crappy.startup.theme"}
+   provides = {"crappy.shared.wibox"}
+}
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if settings.position == nil then
@@ -116,8 +118,7 @@ function plugin.startup(awesomever, settings)
    end
 end
 
-function plugin.buildUi(window, settings, log)
-   local lgi = require('lgi')
+function plugin.buildUi(window, settings)
    local Gtk = lgi.require('Gtk')
    local widgets = require('crappy.gui.widgets')
 

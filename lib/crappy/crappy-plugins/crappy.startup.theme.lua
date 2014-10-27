@@ -1,11 +1,13 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require("crappy.misc")
 
-plugin.name = 'Theme'
-plugin.description = 'Set the theme used by beautiful'
-plugin.id = 'crappy.startup.theme'
-plugin.provides = {}
+local plugin = {
+   name = 'Theme'
+   description = 'Set the theme used by beautiful'
+   id = 'crappy.startup.theme'
+   provides = {}
+}
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if settings.file == nil then
@@ -30,8 +32,7 @@ function plugin.startup(awesomever, settings)
    end
 end
 
-function plugin.buildUi(window, settings, log)
-   local lgi = require 'lgi'
+function plugin.buildUi(window, settings)
    local Gtk = lgi.require('Gtk')
 
    local fileEntry = Gtk.Entry {

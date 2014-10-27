@@ -1,43 +1,45 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require('crappy.misc')
-local pluginManager = require("crappy.pluginManager")
 
-plugin.name = 'Widget Functions'
-plugin.description = 'Functions produce widgets for use in a wibox'
-plugin.id = 'crappy.functions.widgets'
-plugin.requires = {"crappy.shared.launcher", "crappy.shared.tags"}
-plugin.provides = {}
-plugin.functions = {
-   ["crappy.functions.widgets.launcher"] = {
-      class = "widget",
-      description = "A menu to launch things",
-   },
-   ["crappy.functions.widgets.prompt"] = {
-      class = "widget",
-      description = "A prompt to run commands in",
-   },
-   ["crappy.functions.widgets.textclock"] = {
-      class = "widget",
-      description = "A digital clock",
-   },
-   ["crappy.functions.widgets.layout"] = {
-      class = "widget",
-      description = "A button that switches the layout for the current tag",
-   },
-   ["crappy.functions.widgets.systray"] = {
-      class = "widget",
-      description = "A spot for system tray icons to appear",
-   },
-   ["crappy.functions.widgets.tasklist"] = {
-      class = "widget",
-      description = "A list of the windows in the current tag",
-   },
-   ["crappy.functions.widgets.taglist"] = {
-      class = "widget",
-      description = "A list of the tags on the current screen",
-   },
+local plugin = {
+   name = 'Widget Functions'
+   description = 'Functions produce widgets for use in a wibox'
+   id = 'crappy.functions.widgets'
+   requires = {"crappy.shared.launcher", "crappy.shared.tags"}
+   provides = {}
+   functions = {
+      ["crappy.functions.widgets.launcher"] = {
+         class = "widget",
+         description = "A menu to launch things",
+      },
+      ["crappy.functions.widgets.prompt"] = {
+         class = "widget",
+         description = "A prompt to run commands in",
+      },
+      ["crappy.functions.widgets.textclock"] = {
+         class = "widget",
+         description = "A digital clock",
+      },
+      ["crappy.functions.widgets.layout"] = {
+         class = "widget",
+         description = "A button that switches the layout for the current tag",
+      },
+      ["crappy.functions.widgets.systray"] = {
+         class = "widget",
+         description = "A spot for system tray icons to appear",
+      },
+      ["crappy.functions.widgets.tasklist"] = {
+         class = "widget",
+         description = "A list of the windows in the current tag",
+      },
+      ["crappy.functions.widgets.taglist"] = {
+         class = "widget",
+         description = "A list of the tags on the current screen",
+      },
+   }
 }
+
+local log = lgi.log.domain(plugin.id)
 
 function plugin.startup(awesomever, settings)
    local beautiful = misc.use('beautiful')
@@ -165,7 +167,7 @@ function plugin.startup(awesomever, settings)
    end
 end
 
-function plugin.buildUi(window, settings, log)
+function plugin.buildUi(window, settings)
    return nil
 end
 

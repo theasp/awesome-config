@@ -1,13 +1,15 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require("crappy.misc")
 local shared = require("crappy.shared")
 
-plugin.name = 'Settings'
-plugin.description = "Settings that don't belong anywhere else"
-plugin.id = 'crappy.startup.settings'
-plugin.requires = {}
-plugin.provides = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus", "crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.shared.settings"}
+local plugin = {
+   name = 'Settings'
+   description = "Settings that don't belong anywhere else"
+   id = 'crappy.startup.settings'
+   requires = {}
+   provides = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus", "crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.shared.settings"}
+}
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if settings.terminal == nil then
@@ -36,8 +38,7 @@ function plugin.startup(awesomever, settings)
    shared.settings = settings
 end
 
-function plugin.buildUi(window, settings, log)
-   local lgi = require 'lgi'
+function plugin.buildUi(window, settings)
    local Gtk = lgi.require('Gtk')
 
    local titlebarCheckButton = Gtk.CheckButton {

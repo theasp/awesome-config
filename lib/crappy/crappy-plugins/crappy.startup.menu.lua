@@ -1,14 +1,16 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 
-plugin.name = 'Menu'
-plugin.description = 'Build the menu'
-plugin.id = 'crappy.startup.menu'
-plugin.requires = {"crappy.shared.settings.terminal", "crappy.shared.settings.editor"}
-plugin.provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"}
+local plugin = {
+   name = 'Menu'
+   description = 'Build the menu'
+   id = 'crappy.startup.menu'
+   requires = {"crappy.shared.settings.terminal", "crappy.shared.settings.editor"}
+   provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"}
+}
 
+local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
    if #settings == 0 then

@@ -1,99 +1,101 @@
-local plugin = {}
-
+local lgi = require('lgi')
 local misc = require('crappy.misc')
-local pluginManager = require("crappy.pluginManager")
 
-plugin.name = 'Global Functions'
-plugin.description = 'Functions that are used globally'
-plugin.id = 'crappy.functions.global'
-plugin.requires = {}
-plugin.provides = {}
-plugin.functions = {
-   ["crappy.functions.global.focusNext"] = {
-      class = "global",
-      description = "Focus the next client on the current tag",
-   },
-   ["crappy.functions.global.focusPrev"] = {
-      class = "global",
-      description = "Focus the previous client on the current tag",
-   },
-   ["crappy.functions.global.focusPrevHist"] = {
-      class = "global",
-      description = "Focus the previous client in history",
-   },
-   ["crappy.functions.global.swapNext"] = {
-      class = "global",
-      description = "Swap the next client on the current tag",
-   },
-   ["crappy.functions.global.swapPrev"] = {
-      class = "global",
-      description = "Swap the previous client on the current tag",
-   },
-   ["crappy.functions.global.showMenu"] = {
-      class = "global",
-      description = "Show the menu",
-   },
-   ["crappy.functions.global.focusNextScreen"] = {
-      class = "global",
-      description = "Focus the next screen",
-   },
-   ["crappy.functions.global.focusPrevScreen"] = {
-      class = "global",
-      description = "Focus the previous screen",
-   },
-   ["crappy.functions.global.spawnTerminal"] = {
-      class = "global",
-      description = "Launch your configured terminal",
-   },
-   ["crappy.functions.global.wmfactInc"] = {
-      class = "global",
-      description = "Increase wmfact for the current tag",
-   },
-   ["crappy.functions.global.wmfactDec"] = {
-      class = "global",
-      description = "Decrease wmfact for the current tag",
-   },
-   ["crappy.functions.global.nmasterInc"] = {
-      class = "global",
-      description = "Increase nmaster for the current tag",
-   },
-   ["crappy.functions.global.nmasterDec"] = {
-      class = "global",
-      description = "Decrease nmaster for the current tag",
-   },
-   ["crappy.functions.global.ncolInc"] = {
-      class = "global",
-      description = "Increase ncol for the current tag",
-   },
-   ["crappy.functions.global.ncolDec"] = {
-      class = "global",
-      description = "Decrease ncol for the current tag",
-   },
-   ["crappy.functions.global.layoutInc"] = {
-      class = "global",
-      description = "Switch to the next layout",
-   },
-   ["crappy.functions.global.layoutDec"] = {
-      class = "global",
-      description = "Switch to the previous layout",
-   },
-   ["crappy.functions.global.showRunPrompt"] = {
-      class = "global",
-      description = "Show the run prompt in the wibox",
-   },
-   ["crappy.functions.global.showLuaPrompt"] = {
-      class = "global",
-      description = "Show the lua prompt in the wibox",
-   },
-   ["crappy.functions.global.toggleMenu"] = {
-      class = "global",
-      description = "Toggle the main menu",
-   },
-   ["crappy.functions.menu.toggle"] = {
-      class = "global",
-      description = "Toggle the main menu (deprecated, see crappy.functions.global.menuToggle)",
+local plugin = {
+   name = 'Global Functions'
+   description = 'Functions that are used globally'
+   id = 'crappy.functions.global'
+   requires = {}
+   provides = {}
+   functions = {
+      ["crappy.functions.global.focusNext"] = {
+         class = "global",
+         description = "Focus the next client on the current tag",
+      },
+      ["crappy.functions.global.focusPrev"] = {
+         class = "global",
+         description = "Focus the previous client on the current tag",
+      },
+      ["crappy.functions.global.focusPrevHist"] = {
+         class = "global",
+         description = "Focus the previous client in history",
+      },
+      ["crappy.functions.global.swapNext"] = {
+         class = "global",
+         description = "Swap the next client on the current tag",
+      },
+      ["crappy.functions.global.swapPrev"] = {
+         class = "global",
+         description = "Swap the previous client on the current tag",
+      },
+      ["crappy.functions.global.showMenu"] = {
+         class = "global",
+         description = "Show the menu",
+      },
+      ["crappy.functions.global.focusNextScreen"] = {
+         class = "global",
+         description = "Focus the next screen",
+      },
+      ["crappy.functions.global.focusPrevScreen"] = {
+         class = "global",
+         description = "Focus the previous screen",
+      },
+      ["crappy.functions.global.spawnTerminal"] = {
+         class = "global",
+         description = "Launch your configured terminal",
+      },
+      ["crappy.functions.global.wmfactInc"] = {
+         class = "global",
+         description = "Increase wmfact for the current tag",
+      },
+      ["crappy.functions.global.wmfactDec"] = {
+         class = "global",
+         description = "Decrease wmfact for the current tag",
+      },
+      ["crappy.functions.global.nmasterInc"] = {
+         class = "global",
+         description = "Increase nmaster for the current tag",
+      },
+      ["crappy.functions.global.nmasterDec"] = {
+         class = "global",
+         description = "Decrease nmaster for the current tag",
+      },
+      ["crappy.functions.global.ncolInc"] = {
+         class = "global",
+         description = "Increase ncol for the current tag",
+      },
+      ["crappy.functions.global.ncolDec"] = {
+         class = "global",
+         description = "Decrease ncol for the current tag",
+      },
+      ["crappy.functions.global.layoutInc"] = {
+         class = "global",
+         description = "Switch to the next layout",
+      },
+      ["crappy.functions.global.layoutDec"] = {
+         class = "global",
+         description = "Switch to the previous layout",
+      },
+      ["crappy.functions.global.showRunPrompt"] = {
+         class = "global",
+         description = "Show the run prompt in the wibox",
+      },
+      ["crappy.functions.global.showLuaPrompt"] = {
+         class = "global",
+         description = "Show the lua prompt in the wibox",
+      },
+      ["crappy.functions.global.toggleMenu"] = {
+         class = "global",
+         description = "Toggle the main menu",
+      },
+      ["crappy.functions.menu.toggle"] = {
+         class = "global",
+         description = "Toggle the main menu (deprecated, see crappy.functions.global.menuToggle)",
+      }
    }
 }
+
+local log = lgi.log.domain(plugin.id)
 
 function plugin.startup(awesomever, settings)
    local beautiful = misc.use('beautiful')
@@ -205,7 +207,7 @@ function plugin.startup(awesomever, settings)
    end
 end
 
-function plugin.buildUi(window, settings, log)
+function plugin.buildUi(window, settings)
    return nil
 end
 
