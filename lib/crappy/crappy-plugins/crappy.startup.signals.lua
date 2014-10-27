@@ -7,26 +7,15 @@ local plugin = {
    description = 'Set the signals for clients',
    id = 'crappy.startup.signals',
    requires = {"crappy.functions.signals"},
-   provides = {}
+   provides = {},
+   defaults = {
+      settings.manage = "crappy.functions.signals.manage",
+      settings.focus = "crappy.functions.signals.focus",
+      settings.unfocus = "crappy.functions.signals.unfocus"
+   }
 }
 
 local log = lgi.log.domain(plugin.id)
-
-function plugin.settingsDefault(settings)
-   if settings.manage == nil then
-      settings.manage = "crappy.functions.signals.manage"
-   end
-
-   if settings.focus == nil then
-      settings.focus = "crappy.functions.signals.focus"
-   end
-
-   if settings.unfocus == nil then
-      settings.unfocus = "crappy.functions.signals.unfocus"
-   end
-
-   return settings
-end
 
 function plugin.startup(awesomever, settings)
    if client.connect_signal then
