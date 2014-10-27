@@ -9,6 +9,7 @@ local plugin = {
    requires = {"crappy.functions.widgets", "crappy.shared.launcher", "crappy.functions.global", "crappy.startup.theme"},
    provides = {"crappy.shared.wibox"}
 }
+
 local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
