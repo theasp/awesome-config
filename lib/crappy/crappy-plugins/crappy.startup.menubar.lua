@@ -1,5 +1,4 @@
 local lgi = require('lgi')
-local misc = require('crappy.misc')
 local shared = require('crappy.shared')
 
 local plugin = {
