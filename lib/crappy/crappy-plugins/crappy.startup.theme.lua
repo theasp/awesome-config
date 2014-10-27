@@ -2,9 +2,9 @@ local lgi = require('lgi')
 local misc = require("crappy.misc")
 
 local plugin = {
-   name = 'Theme'
-   description = 'Set the theme used by beautiful'
-   id = 'crappy.startup.theme'
+   name = 'Theme',
+   description = 'Set the theme used by beautiful',
+   id = 'crappy.startup.theme',
    provides = {}
 }
 local log = lgi.log.domain(plugin.id)

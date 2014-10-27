@@ -2,11 +2,11 @@ local lgi = require('lgi')
 local misc = require('crappy.misc')
 
 local plugin = {
-   name = 'Global Functions'
-   description = 'Functions that are used globally'
-   id = 'crappy.functions.global'
-   requires = {}
-   provides = {}
+   name = 'Global Functions',
+   description = 'Functions that are used globally',
+   id = 'crappy.functions.global',
+   requires = {},
+   provides = {},
    functions = {
       ["crappy.functions.global.focusNext"] = {
          class = "global",

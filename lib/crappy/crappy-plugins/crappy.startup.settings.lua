@@ -3,10 +3,10 @@ local misc = require("crappy.misc")
 local shared = require("crappy.shared")
 
 local plugin = {
-   name = 'Settings'
-   description = "Settings that don't belong anywhere else"
-   id = 'crappy.startup.settings'
-   requires = {}
+   name = 'Settings',
+   description = "Settings that don't belong anywhere else",
+   id = 'crappy.startup.settings',
+   requires = {},
    provides = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus", "crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.shared.settings"}
 }
 local log = lgi.log.domain(plugin.id)

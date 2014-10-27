@@ -2,11 +2,11 @@ local lgi = require('lgi')
 local misc = require('crappy.misc')
 
 local plugin = {
-   name = 'Tag Functions'
-   description = 'Functions that act on tags'
-   id = 'crappy.functions.tag'
-   requires = {}
-   provides = {}
+   name = 'Tag Functions',
+   description = 'Functions that act on tags',
+   id = 'crappy.functions.tag',
+   requires = {},
+   provides = {},
    functions = {
       ["crappy.functions.tag.show"] = {
          class = "tag",

@@ -4,10 +4,10 @@ local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
 
 local plugin = {
-   name = 'Layouts'
-   description = 'Initialize the layouts'
-   id = 'crappy.startup.layouts'
-   requires = {"crappy.functions.layouts"}
+   name = 'Layouts',
+   description = 'Initialize the layouts',
+   id = 'crappy.startup.layouts',
+   requires = {"crappy.functions.layouts"},
    provides = {"crappy.shared.layouts"}
 }
 

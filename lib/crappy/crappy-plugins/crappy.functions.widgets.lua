@@ -2,11 +2,11 @@ local lgi = require('lgi')
 local misc = require('crappy.misc')
 
 local plugin = {
-   name = 'Widget Functions'
-   description = 'Functions produce widgets for use in a wibox'
-   id = 'crappy.functions.widgets'
-   requires = {"crappy.shared.launcher", "crappy.shared.tags"}
-   provides = {}
+   name = 'Widget Functions',
+   description = 'Functions produce widgets for use in a wibox',
+   id = 'crappy.functions.widgets',
+   requires = {"crappy.shared.launcher", "crappy.shared.tags"},
+   provides = {},
    functions = {
       ["crappy.functions.widgets.launcher"] = {
          class = "widget",

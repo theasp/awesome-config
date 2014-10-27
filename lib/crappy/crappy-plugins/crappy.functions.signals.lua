@@ -2,11 +2,11 @@ local lgi = require('lgi')
 local misc = require('crappy.misc')
 
 local plugin = {
-   name = 'Signal Functions'
-   description = 'Functions that handle signals'
-   id = 'crappy.functions.signals'
-   requires = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus"}
-   provides = {}
+   name = 'Signal Functions',
+   description = 'Functions that handle signals',
+   id = 'crappy.functions.signals',
+   requires = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus"},
+   provides = {},
    functions = {
       ["crappy.functions.signals.focus"] = {
          class = "signal",

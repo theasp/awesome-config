@@ -2,11 +2,11 @@ local lgi = require('lgi')
 local misc = require('crappy.misc')
 
 local plugin = {
-   name = 'Layout Functions'
-   description = 'Functions that are used to layout the windows'
-   id = 'crappy.functions.layouts'
-   requires = {}
-   provides = {}
+   name = 'Layout Functions',
+   description = 'Functions that are used to layout the windows',
+   id = 'crappy.functions.layouts',
+   requires = {},
+   provides = {},
    functions = {
       ["awful.layout.suit.floating"] = {
          class = "layout",

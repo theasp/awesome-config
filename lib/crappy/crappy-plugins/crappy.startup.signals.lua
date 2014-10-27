@@ -3,10 +3,10 @@ local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
 
 local plugin = {
-   name = 'Signals'
-   description = 'Set the signals for clients'
-   id = 'crappy.startup.signals'
-   requires = {"crappy.functions.signals"}
+   name = 'Signals',
+   description = 'Set the signals for clients',
+   id = 'crappy.startup.signals',
+   requires = {"crappy.functions.signals"},
    provides = {}
 }
 

@@ -3,10 +3,10 @@ local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 
 local plugin = {
-   name = 'Menu'
-   description = 'Build the menu'
-   id = 'crappy.startup.menu'
-   requires = {"crappy.shared.settings.terminal", "crappy.shared.settings.editor"}
+   name = 'Menu',
+   description = 'Build the menu',
+   id = 'crappy.startup.menu',
+   requires = {"crappy.shared.settings.terminal", "crappy.shared.settings.editor"},
    provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"}
 }
 

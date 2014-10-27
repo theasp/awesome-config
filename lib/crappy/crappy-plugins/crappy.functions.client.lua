@@ -2,11 +2,11 @@ local lgi = require('lgi')
 local misc = require('crappy.misc')
 
 local plugin = {
-   name = 'Client Functions'
-   description = 'Functions that handle a client'
-   id = 'crappy.functions.client'
-   requires = {}
-   provides = {}
+   name = 'Client Functions',
+   description = 'Functions that handle a client',
+   id = 'crappy.functions.client',
+   requires = {},
+   provides = {},
    functions = {
       ["crappy.functions.client.fullscreen"] = {
          class = "client",

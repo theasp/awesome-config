@@ -3,10 +3,10 @@ local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 
 local plugin = {
-   name = 'Rules'
-   description = 'rules'
-   id = 'crappy.startup.rules'
-   requires = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons", "crappy.shared.tags", "crappy.startup.signals"}
+   name = 'Rules',
+   description = 'rules',
+   id = 'crappy.startup.rules',
+   requires = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons", "crappy.shared.tags", "crappy.startup.signals"},
    provides = {}
 }
 local log = lgi.log.domain(plugin.id)

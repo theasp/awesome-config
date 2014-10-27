@@ -3,10 +3,10 @@ local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 
 local plugin = {
-   name = 'wibox'
-   description = 'Set up the wibox'
-   id = 'crappy.startup.wibox'
-   requires = {"crappy.functions.widgets", "crappy.shared.launcher", "crappy.functions.global", "crappy.startup.theme"}
+   name = 'wibox',
+   description = 'Set up the wibox',
+   id = 'crappy.startup.wibox',
+   requires = {"crappy.functions.widgets", "crappy.shared.launcher", "crappy.functions.global", "crappy.startup.theme"},
    provides = {"crappy.shared.wibox"}
 }
 local log = lgi.log.domain(plugin.id)

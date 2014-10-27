@@ -2,9 +2,9 @@ local lgi = require('lgi')
 local functionManager = require('crappy.functionManager')
 
 local plugin = {
-   name = 'Tags'
-   description = 'Tags'
-   id = 'crappy.startup.tags'
+   name = 'Tags',
+   description = 'Tags',
+   id = 'crappy.startup.tags',
    provides = {'crappy.shared.tags', 'crappy.startup.tags'}
 }
 local log = lgi.log.domain(plugin.id)

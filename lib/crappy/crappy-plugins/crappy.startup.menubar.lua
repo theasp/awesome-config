@@ -3,11 +3,11 @@ local misc = require('crappy.misc')
 local shared = require('crappy.shared')
 
 local plugin = {
-   name = 'Menubar'
-   description = 'Set up the menubar, for 3.5+ only'
-   id = 'crappy.startup.menubar'
-   requires = {"crappy.shared.settings.terminal"}
-   provides = {"crappy.shared.menubar"}
+   name = 'Menubar',
+   description = 'Set up the menubar, for 3.5+ only',
+   id = 'crappy.startup.menubar',
+   requires = {"crappy.shared.settings.terminal"},
+   provides = {"crappy.shared.menubar"},
    before = {"crappy.startup.bindings"}
 }
 
