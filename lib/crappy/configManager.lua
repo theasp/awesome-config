@@ -1,7 +1,8 @@
 local lgi = require 'lgi'
-local log = lgi.log.domain('crappy.configManager')
-
+local misc = require('crappy.misc')
 local pluginManager = require('crappy.pluginManager')
+
+local log = lgi.log.domain('crappy.configManager')
 
 local configManager = {}
 
