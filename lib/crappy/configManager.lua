@@ -102,6 +102,10 @@ function configManager.makeFullConfig(config)
 
       if plugin.settingsDefault then
          plugin.settingsDefault(config.plugins[pluginId].settings)
+      else
+         if plugin.defaults then
+            misc.mergeTable(config.plugins[pluginId].settings, plugin.defaults)
+         end
       end
    end
 
