@@ -1,5 +1,6 @@
 local lgi = require 'lgi'
 local Gio = lgi.require('Gio')
+local log = lgi.log.domain('crappy.pluginManager')
 
 local functionManager = require("crappy.functionManager")
 
@@ -58,7 +59,7 @@ function pluginManager.loadPlugin(file)
    if plugin then
       pluginManager.registerPlugin(plugin)
    else
-      print('Warning: Unable to load plugin ' .. file)
+      log.warning('Unable to load plugin ' .. file)
    end
 end
 
@@ -189,7 +190,7 @@ function pluginManager.simulateLoad(plugins)
       if v.requires then
          for j, req in ipairs(v.requires) do
             if not state[req] then
-               print('Warning: ' .. v.name .. " needs " .. req .. " but nothing is providing it")
+               log.warning(v.name .. " needs " .. req .. " but nothing is providing it")
             end
          end
       end

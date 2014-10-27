@@ -6,6 +6,8 @@ local pluginManager = require('crappy.pluginManager')
 local configManager = require('crappy.configManager')
 local functionManager = require('crappy.functionManager')
 local misc = require('crappy.misc')
+local lgi = require('lgi')
+local log = lgi.log.domain('crappy')
 
 -- The following need to be global
 awful = misc.use('awful')
@@ -21,7 +23,7 @@ crappy.functions = {}
 crappy.shared = require('crappy.shared')
 
 function crappy.start(file)
-   print("Initializing crappy...")
+   log.message("Initializing")
 
    if file == nil then
       file = util.getdir("config") .. "/crappy.json"
@@ -41,12 +43,12 @@ function crappy.start(file)
             settings = crappy.config.plugins[plugin.id].settings
          end
 
-         print("Starting " .. plugin.name .. " (" .. plugin.id .. ")")
+         log.message("Starting " .. plugin.name .. " (" .. plugin.id .. ")")
          plugin.startup(ver, settings)
       end
    end
 
-   print("Done initializing crappy.")
+   log.message("Done initializing crappy.")
 end
 
 return crappy

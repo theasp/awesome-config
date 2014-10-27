@@ -1,3 +1,6 @@
+local lgi = require 'lgi'
+local log = lgi.log.domain('crappy.configManager')
+
 local pluginManager = require('crappy.pluginManager')
 
 local configManager = {}
@@ -14,8 +17,6 @@ function configManager.new()
 end
 
 function configManager.load(file)
-   print("Loading config file " .. file)
-
    -- TODO: Error handling
    local f = assert(io.open(file, "r"), "Unable to open file: " .. file)
    local configJson = f:read("*all")
@@ -29,9 +30,9 @@ function configManager.load(file)
    -- Stupid numbers!
    if tonumber(config.configver) ~= tonumber(configManager.configver) then
       if config.configver then
-         print("The configuration in " .. file .. " is not a supported, version " .. config.configver .. ", using default")
+         log.warning("The configuration in " .. file .. " is not a supported, version " .. config.configver .. ", using default")
       else
-         print("The configuration in " .. file .. " is not a supported, using default")
+         log.warning("The configuration in " .. file .. " is not a supported, using default")
       end
       config = configManager.new()
    end
@@ -40,12 +41,10 @@ function configManager.load(file)
 end
 
 function configManager.show(config)
-   print("JSON:\n" .. configManager.json:encode_pretty(config))
+   log.message("JSON:\n" .. configManager.json:encode_pretty(config))
 end
 
 function configManager.save(file, config)
-   print("Saving configManager file " .. file)
-
    -- TODO: Error handling
    local f = assert(io.open(file, "w"), "Unable to open file: " .. file)
    f:write(configManager.json:encode_pretty(config))
