@@ -42,8 +42,7 @@ function gui.on_activate(app)
       if plugin.buildUi then
          ui = plugin.buildUi(window, settings)
       else
-         local pluginLog = lgi.log.domain('gui.fallback/' .. plugin.id)
-         ui = fallback.buildUi(window, settings, pluginLog)
+         ui = fallback.buildUi(plugin, window, settings)
       end
 
       -- Don't add a tab if the plugin's buildUi function returned nil
