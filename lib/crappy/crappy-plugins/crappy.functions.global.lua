@@ -7,6 +7,7 @@ local plugin = {
    id = 'crappy.functions.global',
    requires = {},
    provides = {},
+   options = {},
    functions = {
       ["crappy.functions.global.focusNext"] = {
          class = "global",
@@ -205,10 +206,6 @@ function plugin.startup(awesomever, settings)
          awful.util.eval, nil,
          awful.util.getdir("cache") .. "/history_eval")
    end
-end
-
-function plugin.buildUi(window, settings)
-   return nil
 end
 
 return plugin

@@ -7,6 +7,7 @@ local plugin = {
    id = 'crappy.functions.tag',
    requires = {},
    provides = {},
+   options = {},
    functions = {
       ["crappy.functions.tag.show"] = {
          class = "tag",
@@ -59,10 +60,6 @@ function plugin.startup(awesomever, settings)
          awful.client.toggletag(crappy.shared.tags[client.focus.screen][i])
       end
    end
-end
-
-function plugin.buildUi(window, settings)
-   return nil
 end
 
 return plugin

@@ -7,6 +7,7 @@ local plugin = {
    id = 'crappy.functions.client',
    requires = {},
    provides = {},
+   options = {},
    functions = {
       ["crappy.functions.client.fullscreen"] = {
          class = "client",
@@ -86,10 +87,6 @@ function plugin.startup(awesomever, settings)
       client.focus = c
       c:raise()
    end
-end
-
-function plugin.buildUi(window, settings)
-   return nil
 end
 
 return plugin

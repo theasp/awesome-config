@@ -7,6 +7,7 @@ local plugin = {
    id = 'crappy.functions.widgets',
    requires = {"crappy.shared.launcher", "crappy.shared.tags"},
    provides = {},
+   options = {},
    functions = {
       ["crappy.functions.widgets.launcher"] = {
          class = "widget",
@@ -165,10 +166,6 @@ function plugin.startup(awesomever, settings)
          return awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
       end
    end
-end
-
-function plugin.buildUi(window, settings)
-   return nil
 end
 
 return plugin

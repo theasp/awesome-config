@@ -7,6 +7,7 @@ local plugin = {
    id = 'crappy.functions.signals',
    requires = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus"},
    provides = {},
+   options = {},
    functions = {
       ["crappy.functions.signals.focus"] = {
          class = "signal",
@@ -123,10 +124,6 @@ function plugin.startup(awesomever, settings)
          end
       end
    end
-end
-
-function plugin.buildUi(window, settings)
-   return nil
 end
 
 return plugin

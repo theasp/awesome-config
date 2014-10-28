@@ -7,6 +7,7 @@ local plugin = {
    id = 'crappy.functions.layouts',
    requires = {},
    provides = {},
+   options = {},
    functions = {
       ["awful.layout.suit.floating"] = {
          class = "layout",
@@ -76,10 +77,6 @@ function plugin.startup(awesomever, settings)
    plugin.functions["awful.layout.suit.max"].func = awful.layout.suit.max
    plugin.functions["awful.layout.suit.max.fullscreen"].func = awful.layout.suit.max.fullscreen
    plugin.functions["awful.layout.suit.magnifier"].func = awful.layout.suit.magnifier
-end
-
-function plugin.buildUi(window, settings)
-   return nil
 end
 
 return plugin
