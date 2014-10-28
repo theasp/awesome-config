@@ -3,6 +3,9 @@ local Gtk = lgi.require('Gtk')
 local Pango = lgi.require('Pango')
 local json = require('crappy.JSON')
 
+local functionManager = require('crappy.functionManager')
+local widgets = require('crappy.gui.widgets')
+
 local fallback = {}
 
 function fallback.buildUi(plugin, window, settings)
@@ -50,6 +53,28 @@ function fallback.buildUiOptions(plugin, window, settings, log)
 
          grid:attach(label, 0, nextRow(), 1, 1)
          grid:attach(entry, 1, row, 1, 1)
+      end
+
+      if def.type == 'function' then
+         local valid = functionManager.getFunctionsForClass(def.class)
+         table.sort(valid)
+
+         local comboBox = widgets.functionComboBox(valid, settings[def.name])
+
+         local label = Gtk.Label {
+            label = def.label,
+            halign = 'END',
+            use_underline = true,
+            mnemonic_widget = comboBox
+         }
+
+         function comboBox:on_changed()
+            local entry = self:get_child()
+            settings[def.name] = entry:get_text()
+         end
+
+         grid:attach(label, 0, nextRow(), 1, 1)
+         grid:attach(comboBox, 1, row, 1, 1)
       end
 
       if def.type == 'boolean' then
