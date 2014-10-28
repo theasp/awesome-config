@@ -9,9 +9,9 @@ local plugin = {
    requires = {"crappy.functions.signals"},
    provides = {},
    defaults = {
-      settings.manage = "crappy.functions.signals.manage",
-      settings.focus = "crappy.functions.signals.focus",
-      settings.unfocus = "crappy.functions.signals.unfocus"
+      manage = "crappy.functions.signals.manage",
+      focus = "crappy.functions.signals.focus",
+      unfocus = "crappy.functions.signals.unfocus"
    }
 }
 
