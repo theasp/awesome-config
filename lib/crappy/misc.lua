@@ -20,7 +20,9 @@ function misc.mergeTable(t1, t2)
       if (type(v) == "table") and (type(t1[k] or false) == "table") then
          misc.mergeTable(t1[k], t2[k])
       else
-         t1[k] = v
+         if t1[k] == nil then
+            t1[k] = v
+         end
       end
    end
    return t1
