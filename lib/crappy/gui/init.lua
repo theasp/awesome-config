@@ -78,7 +78,6 @@ function gui.on_activate(app)
 
       -- Add all new enabled pluginTabs
       for i, pluginId in ipairs(sortedPlugins) do
-         print(pluginId)
          if not pluginTabs[pluginId] and enabledPlugins[pluginId] then
             pluginTabs[pluginId] = addPluginTab(pluginId)
          end
