@@ -32,9 +32,10 @@ function gui.on_activate(app)
    local mainNotebook = nil
 
    -- Function to add a plugin tab
-   local function addPluginTab(plugin)
+   local function addPluginTab(pluginId)
+      local plugin = pluginManager.plugins[pluginId]
       local label = Gtk.Label { label = plugin.name }
-      local settings = config.plugins[plugin.id].settings
+      local settings = config.plugins[pluginId].settings
 
       -- Use the plugin's buildUi function to populate the tab,
       -- otherwise use the fallback.
@@ -67,18 +68,19 @@ function gui.on_activate(app)
       end
 
       local enabledPlugins = configManager.getEnabledPlugins(config)
-      table.sort(enabledPlugins,
-                 function(a,b)
-                    if a.name < b.name then
-                       return true
-                    end
-                 end
-      )
+
+      local sortedPlugins = {}
+      for pluginId, pluginInfo in pairs(config.plugins) do
+         table.insert(sortedPlugins, pluginId)
+      end
+
+      table.sort(sortedPlugins)
 
       -- Add all new enabled pluginTabs
-      for pluginId, pluginInfo in pairs(config.plugins) do
+      for i, pluginId in ipairs(sortedPlugins) do
+         print(pluginId)
          if not pluginTabs[pluginId] and enabledPlugins[pluginId] then
-            pluginTabs[pluginId] = addPluginTab(pluginManager.plugins[pluginId])
+            pluginTabs[pluginId] = addPluginTab(pluginId)
          end
       end
 
