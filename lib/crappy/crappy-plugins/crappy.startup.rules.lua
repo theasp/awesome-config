@@ -4,7 +4,7 @@ local functionManager = require('crappy.functionManager')
 
 local plugin = {
    name = 'Rules',
-   description = 'rules',
+   description = 'Rules',
    id = 'crappy.startup.rules',
    requires = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons", "crappy.shared.tags", "crappy.startup.signals"},
    provides = {}
