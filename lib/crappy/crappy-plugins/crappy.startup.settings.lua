@@ -1,5 +1,5 @@
 local lgi = require('lgi')
-local misc = require("crappy.misc")
+local configManager = require("crappy.configManager")
 local shared = require("crappy.shared")
 
 local plugin = {
@@ -40,7 +40,7 @@ local plugin = {
 local log = lgi.log.domain(plugin.id)
 
 function plugin.settingsDefault(settings)
-   misc.mergeTable(settings, plugin.defaults)
+   configManager.mergeSettings(settings, plugin.defaults)
 
    if settings.editor == nil then
       local editor = os.getenv("EDITOR") or "editor"
