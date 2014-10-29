@@ -51,8 +51,6 @@ function plugin.settingsDefault(settings)
 end
 
 function plugin.startup(awesomever, settings)
-   local beautiful = misc.use("beautiful")
-
    shared.settings = settings
 end
 
