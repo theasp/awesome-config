@@ -9,6 +9,7 @@ local plugin = {
    provides = {"crappy.shared.menubar"},
    before = {"crappy.startup.bindings"},
    defaults = {
+      categories = {},
       dirs = {
          "/usr/share/applications/",
          "/usr/local/share/applications/",
