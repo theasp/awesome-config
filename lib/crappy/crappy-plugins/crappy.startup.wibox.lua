@@ -49,6 +49,7 @@ function plugin.startup(awesomever, settings)
 
          if settings[side] ~= nil then
             for i, widget in ipairs(settings[side]) do
+               log.debug("Adding: " .. widget)
                f = functionManager.getFunction(widget)
                if f ~= nil then
                   local w = f(s)
@@ -60,10 +61,10 @@ function plugin.startup(awesomever, settings)
                         table.insert(layout, w)
                      end
                   else
-                     print("Can't create widget " .. widget .. ": function returned nil")
+                     log.warning("Can't create widget " .. widget .. ": function returned nil")
                   end
                else
-                  print("Can't create widget " .. widget .. ": function not found")
+                  log.warning("Can't create widget " .. widget .. ": function not found")
                end
             end
          end
