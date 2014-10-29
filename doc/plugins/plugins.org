@@ -1,0 +1,9 @@
+#+TITLE: Plugin API
+#+OPTIONS: toc:4 H:4 p:t
+
+TODO
+
+# Local variables:
+# org-ascii-charset: utf-8
+# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii) (org-html-export-to-html) ) nil t)
+# end:
