@@ -104,7 +104,7 @@ function configManager.makeFullConfig(config)
          plugin.settingsDefault(config.plugins[pluginId].settings)
       else
          if plugin.defaults then
-            misc.mergeTable(config.plugins[pluginId].settings, plugin.defaults)
+            configManager.mergeSettings(config.plugins[pluginId].settings, plugin.defaults)
          end
       end
    end
@@ -124,6 +124,19 @@ function configManager.getEnabledPlugins(config)
    end
 
    return enabledPlugins
+end
+
+function configManager.mergeSettings(t1, t2)
+   for k, v in pairs(t2) do
+      if t1[k] == nil then
+         if (type(v) == "table") and (type(t1[k] or false) == "table") then
+            misc.mergeTable(t1[k], t2[k])
+         else
+            t1[k] = v
+         end
+      end
+   end
+   return t1
 end
 
 return configManager
