@@ -1,0 +1,31 @@
+#+TITLE: Configuration File
+#+OPTIONS: toc:4 H:4 p:t
+
+Note that JSON does not allow comments.
+
+* =plugins=
+Plugins is a list of plugins (or psuedo-plugins using functions) and their configuration.
+
+Each entry in the list is labelled with a plugin name which maps to information about the plugin, like whether it is enabled or it's settings.
+
+Example:
+#+BEGIN_SRC js
+  "plugins": {
+      "crappy.startup.theme": {
+          "enabled": true,
+          "settings": {
+              "file": "/usr/share/awesome/themes/default/theme.lua",
+              "font": "sans 10"
+          }
+      },
+      ...
+      "crappy.startup.menubar": {
+          "enabled": true
+      }
+  }
+#+END_SRC
+
+# Local variables:
+# org-ascii-charset: utf-8
+# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii) (org-html-export-to-html) ) nil t)
+# end:

@@ -1,0 +1,43 @@
+                          ━━━━━━━━━━━━━━━━━━━━
+                           CONFIGURATION FILE
+
+
+                            Andrew Phillips
+                          ━━━━━━━━━━━━━━━━━━━━
+
+
+Table of Contents
+─────────────────
+
+1 `plugins'
+
+
+Note that JSON does not allow comments.
+
+
+1 `plugins'
+═══════════
+
+  Plugins is a list of plugins (or psuedo-plugins using functions) and
+  their configuration.
+
+  Each entry in the list is labelled with a plugin name which maps to
+  information about the plugin, like whether it is enabled or it's
+  settings.
+
+  Example:
+  ┌────
+  │ "plugins": {
+  │     "crappy.startup.theme": {
+  │         "enabled": true,
+  │         "settings": {
+  │             "file": "/usr/share/awesome/themes/default/theme.lua",
+  │             "font": "sans 10"
+  │         }
+  │     },
+  │     ...
+  │     "crappy.startup.menubar": {
+  │         "enabled": true
+  │     }
+  │ }
+  └────
