@@ -100,8 +100,8 @@ function configManager.makeFullConfig(config)
          config.plugins[pluginId].settings = {}
       end
 
-      if plugin.settingsDefault then
-         plugin.settingsDefault(config.plugins[pluginId].settings)
+      if plugin.mergeDefaults then
+         plugin.mergeDefaults(config.plugins[pluginId].settings)
       else
          if plugin.defaults then
             configManager.mergeSettings(config.plugins[pluginId].settings, plugin.defaults)

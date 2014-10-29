@@ -1,4 +1,3 @@
-local lgi = require('lgi')
 local configManager = require("crappy.configManager")
 local shared = require("crappy.shared")
 
@@ -37,9 +36,7 @@ local plugin = {
    }
 }
 
-local log = lgi.log.domain(plugin.id)
-
-function plugin.settingsDefault(settings)
+function plugin.mergeDefaults(settings)
    configManager.mergeSettings(settings, plugin.defaults)
 
    if settings.editor == nil then
