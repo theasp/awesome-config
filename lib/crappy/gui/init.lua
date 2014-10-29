@@ -29,7 +29,27 @@ function gui.on_activate(app)
    local pluginTabs = {}
    local pluginsUi = nil
    local config = configManager.new()
-   local mainNotebook = nil
+
+   local window = Gtk.ApplicationWindow {
+      type = Gtk.WindowType.TOPLEVEL,
+      application = app,
+      title = 'Awesome Config',
+      default_width = 600,
+      default_height = 400,
+   }
+
+   local mainNotebook = Gtk.Notebook {
+      scrollable = true,
+   }
+
+   local function setWindowTitle()
+      local fileName = file
+      if fileName == nil then
+         fileName = "<Unknown>"
+      end
+
+      window:set_title('Awesome Config - ' .. fileName)
+   end
 
    -- Function to add a plugin tab
    local function addPluginTab(pluginId)
@@ -110,15 +130,14 @@ function gui.on_activate(app)
       log.message("Quitting...")
       app:quit()
    end
-
-   local function activate_action(action)
-      log.message('Action "%s" activated', action.name)
-   end
+   window.on_destroy = quit
 
    local function newFile()
       log.message('New file')
 
+      file = nil
       config = configManager.new()
+      setWindowTitle()
       resetUi()
    end
 
@@ -126,13 +145,57 @@ function gui.on_activate(app)
       log.message("Loading file " .. file)
 
       config = configManager.load(file)
+      setWindowTitle()
       resetUi()
+   end
+
+   local function loadFileDialog()
+      local dialog = Gtk.FileChooserDialog {
+         title = "Open File",
+         transient_for = window,
+         action = 'OPEN',
+         buttons = {
+            {Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE},
+            {Gtk.STOCK_OPEN, Gtk.ResponseType.ACCEPT}
+         }
+      }
+
+      local res = dialog:run()
+
+      if res == Gtk.ResponseType.ACCEPT then
+         file = dialog:get_filename()
+         loadFile()
+      end
+      dialog:destroy()
    end
 
    local function saveFile()
       log.message('Save file')
 
+      setWindowTitle()
       configManager.save(file, config)
+   end
+
+   local function saveFileDialog()
+      log.message("saveFileDialog")
+
+      local dialog = Gtk.FileChooserDialog {
+         title = "Save File",
+         transient_for = window,
+         action = 'SAVE',
+         buttons = {
+            {Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE},
+            {Gtk.STOCK_SAVE, Gtk.ResponseType.ACCEPT}
+         }
+      }
+
+      local res = dialog:run()
+
+      if res == Gtk.ResponseType.ACCEPT then
+         file = dialog:get_filename()
+         saveFile()
+      end
+      dialog:destroy()
    end
 
    local function about()
@@ -149,7 +212,6 @@ function gui.on_activate(app)
       about:hide()
    end
 
-
    local actions = Gtk.ActionGroup {
       name = 'Actions',
       Gtk.Action { name = 'FileMenu', label = "_File" },
@@ -160,7 +222,7 @@ function gui.on_activate(app)
         accelerator = '<control>N', },
       { Gtk.Action { name = 'Open', stock_id = Gtk.STOCK_OPEN, label = "_Open",
                      tooltip = "Open a file",
-                     on_activate = activate_action },
+                     on_activate = loadFileDialog },
         accelerator = '<control>O', },
       { Gtk.Action { name = 'Save', stock_id = Gtk.STOCK_SAVE, label = "_Save",
                      tooltip = "Save current file",
@@ -168,7 +230,7 @@ function gui.on_activate(app)
         accelerator = '<control>S', },
       Gtk.Action { name = 'SaveAs', stock_id = Gtk.STOCK_SAVE,
                    label = "Save _As...", tooltip = "Save to a file",
-                   on_activate = activate_action },
+                   on_activate = saveFileDialog },
       { Gtk.Action { name = 'Quit', stock_id = Gtk.STOCK_QUIT,
                      tooltip = "Quit",
                      on_activate = quit },
@@ -209,19 +271,6 @@ function gui.on_activate(app)
    if not ok then
       log.message('building menus failed: %s', err)
    end
-
-   local window = Gtk.ApplicationWindow {
-      type = Gtk.WindowType.TOPLEVEL,
-      application = app,
-      title = 'Awesome Config',
-      default_width = 600,
-      default_height = 400,
-      on_destroy = quit
-   }
-
-   mainNotebook = Gtk.Notebook {
-      scrollable = true,
-   }
 
    window:add(Gtk.Box {
                  orientation = 'VERTICAL',
