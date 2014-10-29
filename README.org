@@ -6,7 +6,7 @@ This repository includes the following:
 
 * Crappy
 Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is to be able to move between multiple versions of Awesome and maintain the same basic configuration in a relatively easy to edit file.  JSON was chosen to allow for tools to be written in languages other than Lua to modify the configuration.
-** Installation
+** Installation from Git
 Backup your configuration directory:
 #+BEGIN_SRC sh
 cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
@@ -28,38 +28,16 @@ cp awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
 #+END_SRC
 
 Start awesome.
-* Awesome Config
-TODO
-* Configuration File
-Edit =~/.config/awesome/config.json=. as desired.  The configuration file is divided into =settings= and =startup=.  You can use your own functions in the configuration file by defining or requiring them =rc.lua= before starting crappy, or using anonymous functions.
+* Configuration
+You can use your own functions with crappy by defining or requiring them =rc.lua= before starting crappy, or using anonymous functions.
+** Awesome Config GUI
+Run =awesome-config= to start the configuration GUI.
+** Manual Configuration
+Edit =~/.config/awesome/config.json= as desired. 
 
-Note that JSON does not allow comments.
-
-** plugins
-Plugins is a list of plugins (or psuedo-plugins using functions) and their configuration.
-
-Each entry in the list is labelled with a plugin name which maps to information about the plugin, like whether it is enabled or it's settings.
-
-See the contents of the =docs= directory for information about each plugin and it's settings.
-
-Example:
-#+BEGIN_SRC js
-  "plugins": {
-      "crappy.startup.theme": {
-          "enabled": true,
-          "settings": {
-              "file": "/usr/share/awesome/themes/default/theme.lua",
-              "font": "sans 10"
-          }
-      },
-      ...
-      "crappy.startup.menubar": {
-          "enabled": true
-      }
-  }
-#+END_SRC
-** Extending
-TODO
+A more detailed description of the configuration file is provided in the =docs/config= directory.
+* Plugin API
+See the plugin API documentation in =docs/plugins=.
 * Code Used
 - crappy by Andrew Phillips <theasp@gmail.com> [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]] includes code from:
   - ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]]
@@ -68,10 +46,6 @@ TODO
     -  http://regex.info/blog/lua/json
   - rc.lua from Awesome by the awesome project [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]]
     -  http://awesome.naquadah.org/
-
-* Comments :noexport:
-** TODO Document psuedo-plugins
-** TODO Document awesome-config
 
 # Local variables:
 # org-ascii-charset: utf-8

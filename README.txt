@@ -10,11 +10,11 @@ Table of Contents
 ─────────────────
 
 1 Crappy
-.. 1.1 Installation
-2 Awesome Config
-3 Configuration File
-.. 3.1 plugins
-.. 3.2 Extending
+.. 1.1 Installation from Git
+2 Configuration
+.. 2.1 Awesome Config GUI
+.. 2.2 Manual Configuration
+3 Plugin API
 4 Code Used
 
 
@@ -34,84 +34,58 @@ This repository includes the following:
   modify the configuration.
 
 
-1.1 Installation
-────────────────
+1.1 Installation from Git
+─────────────────────────
 
   Backup your configuration directory:
-  ╭────
+  ┌────
   │ cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
-  ╰────
+  └────
 
   Clone the repository anywhere you want:
-  ╭────
+  ┌────
   │ git clone https://github.com/theasp/awesome-config.git
-  ╰────
+  └────
 
   Make a symlink from your awesome config directory to the libraries:
-  ╭────
+  ┌────
   │ ln -s $(pwd)/awesome-config/lib/* ~/.config/awesome/
-  ╰────
+  └────
 
   Copy the example `rc.lua' and `crappy.json' to your config directory:
-  ╭────
+  ┌────
   │ cp awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
-  ╰────
+  └────
 
   Start awesome.
 
 
-2 Awesome Config
-════════════════
+2 Configuration
+═══════════════
 
-  TODO
-
-
-3 Configuration File
-════════════════════
-
-  Edit `~/.config/awesome/config.json'. as desired.  The configuration
-  file is divided into `settings' and `startup'.  You can use your own
-  functions in the configuration file by defining or requiring them
-  `rc.lua' before starting crappy, or using anonymous functions.
-
-  Note that JSON does not allow comments.
+  You can use your own functions with crappy by defining or requiring
+  them `rc.lua' before starting crappy, or using anonymous functions.
 
 
-3.1 plugins
-───────────
+2.1 Awesome Config GUI
+──────────────────────
 
-  Plugins is a list of plugins (or psuedo-plugins using functions) and
-  their configuration.
-
-  Each entry in the list is labelled with a plugin name which maps to
-  information about the plugin, like whether it is enabled or it's
-  settings.
-
-  See the contents of the `docs' directory for information about each
-  plugin and it's settings.
-
-  Example:
-  ╭────
-  │ "plugins": {
-  │     "crappy.startup.theme": {
-  │         "enabled": true,
-  │         "settings": {
-  │             "file": "/usr/share/awesome/themes/default/theme.lua",
-  │             "font": "sans 10"
-  │         }
-  │     },
-  │     ...
-  │     "crappy.startup.menubar": {
-  │         "enabled": true
-  │     }
-  │ }
-  ╰────
+  Run `awesome-config' to start the configuration GUI.
 
 
-3.2 Extending
-─────────────
+2.2 Manual Configuration
+────────────────────────
 
-  TODO
+  Edit `~/.config/awesome/config.json' as desired.
+
+  A more detailed description of the configuration file is provided in
+  the `docs/config' directory.
+
+
+3 Plugin API
+════════════
+
+  See the plugin API documentation in `docs/plugins'.
 
 
 4 Code Used

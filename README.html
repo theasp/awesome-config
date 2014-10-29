@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Awesome Configuration</title>
-<!-- 2014-09-23 Tue 16:22 -->
+<!-- 2014-10-29 Wed 14:38 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Andrew Phillips" />
@@ -145,16 +145,16 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#sec-1">1. Crappy</a>
 <ul>
-<li><a href="#sec-1-1">1.1. Installation</a></li>
+<li><a href="#sec-1-1">1.1. Installation from Git</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">2. Awesome Config</a></li>
-<li><a href="#sec-3">3. Configuration File</a>
+<li><a href="#sec-2">2. Configuration</a>
 <ul>
-<li><a href="#sec-3-1">3.1. plugins</a></li>
-<li><a href="#sec-3-2">3.2. Extending</a></li>
+<li><a href="#sec-2-1">2.1. Awesome Config GUI</a></li>
+<li><a href="#sec-2-2">2.2. Manual Configuration</a></li>
 </ul>
 </li>
+<li><a href="#sec-3">3. Plugin API</a></li>
 <li><a href="#sec-4">4. Code Used</a></li>
 </ul>
 </div>
@@ -177,14 +177,14 @@ Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.  Specific
 </p>
 </div>
 <div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Installation</h3>
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Installation from Git</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
 Backup your configuration directory:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh">cp -a ~/.config/awesome ~/.config/awesome.bak-$(<span style="color: #ff875f;">date</span> +%F-%T)
+<pre class="src src-sh">cp -a ~/.config/awesome ~/.config/awesome.bak-$(<span style="color: #fa8072;">date</span> +%F-%T)
 </pre>
 </div>
 
@@ -202,7 +202,7 @@ Make a symlink from your awesome config directory to the libraries:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-sh">ln -s $(<span style="color: #ff875f;">pwd</span>)/awesome-config/lib/* ~/.config/awesome/
+<pre class="src src-sh">ln -s $(<span style="color: #fa8072;">pwd</span>)/awesome-config/lib/* ~/.config/awesome/
 </pre>
 </div>
 
@@ -222,78 +222,48 @@ Start awesome.
 </div>
 </div>
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2"><span class="section-number-2">2</span> Awesome Config</h2>
+<h2 id="sec-2"><span class="section-number-2">2</span> Configuration</h2>
 <div class="outline-text-2" id="text-2">
 <p>
-TODO
+You can use your own functions with crappy by defining or requiring them <code>rc.lua</code> before starting crappy, or using anonymous functions.
 </p>
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Awesome Config GUI</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Run <code>awesome-config</code> to start the configuration GUI.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Manual Configuration</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Edit <code>~/.config/awesome/config.json</code> as desired. 
+</p>
+
+<p>
+A more detailed description of the configuration file is provided in the <code>docs/config</code> directory.
+</p>
+</div>
 </div>
 </div>
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3"><span class="section-number-2">3</span> Configuration File</h2>
+<h2 id="sec-3"><span class="section-number-2">3</span> Plugin API</h2>
 <div class="outline-text-2" id="text-3">
 <p>
-Edit <code>~/.config/awesome/config.json</code>. as desired.  The configuration file is divided into <code>settings</code> and <code>startup</code>.  You can use your own functions in the configuration file by defining or requiring them <code>rc.lua</code> before starting crappy, or using anonymous functions.
+See the plugin API documentation in <code>docs/plugins</code>.
 </p>
-
-<p>
-Note that JSON does not allow comments.
-</p>
-</div>
-
-<div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1"><span class="section-number-3">3.1</span> plugins</h3>
-<div class="outline-text-3" id="text-3-1">
-<p>
-Plugins is a list of plugins (or psuedo-plugins using functions) and their configuration.
-</p>
-
-<p>
-Each entry in the list is labelled with a plugin name which maps to information about the plugin, like whether it is enabled or it's settings.
-</p>
-
-<p>
-See the contents of the <code>docs</code> directory for information about each plugin and it's settings.
-</p>
-
-<p>
-Example:
-</p>
-<div class="org-src-container">
-
-<pre class="src src-js"><span style="color: #ffaf87;">"plugins"</span>: {
-    <span style="color: #ffaf87;">"crappy.startup.theme"</span>: {
-        <span style="color: #ffaf87;">"enabled"</span>: <span style="color: #87ffd7;">true</span>,
-        <span style="color: #ffaf87;">"settings"</span>: {
-            <span style="color: #ffaf87;">"file"</span>: <span style="color: #ffaf87;">"/usr/share/awesome/themes/default/theme.lua"</span>,
-            <span style="color: #ffaf87;">"font"</span>: <span style="color: #ffaf87;">"sans 10"</span>
-        }
-    },
-    ...
-    <span style="color: #ffaf87;">"crappy.startup.menubar"</span>: {
-        <span style="color: #ffaf87;">"enabled"</span>: <span style="color: #87ffd7;">true</span>
-    }
-}
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Extending</h3>
-<div class="outline-text-3" id="text-3-2">
-<p>
-TODO
-</p>
-</div>
 </div>
 </div>
 <div id="outline-container-sec-4" class="outline-2">
 <h2 id="sec-4"><span class="section-number-2">4</span> Code Used</h2>
 <div class="outline-text-2" id="text-4">
 <ul class="org-ul">
-<li>crappy by Andrew Phillips <theasp@gmail.com> <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a> includes code from:
+<li>crappy by Andrew Phillips &lt;theasp@gmail.com&gt; <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a> includes code from:
 <ul class="org-ul">
-<li>ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a>
+<li>ezconfig.lua by Georgi Valkov &lt;georgi.t.valkov@gmail.com&gt; <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPLv2</a>
 <ul class="org-ul">
 <li><a href="https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua">https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua</a>
 </li>
@@ -318,8 +288,8 @@ TODO
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: Andrew Phillips <<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>></p>
-<p class="date">Date: 2014-09-23 Tue 16:22</p>
+<p class="author">Author: Andrew Phillips &lt;<a href="mailto:andrew.phillips@ssc-spc.gc.ca">andrew.phillips@ssc-spc.gc.ca</a>&gt;</p>
+<p class="date">Date: 2014-10-29 Wed 14:38</p>
 </div>
 </body>
 </html>
