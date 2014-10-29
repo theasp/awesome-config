@@ -44,7 +44,7 @@ function plugin.startup(awesomever, settings)
 
    function crappy.functions.tag.toggle(i)
       local screen = mouse.screen
-      if crappy.shared.shared.tags[screen][i] then
+      if crappy.shared.tags[screen][i] then
          awful.tag.viewtoggle(crappy.shared.tags[screen][i])
       end
    end
