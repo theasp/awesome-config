@@ -6,7 +6,7 @@ local plugin = {
    name = 'Menu',
    description = 'Build the menu',
    id = 'crappy.startup.menu',
-   requires = {"crappy.shared.settings.terminal", "crappy.shared.settings.editor"},
+   requires = {"crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.startup.theme"},
    provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"},
    defaults = {
       menu = {
@@ -51,6 +51,7 @@ local function buildMenuTable(menu)
    local m = {}
 
    for i, entry in ipairs(menu) do
+      log.debug("Adding: " .. entry.name)
       local e = {}
 
       table.insert(e, entry.name)
@@ -64,7 +65,7 @@ local function buildMenuTable(menu)
       elseif entry.string ~= nil then
          table.insert(e, entry.string)
       else
-         print("Unknown menu type!")
+         log.warning("Unknown menu type")
          table.insert(e, nil)
       end
       if entry.iconresult ~= nil then
@@ -82,11 +83,10 @@ local function buildMenuTable(menu)
 end
 
 function plugin.startup(awesomever, settings)
+   local beautiful = require('beautiful')
    local shared = require('crappy.shared')
-
    local menu = buildMenuTable(settings.menu)
    shared.mainmenu = awful.menu({ items = menu })
-
    shared.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
                                              menu = shared.mainmenu })
 end
