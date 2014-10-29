@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Plugin API</title>
-<!-- 2014-10-29 Wed 15:00 -->
+<title>crappy.startup.rules</title>
+<!-- 2014-10-29 Wed 15:02 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Andrew Phillips" />
@@ -138,14 +139,55 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Plugin API</h1>
+<h1 class="title">crappy.startup.rules</h1>
 <p>
-TODO
+Rules map to the same structure as in a normal rc.lua.  See the wiki page on rules for more information:
+<a href="http://awesome.naquadah.org/wiki/Understanding_Rules">http://awesome.naquadah.org/wiki/Understanding_Rules</a>
 </p>
+
+<p>
+Crappy has the following differences:
+</p>
+<ul class="org-ul">
+<li><code>tag</code> - To have a client moved to a specific tag you need to specify <code>screen</code> and <code>tag</code>.  If the tag doesn't exist, it is not applied.
+</li>
+<li><code>callback</code> - Callback cannot be an array, if you wish to use multiple callbacks, use an anonymous function to call them.
+</li>
+</ul>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">{
+    <span style="color: #ffa07a;">"func"</span>: <span style="color: #ffa07a;">"crappy.startup.rules"</span>,
+    <span style="color: #ffa07a;">"enabled"</span>: <span style="color: #7fffd4;">true</span>,
+    <span style="color: #ffa07a;">"settings"</span>: [
+        {
+            <span style="color: #ffa07a;">"rule"</span>: {
+                <span style="color: #ffa07a;">"class"</span>: <span style="color: #ffa07a;">"MPlayer"</span>
+            },
+            <span style="color: #ffa07a;">"properties"</span>: {
+                <span style="color: #ffa07a;">"floating"</span>: <span style="color: #7fffd4;">true</span>
+            }
+        },
+        {
+            <span style="color: #ffa07a;">"rule"</span>: {
+                <span style="color: #ffa07a;">"class"</span>: <span style="color: #ffa07a;">"pinentry"</span>
+            },
+            <span style="color: #ffa07a;">"properties"</span>: {
+                <span style="color: #ffa07a;">"floating"</span>: <span style="color: #7fffd4;">true</span>
+            }
+        }
+    ]
+}
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andrew Phillips &lt;<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>&gt;</p>
-<p class="date">Date: 2014-10-29 Wed 15:00</p>
+<p class="date">Date: 2014-10-29 Wed 15:02</p>
 </div>
 </body>
 </html>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Plugin API</title>
-<!-- 2014-10-29 Wed 15:00 -->
+<title>crappy.startup.signals</title>
+<!-- 2014-10-29 Wed 15:03 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Andrew Phillips" />
@@ -138,14 +139,43 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Plugin API</h1>
+<h1 class="title">crappy.startup.signals</h1>
 <p>
-TODO
+Set the functions to handle signals.
 </p>
+
+<p>
+Settings:
+</p>
+<ul class="org-ul">
+<li><code>manage</code> - The name of the function to run when clients are managed
+</li>
+<li><code>focus</code> - The name of the function to run when clients gain focus
+</li>
+<li><code>unfocus</code> - The name of the function to run when clients lose focus
+</li>
+</ul>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">{
+    <span style="color: #ffa07a;">"func"</span>: <span style="color: #ffa07a;">"crappy.startup.signals"</span>,
+    <span style="color: #ffa07a;">"enabled"</span>: <span style="color: #7fffd4;">true</span>,
+    <span style="color: #ffa07a;">"settings"</span>: {
+        <span style="color: #ffa07a;">"manage"</span>: <span style="color: #ffa07a;">"crappy.functions.signals.manage"</span>,
+        <span style="color: #ffa07a;">"focus"</span>: <span style="color: #ffa07a;">"crappy.functions.signals.focus"</span>,
+        <span style="color: #ffa07a;">"unfocus"</span>: <span style="color: #ffa07a;">"crappy.functions.signals.unfocus"</span>
+    }
+}
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andrew Phillips &lt;<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>&gt;</p>
-<p class="date">Date: 2014-10-29 Wed 15:00</p>
+<p class="date">Date: 2014-10-29 Wed 15:03</p>
 </div>
 </body>
 </html>

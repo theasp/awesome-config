@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Plugin API</title>
-<!-- 2014-10-29 Wed 15:00 -->
+<title>crappy.startup.theme</title>
+<!-- 2014-10-29 Wed 15:02 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Andrew Phillips" />
@@ -138,14 +139,58 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Plugin API</h1>
+<h1 class="title">crappy.startup.theme</h1>
 <p>
-TODO
+Build the tags table for each screen and assign their default layouts.
 </p>
+
+<p>
+The top level of the settings refers to the screen, and are applied in the order listed:
+</p>
+<ul class="org-ul">
+<li><code>default</code> - Settings inside are applied to all screens.
+</li>
+<li><code>last</code> - Settings inside are applied to the last screen.
+</li>
+<li><code>&lt;#&gt;</code> - Settings inside are applied to the screen number given.
+</li>
+</ul>
+
+<p>
+Each of the above, allows the following:
+</p>
+<ul class="org-ul">
+<li><code>layout</code> - The name of the default layout function.
+</li>
+<li><code>tags</code> - The names of each of the tags for the screen.
+</li>
+<li><code>tagLayouts</code> - A hash mapping a tag name to a named layout function
+</li>
+</ul>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #ffa07a;">"settings"</span>: {
+    <span style="color: #ffa07a;">"default"</span>: {
+        <span style="color: #ffa07a;">"layout"</span>: <span style="color: #ffa07a;">"awful.layout.suit.fair"</span>,
+        <span style="color: #ffa07a;">"tags"</span>: [<span style="color: #ffa07a;">"1"</span>, <span style="color: #ffa07a;">"2"</span>, <span style="color: #ffa07a;">"3"</span>, <span style="color: #ffa07a;">"4"</span>, <span style="color: #ffa07a;">"5"</span>, <span style="color: #ffa07a;">"6"</span>, <span style="color: #ffa07a;">"7"</span>, <span style="color: #ffa07a;">"8"</span>, <span style="color: #ffa07a;">"9"</span>]
+    },
+    <span style="color: #ffa07a;">"last"</span>: {
+        <span style="color: #ffa07a;">"layout"</span>: <span style="color: #ffa07a;">"awful.layout.suit.max"</span>,
+        <span style="color: #ffa07a;">"tagLayout"</span>: {
+            <span style="color: #ffa07a;">"2"</span>: <span style="color: #ffa07a;">"awful.layout.suit.tile"</span>
+        }
+    }
+}
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andrew Phillips &lt;<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>&gt;</p>
-<p class="date">Date: 2014-10-29 Wed 15:00</p>
+<p class="date">Date: 2014-10-29 Wed 15:02</p>
 </div>
 </body>
 </html>

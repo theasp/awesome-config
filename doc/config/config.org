@@ -1,5 +1,7 @@
 #+TITLE: Configuration File
 #+OPTIONS: toc:4 H:4 p:t
+#+AUTHOR: Andrew Phillips
+#+EMAIL: theasp@gmail.com
 
 Note that JSON does not allow comments.
 

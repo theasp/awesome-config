@@ -1,5 +1,8 @@
 #+TITLE: Awesome Configuration
 #+OPTIONS: toc:4 H:4 p:t
+#+AUTHOR: Andrew Phillips
+#+EMAIL: theasp@gmail.com
+
 This repository includes the following:
 - awesome-config - A GUI for manipulating the 
 - crappy - A library for reading configuration files for Awesome

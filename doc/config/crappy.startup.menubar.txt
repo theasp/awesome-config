@@ -24,7 +24,7 @@ Settings:
   • `use' - Show the category or not
 
 Example:
-╭────
+┌────
 │ {
 │     "func": "crappy.startup.menubar",
 │     "enabled": true
@@ -45,4 +45,4 @@ Example:
 │         }
 │     }
 │ }
-╰────
+└────

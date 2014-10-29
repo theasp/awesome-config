@@ -33,7 +33,7 @@ Settings:
     called with the client as an argument.
 
 Example:
-╭────
+┌────
 │ "settings": {
 │     "modkey": "Mod4",
 │     "altkey": "Mod1",
@@ -80,4 +80,4 @@ Example:
 │         }
 │     }
 │ }
-╰────
+└────

@@ -24,7 +24,7 @@ Settings:
   • `right' - Widgets aligned to the right.
 
 Example:
-╭────
+┌────
 │ {
 │     "func": "crappy.startup.wibox",
 │     "enabled": true,
@@ -48,4 +48,4 @@ Example:
 │         }
 │     }
 │ }
-╰────
+└────

@@ -1,5 +1,8 @@
 #+TITLE: Plugin API
 #+OPTIONS: toc:4 H:4 p:t
+#+OPTIONS: toc:4 H:4 p:t
+#+AUTHOR: Andrew Phillips
+#+EMAIL: theasp@gmail.com
 
 TODO
 

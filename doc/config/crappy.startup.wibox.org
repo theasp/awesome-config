@@ -1,4 +1,7 @@
 #+TITLE: crappy.startup.wibox
+#+OPTIONS: toc:4 H:4 p:t
+#+AUTHOR: Andrew Phillips
+#+EMAIL: theasp@gmail.com
 
 Set up the wibox for each screen.
 
@@ -39,5 +42,5 @@ Example:
 
 # Local variables:
 # org-ascii-charset: utf-8
-# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii)) nil t)
+# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii) (org-html-export-to-html) ) nil t)
 # end:

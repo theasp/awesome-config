@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Plugin API</title>
-<!-- 2014-10-29 Wed 15:00 -->
+<title>crappy.startup.menubar</title>
+<!-- 2014-10-29 Wed 15:02 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Andrew Phillips" />
@@ -138,14 +139,62 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Plugin API</h1>
+<h1 class="title">crappy.startup.menubar</h1>
 <p>
-TODO
+Enable the menubar provided in Awesome 3.5.
 </p>
+
+<p>
+Settings:
+</p>
+<ul class="org-ul">
+<li><code>dirs</code> - Directories to look for menu entries in
+</li>
+<li><code>categories</code> - An array of additional categories to look for.  Each entry points to a table with the following:
+<ul class="org-ul">
+<li><code>app_type</code> - The category in the menu item
+</li>
+<li><code>name</code> - The name of the category to be displayed
+</li>
+<li><code>icon_name</code> - The name of the file to use for the category icon
+</li>
+<li><code>use</code> - Show the category or not
+</li>
+</ul>
+</li>
+</ul>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">{
+    <span style="color: #ffa07a;">"func"</span>: <span style="color: #ffa07a;">"crappy.startup.menubar"</span>,
+    <span style="color: #ffa07a;">"enabled"</span>: <span style="color: #7fffd4;">true</span>
+    <span style="color: #ffa07a;">"settings"</span>: {
+        <span style="color: #ffa07a;">"dirs"</span>: [
+            <span style="color: #ffa07a;">"/usr/share/applications/"</span>,
+            <span style="color: #ffa07a;">"/usr/local/share/applications/"</span>,
+            <span style="color: #ffa07a;">".local/share/applications/"</span>,
+            <span style="color: #ffa07a;">".local/share/applications/andrew/"</span>
+        ],
+        <span style="color: #ffa07a;">"categories"</span>: {
+            <span style="color: #ffa07a;">"andrew"</span>: {
+                <span style="color: #ffa07a;">"app_type"</span>: <span style="color: #ffa07a;">"Andrew"</span>,
+                <span style="color: #ffa07a;">"name"</span>: <span style="color: #ffa07a;">"Andrew"</span>,
+                <span style="color: #ffa07a;">"icon_name"</span>: <span style="color: #ffa07a;">"applications-accessories.png"</span>,
+                <span style="color: #ffa07a;">"use"</span>: <span style="color: #7fffd4;">true</span>
+            }
+        }
+    }
+}
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andrew Phillips &lt;<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>&gt;</p>
-<p class="date">Date: 2014-10-29 Wed 15:00</p>
+<p class="date">Date: 2014-10-29 Wed 15:02</p>
 </div>
 </body>
 </html>

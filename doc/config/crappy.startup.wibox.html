@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Plugin API</title>
-<!-- 2014-10-29 Wed 15:00 -->
+<title>crappy.startup.wibox</title>
+<!-- 2014-10-29 Wed 15:02 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Andrew Phillips" />
@@ -138,14 +139,65 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Plugin API</h1>
+<h1 class="title">crappy.startup.wibox</h1>
 <p>
-TODO
+Set up the wibox for each screen.
 </p>
+
+<p>
+Settings:
+</p>
+<ul class="org-ul">
+<li><code>position</code> - Where the wibox is positioned, top or bottom.
+</li>
+<li><code>bgcolor</code> - Set background color, or null to use the theme's color.
+</li>
+<li><code>widgets</code> - A list of the three possible positions of widgets.
+<ul class="org-ul">
+<li><code>left</code> - A list of named functions which should return a widget that can be added to an alignment, which will be aligned to the left.
+</li>
+<li><code>middle</code> - Widgets aligned to the middle, or aligned right on 3.4.x.
+</li>
+<li><code>right</code> - Widgets aligned to the right.
+</li>
+</ul>
+</li>
+</ul>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js">{
+    <span style="color: #ffa07a;">"func"</span>: <span style="color: #ffa07a;">"crappy.startup.wibox"</span>,
+    <span style="color: #ffa07a;">"enabled"</span>: <span style="color: #7fffd4;">true</span>,
+    <span style="color: #ffa07a;">"settings"</span>: {
+        <span style="color: #ffa07a;">"position"</span>: <span style="color: #ffa07a;">"top"</span>,
+        <span style="color: #ffa07a;">"bgcolor"</span>: <span style="color: #7fffd4;">null</span>,
+        <span style="color: #ffa07a;">"widgets"</span>: {
+            <span style="color: #ffa07a;">"left"</span>: [
+                <span style="color: #ffa07a;">"crappy.startup.widget.launcher"</span>,
+                <span style="color: #ffa07a;">"crappy.startup.widget.taglist"</span>,
+                <span style="color: #ffa07a;">"crappy.startup.widget.prompt"</span>
+            ],
+            <span style="color: #ffa07a;">"middle"</span>: [
+                <span style="color: #ffa07a;">"crappy.startup.widget.tasklist"</span>
+            ],
+            <span style="color: #ffa07a;">"right"</span>: [
+                <span style="color: #ffa07a;">"crappy.startup.widget.systray"</span>,
+                <span style="color: #ffa07a;">"crappy.startup.widget.textclock"</span>,
+                <span style="color: #ffa07a;">"crappy.startup.widget.layout"</span>
+            ]
+        }
+    }
+}
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andrew Phillips &lt;<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>&gt;</p>
-<p class="date">Date: 2014-10-29 Wed 15:00</p>
+<p class="date">Date: 2014-10-29 Wed 15:02</p>
 </div>
 </body>
 </html>

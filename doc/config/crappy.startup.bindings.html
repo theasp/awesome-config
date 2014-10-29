@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>crappy.startup.bindings</title>
+<!-- 2014-10-29 Wed 15:01 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Andrew Phillips" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">crappy.startup.bindings</h1>
+<p>
+Assign keyboard and mouse buttons to functions.  Uses the ezconfig library by Georgi Valkov to describe the binding using a string.  The modifiers <code>M</code> (modkey), <code>A</code> (alt), <code>S</code> (shift) and <code>C</code> (control) can be combined using a <code>-</code> with a key name for a key or mouse button combination.
+</p>
+
+<p>
+Settings:
+</p>
+<ul class="org-ul">
+<li><code>modkey</code> - The name of the key to use for "M", defaults to Mod4  (windows key).
+</li>
+<li><code>modkey</code> - The name of the key to use for "A", defaults to Mod1 (Alt key).
+</li>
+<li><code>buttons</code> - The mapping of mouse buttons to functions
+<ul class="org-ul">
+<li><code>root</code> - Mouse buttons that apply to the root window
+</li>
+<li><code>client</code> - Mouse buttons that apply to client windows.  The functions are called with the client as an argument.
+</li>
+</ul>
+</li>
+<li><code>keys</code> - The mapping of keyboard keys to functions
+<ul class="org-ul">
+<li><code>global</code> - Keys that work everywhere
+</li>
+<li><code>client</code> - Keys that work on client windows.  The functions are called with the client as an argument.
+</li>
+</ul>
+</li>
+</ul>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #ffa07a;">"settings"</span>: {
+    <span style="color: #ffa07a;">"modkey"</span>: <span style="color: #ffa07a;">"Mod4"</span>,
+    <span style="color: #ffa07a;">"altkey"</span>: <span style="color: #ffa07a;">"Mod1"</span>,
+    <span style="color: #ffa07a;">"buttons"</span>: {
+        <span style="color: #ffa07a;">"root"</span>: {
+            <span style="color: #ffa07a;">"3"</span>: <span style="color: #ffa07a;">"crappy.functions.menu.toggle"</span>,
+            <span style="color: #ffa07a;">"4"</span>: <span style="color: #ffa07a;">"awful.tag.viewnext"</span>,
+            <span style="color: #ffa07a;">"5"</span>: <span style="color: #ffa07a;">"awful.tag.viewprev"</span>
+        },
+        <span style="color: #ffa07a;">"client"</span>: {
+            <span style="color: #ffa07a;">"1"</span>: <span style="color: #ffa07a;">"crappy.functions.client.focus"</span>,
+            <span style="color: #ffa07a;">"2"</span>: <span style="color: #ffa07a;">"crappy.functions.client.focus"</span>,
+            <span style="color: #ffa07a;">"3"</span>: <span style="color: #ffa07a;">"crappy.functions.client.focus"</span>,
+            <span style="color: #ffa07a;">"M-1"</span>: <span style="color: #ffa07a;">"awful.mouse.client.move"</span>,
+            <span style="color: #ffa07a;">"M-3"</span>: <span style="color: #ffa07a;">"awful.mouse.client.resize"</span>
+        }
+    },
+    <span style="color: #ffa07a;">"keys"</span>: {
+        <span style="color: #ffa07a;">"global"</span>: {
+            <span style="color: #ffa07a;">"M-&lt;Left&gt;"</span>: <span style="color: #ffa07a;">"awful.tag.viewprev"</span>,
+            <span style="color: #ffa07a;">"M-&lt;Right&gt;"</span>: <span style="color: #ffa07a;">"awful.tag.viewnext"</span>,
+            <span style="color: #ffa07a;">"M-&lt;Escape&gt;"</span>: <span style="color: #ffa07a;">"awful.tag.history.restore"</span>,
+
+            <span style="color: #ffa07a;">"M-j"</span>: <span style="color: #ffa07a;">"crappy.functions.global.focusNext"</span>,
+            <span style="color: #ffa07a;">"M-k"</span>: <span style="color: #ffa07a;">"crappy.functions.global.focusPrev"</span>,
+            <span style="color: #ffa07a;">"M-w"</span>: <span style="color: #ffa07a;">"crappy.functions.global.showMenu"</span>,
+            <span style="color: #ffa07a;">"M-&lt;Tab&gt;"</span>: <span style="color: #ffa07a;">"crappy.functions.global.focusNext"</span>,
+            <span style="color: #ffa07a;">"M-`"</span>: <span style="color: #ffa07a;">"crappy.functions.global.focusPrevHist"</span>,
+
+                ...
+
+            <span style="color: #ffa07a;">"M-p"</span>: <span style="color: #ffa07a;">"menubar.show"</span>
+        },
+        <span style="color: #ffa07a;">"client"</span>: {
+            <span style="color: #ffa07a;">"M-f"</span>: <span style="color: #ffa07a;">"crappy.functions.client.fullscreen"</span>,
+            <span style="color: #ffa07a;">"M-S-c"</span>: <span style="color: #ffa07a;">"crappy.functions.client.kill"</span>,
+            <span style="color: #ffa07a;">"M-C-&lt;space&gt;"</span>: <span style="color: #ffa07a;">"awful.client.floating.toggle"</span>,
+            <span style="color: #ffa07a;">"M-C-&lt;Return&gt;"</span>: <span style="color: #ffa07a;">"crappy.functions.client.swapMaster"</span>,
+            <span style="color: #ffa07a;">"M-o"</span>: <span style="color: #ffa07a;">"awful.client.movetoscreen"</span>,
+            <span style="color: #ffa07a;">"M-r"</span>: <span style="color: #ffa07a;">"crappy.functions.client.redraw"</span>,
+            <span style="color: #ffa07a;">"M-t"</span>: <span style="color: #ffa07a;">"crappy.functions.client.ontop"</span>,
+            <span style="color: #ffa07a;">"M-n"</span>: <span style="color: #ffa07a;">"crappy.functions.client.minimized"</span>,
+            <span style="color: #ffa07a;">"M-m"</span>: <span style="color: #ffa07a;">"crappy.functions.client.maximized"</span>
+        }
+    }
+}
+</pre>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Andrew Phillips &lt;<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>&gt;</p>
+<p class="date">Date: 2014-10-29 Wed 15:01</p>
+</div>
+</body>
+</html>

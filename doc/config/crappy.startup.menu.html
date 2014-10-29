@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Plugin API</title>
-<!-- 2014-10-29 Wed 15:00 -->
+<title>crappy.startup.menu</title>
+<!-- 2014-10-29 Wed 15:02 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Andrew Phillips" />
@@ -138,14 +139,81 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Plugin API</h1>
+<h1 class="title">crappy.startup.menu</h1>
 <p>
-TODO
+Build the menu used for the launcher on the wibox or the menu on the root window.
 </p>
+
+<p>
+The settings is an array of menu items, which can be nested.  Each element of the array has the following hash:
+</p>
+<ul class="org-ul">
+<li><code>name</code> - Name of the menu item
+</li>
+<li><code>icon</code> - Path to the icon
+</li>
+<li><code>iconresult</code> - A function that returns the name of the icon
+</li>
+<li><code>table</code> - An array of the same form for a submenu
+</li>
+<li><code>result</code> - A function that returns the command to run, or a table of menu items using the standard used by awful
+</li>
+<li><code>func</code> - A function to run instead of a command
+</li>
+<li><code>string</code> - A command to run
+</li>
+</ul>
+
+<p>
+You should only apply one of <code>table</code>, <code>result</code>, <code>func</code> and <code>string</code>, as well one of <code>icon</code> and <code>iconresult</code>.
+</p>
+
+<p>
+Example:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #ffa07a;">"settings"</span>: [
+    { <span style="color: #ffa07a;">"name"</span>: <span style="color: #ffa07a;">"awesome"</span>,
+      <span style="color: #ffa07a;">"iconresult"</span>: <span style="color: #ffa07a;">"function() return beautiful.awesome_icon end"</span>,
+      <span style="color: #ffa07a;">"table"</span>: [
+          {
+              <span style="color: #ffa07a;">"name"</span>: <span style="color: #ffa07a;">"manual"</span>,
+              <span style="color: #ffa07a;">"result"</span>: <span style="color: #ffa07a;">"function() return crappy.config.settings.terminal .. \" -e man awesome\" end"</span>
+          },
+          {
+              <span style="color: #ffa07a;">"name"</span>:<span style="color: #ffa07a;">"edit config"</span>,
+              <span style="color: #ffa07a;">"result"</span>: <span style="color: #ffa07a;">"function() return crappy.config.settings.editor .. ' ' .. awful.util.getdir('config') .. '/rc.lua' end"</span>
+          },
+          {
+              <span style="color: #ffa07a;">"name"</span>: <span style="color: #ffa07a;">"restart"</span>,
+              <span style="color: #ffa07a;">"func"</span>: <span style="color: #ffa07a;">"awesome.restart"</span>
+          },
+          {
+              <span style="color: #ffa07a;">"name"</span>: <span style="color: #ffa07a;">"quit"</span>,
+              <span style="color: #ffa07a;">"func"</span>: <span style="color: #ffa07a;">"awesome.quit"</span>
+          }
+      ]
+    },
+    {
+        <span style="color: #ffa07a;">"name"</span>: <span style="color: #ffa07a;">"Debian"</span>,
+        <span style="color: #ffa07a;">"result"</span>: <span style="color: #ffa07a;">"function() return debian.menu.Debian_menu.Debian end"</span>
+    },
+    {
+        <span style="color: #ffa07a;">"name"</span>: <span style="color: #ffa07a;">"open terminal"</span>,
+        <span style="color: #ffa07a;">"result"</span>: <span style="color: #ffa07a;">"function() return crappy.config.settings.terminal end"</span>
+    },
+    {
+        <span style="color: #ffa07a;">"name"</span>: <span style="color: #ffa07a;">"firefox"</span>,
+        <span style="color: #ffa07a;">"string"</span>: <span style="color: #ffa07a;">"firefox"</span>
+    }
+]
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andrew Phillips &lt;<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>&gt;</p>
-<p class="date">Date: 2014-10-29 Wed 15:00</p>
+<p class="date">Date: 2014-10-29 Wed 15:02</p>
 </div>
 </body>
 </html>

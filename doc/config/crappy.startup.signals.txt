@@ -20,7 +20,7 @@ Settings:
 • `unfocus' - The name of the function to run when clients lose focus
 
 Example:
-╭────
+┌────
 │ {
 │     "func": "crappy.startup.signals",
 │     "enabled": true,
@@ -30,4 +30,4 @@ Example:
 │         "unfocus": "crappy.functions.signals.unfocus"
 │     }
 │ }
-╰────
+└────

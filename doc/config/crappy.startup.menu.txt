@@ -30,7 +30,7 @@ You should only apply one of `table', `result', `func' and `string', as
 well one of `icon' and `iconresult'.
 
 Example:
-╭────
+┌────
 │ "settings": [
 │     { "name": "awesome",
 │       "iconresult": "function() return beautiful.awesome_icon end",
@@ -66,4 +66,4 @@ Example:
 │         "string": "firefox"
 │     }
 │ ]
-╰────
+└────

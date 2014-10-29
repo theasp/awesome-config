@@ -26,7 +26,7 @@ Each of the above, allows the following:
 • `tagLayouts' - A hash mapping a tag name to a named layout function
 
 Example:
-╭────
+┌────
 │ "settings": {
 │     "default": {
 │         "layout": "awful.layout.suit.fair",
@@ -39,4 +39,4 @@ Example:
 │         }
 │     }
 │ }
-╰────
+└────

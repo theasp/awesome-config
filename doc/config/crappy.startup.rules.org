@@ -1,4 +1,7 @@
 #+TITLE: crappy.startup.rules
+#+OPTIONS: toc:4 H:4 p:t
+#+AUTHOR: Andrew Phillips
+#+EMAIL: theasp@gmail.com
 
 Rules map to the same structure as in a normal rc.lua.  See the wiki page on rules for more information:
 http://awesome.naquadah.org/wiki/Understanding_Rules
@@ -35,5 +38,5 @@ Example:
 
 # Local variables:
 # org-ascii-charset: utf-8
-# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii)) nil t)
+# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii) (org-html-export-to-html) ) nil t)
 # end:

@@ -1,4 +1,7 @@
 #+TITLE: crappy.startup.menu
+#+OPTIONS: toc:4 H:4 p:t
+#+AUTHOR: Andrew Phillips
+#+EMAIL: theasp@gmail.com
 
 Build the menu used for the launcher on the wibox or the menu on the root window.
 
@@ -54,5 +57,5 @@ Example:
 
 # Local variables:
 # org-ascii-charset: utf-8
-# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii)) nil t)
+# eval: (add-hook 'after-save-hook '(lambda () (org-ascii-export-to-ascii) (org-html-export-to-html) ) nil t)
 # end:

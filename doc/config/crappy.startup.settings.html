@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Plugin API</title>
-<!-- 2014-10-29 Wed 15:00 -->
+<title>crappy.startup.settings</title>
+<!-- 2014-10-29 Wed 15:02 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Andrew Phillips" />
@@ -138,14 +139,36 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<h1 class="title">Plugin API</h1>
+<h1 class="title">crappy.startup.settings</h1>
+<ul class="org-ul">
+<li><code>terminal</code> - The command to run for a terminal
+</li>
+<li><code>editor</code> - The command to run for an editor
+</li>
+<li><code>sloppyfocus</code> - A boolean which controls whether the focus will follow
+the mouse
+</li>
+<li><code>titlebar</code> (boolean) - A boolean which controls whether Windows should
+have titlebars
+</li>
+</ul>
+
 <p>
-TODO
+Example:
 </p>
+<div class="org-src-container">
+
+<pre class="src src-js"><span style="color: #ffa07a;">"settings"</span>: {
+    <span style="color: #ffa07a;">"terminal"</span>: <span style="color: #ffa07a;">"x-terminal-emulator"</span>,
+    <span style="color: #ffa07a;">"sloppyfocus"</span>: <span style="color: #7fffd4;">true</span>,
+    <span style="color: #ffa07a;">"titlebar"</span>: <span style="color: #7fffd4;">true</span>,
+}
+</pre>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andrew Phillips &lt;<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>&gt;</p>
-<p class="date">Date: 2014-10-29 Wed 15:00</p>
+<p class="date">Date: 2014-10-29 Wed 15:02</p>
 </div>
 </body>
 </html>

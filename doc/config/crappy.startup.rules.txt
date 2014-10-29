@@ -23,7 +23,7 @@ Crappy has the following differences:
   callbacks, use an anonymous function to call them.
 
 Example:
-╭────
+┌────
 │ {
 │     "func": "crappy.startup.rules",
 │     "enabled": true,
@@ -46,4 +46,4 @@ Example:
 │         }
 │     ]
 │ }
-╰────
+└────

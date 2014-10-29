@@ -19,9 +19,9 @@ Settings:
 • `font' (string) - Override the font in the theme file
 
 Example:
-╭────
+┌────
 │ "settings": {
 │     "file": "/usr/share/awesome/themes/default/theme.lua",
 │     "font": "sans 10"
 │ }
-╰────
+└────
