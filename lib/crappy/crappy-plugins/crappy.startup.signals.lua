@@ -1,3 +1,4 @@
+local functionManager = require('crappy.functionManager')
 local plugin = {
    name = 'Signals',
    description = 'Set the signals for clients',
