@@ -1,6 +1,3 @@
-local lgi = require('lgi')
-local misc = require('crappy.misc')
-local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
 
 local plugin = {
@@ -8,14 +5,9 @@ local plugin = {
    description = 'Initialize the layouts',
    id = 'crappy.startup.layouts',
    requires = {"crappy.functions.layouts"},
-   provides = {"crappy.shared.layouts"}
-}
-
-local log = lgi.log.domain(plugin.id)
-
-function plugin.settingsDefault(settings)
-   if #settings == 0 then
-      local newSettings = {
+   provides = {"crappy.shared.layouts"},
+   defaults = {
+      layouts = {
          "awful.layout.suit.floating",
          "awful.layout.suit.tile",
          "awful.layout.suit.tile.left",
@@ -29,10 +21,8 @@ function plugin.settingsDefault(settings)
          "awful.layout.suit.max.fullscreen",
          "awful.layout.suit.magnifier"
       }
-
-      misc.mergeTable(settings, newSettings)
-   end
-end
+   }
+}
 
 function plugin.startup(awesomever, settings)
    shared.layouts = {}
@@ -49,7 +39,7 @@ function plugin.buildUi(window, settings)
    local valid = functionManager.getFunctionsForClass('layout')
    table.sort(valid)
 
-   local layoutsBox = widgets.functionList(valid, settings, true, true)
+   local layoutsBox = widgets.functionList(valid, settings.layouts, true, true)
 
    return layoutsBox
 end
