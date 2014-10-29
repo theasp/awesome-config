@@ -29,7 +29,7 @@ local plugin = {
 function plugin.startup(awesomever, settings)
    shared.layouts = {}
 
-   for i, layoutName in ipairs(settings) do
+   for i, layoutName in ipairs(settings.layouts) do
       shared.layouts[i] = functionManager.getFunction(layoutName)
    end
 end
