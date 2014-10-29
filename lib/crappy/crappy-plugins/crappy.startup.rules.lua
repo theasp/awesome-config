@@ -7,13 +7,9 @@ local plugin = {
    description = 'Rules',
    id = 'crappy.startup.rules',
    requires = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons", "crappy.shared.tags", "crappy.startup.signals"},
-   provides = {}
-}
-local log = lgi.log.domain(plugin.id)
-
-function plugin.settingsDefault(settings)
-   if #settings == 0 then
-      local newSettings = {
+   provides = {},
+   defaults = {
+      rules = {
          {
             rule = {
                class = "MPlayer"
@@ -31,12 +27,9 @@ function plugin.settingsDefault(settings)
             }
          }
       }
-
-      misc.mergeTable(settings, newSettings)
-   end
-
-   return settings
-end
+   }
+}
+local log = lgi.log.domain(plugin.id)
 
 function plugin.startup(awesomever, settings)
    local shared = require('crappy.shared')
@@ -57,7 +50,7 @@ function plugin.startup(awesomever, settings)
                        keys = shared.clientkeys,
                        buttons = shared.clientbuttons } }}
 
-   for i,rule in ipairs(settings) do
+   for i,rule in ipairs(settings.rules) do
       if rule.properties ~= nil then
          -- As we need to find a reference to the tag, use tag and screen
          -- to find it.  If tag is supplied without screen, set it to nil.
@@ -81,3 +74,4 @@ function plugin.startup(awesomever, settings)
 end
 
 return plugin
+
