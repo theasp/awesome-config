@@ -7,14 +7,9 @@ local plugin = {
    description = 'Build the menu',
    id = 'crappy.startup.menu',
    requires = {"crappy.shared.settings.terminal", "crappy.shared.settings.editor"},
-   provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"}
-}
-
-local log = lgi.log.domain(plugin.id)
-
-function plugin.settingsDefault(settings)
-   if #settings == 0 then
-      local newSettings = {
+   provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"},
+   defaults = {
+      menu = {
          {
             ["name"] = "awesome",
             ["iconresult"] = "function() return beautiful.awesome_icon end",
@@ -46,12 +41,10 @@ function plugin.settingsDefault(settings)
             ["string"] = "firefox"
          }
       }
+   }
+}
 
-      misc.mergeTable(settings, newSettings)
-   end
-
-   return settings
-end
+local log = lgi.log.domain(plugin.id)
 
 -- Build a menu table for awful to work with
 local function buildMenuTable(menu)
@@ -74,7 +67,6 @@ local function buildMenuTable(menu)
          print("Unknown menu type!")
          table.insert(e, nil)
       end
-
       if entry.iconresult ~= nil then
          table.insert(e, functionManager.getFunction(entry.iconresult)())
       elseif entry.iconfile ~= nil then
@@ -92,7 +84,7 @@ end
 function plugin.startup(awesomever, settings)
    local shared = require('crappy.shared')
 
-   local menu = buildMenuTable(settings)
+   local menu = buildMenuTable(settings.menu)
    shared.mainmenu = awful.menu({ items = menu })
 
    shared.launcher = awful.widget.launcher({ image = beautiful.awesome_icon,
