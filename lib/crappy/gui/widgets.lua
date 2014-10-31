@@ -92,7 +92,7 @@ function widgets.simpleListItemDialog(valid)
    }
 
    local dialog = Gtk.Dialog {
-      title = 'Add Layout Function',
+      title = 'Add Function',
       transient_for = window,
       default_width = 600,
       default_height = 400,
