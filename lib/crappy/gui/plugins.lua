@@ -223,18 +223,11 @@ function plugins.buildUi(window, config, updateUi)
    end
 
    -- As inserts are done without values this is used for new rows too
-   function pluginsListStore:on_row_changed()
-      updatePlugins()
-   end
+   pluginsListStore.on_row_changed = updatePlugins
+   pluginsListStore.on_row_deleted = updatePlugins
 
-
-   -- Do this on load so that new plugins get added to config
+   -- Do this on load so that new plugins get added to config TODO: Still needed?
    updatePlugins()
-
-   function pluginsListStore:on_row_deleted()
-      updatePlugins()
-   end
-
 
    local addButton = Gtk.Button {
       id = 'add',

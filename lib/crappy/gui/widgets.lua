@@ -207,14 +207,8 @@ function widgets.functionList(valid, current, reorderable)
       end
    end
 
-   function currentListStore:on_row_deleted()
-      updateCurrent()
-   end
-
-   -- As inserts are done without values this is used for new rows too
-   function currentListStore:on_row_changed()
-      updateCurrent()
-   end
+   currentListStore.on_row_deleted = updateCurrent
+   currentListStore.on_row_changed = updateCurrent
 
    if (reorderable) then
       local upButton = Gtk.Button {
