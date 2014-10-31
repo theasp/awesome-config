@@ -312,6 +312,8 @@ function widgets.functionComboBox(valid, current)
       hexpand = true,
    }
 
+   comboBox:append(current, "Current value")
+
    for i, v in ipairs(valid) do
       if v ~= '' then
          local funcDef = functionManager.functions[v]
