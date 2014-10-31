@@ -174,4 +174,316 @@ function plugin.startup(awesomever, settings)
    shared.clientbuttons = awful.util.table.join(unpack(clientButtons))
 end
 
+function plugin.buildUi(window, settings)
+   local Gtk = lgi.require('Gtk')
+   local GObject = lgi.require('GObject')
+   local widgets = require('crappy.gui.widgets')
+
+   local function makeBindingUi(settings, name, class)
+      local valid = functionManager.getFunctionsForClass(class)
+      table.sort(valid)
+
+      local bindingColumn = {
+         BIND = 1,
+         FUNC = 2
+      }
+
+      local bindingListStore = Gtk.ListStore.new {
+         [bindingColumn.BIND] = GObject.Type.STRING,
+         [bindingColumn.FUNC] = GObject.Type.STRING
+      }
+      bindingListStore:set_sort_column_id(bindingColumn.BIND - 1, 0)
+
+      for bind, func in pairs(settings[name]) do
+         local iter = bindingListStore:append()
+         bindingListStore[iter][bindingColumn.BIND] = bind
+         bindingListStore[iter][bindingColumn.FUNC] = func
+      end
+
+      local bindingBindCellRenderer = Gtk.CellRendererText { }
+      local bindingFuncCellRenderer = Gtk.CellRendererText { }
+
+      local bindingBindTreeViewColumn = Gtk.TreeViewColumn {
+         title = 'Binding',
+         expand = false,
+         sort_column_id = bindingColumn.BIND - 1,
+         {
+            bindingBindCellRenderer, { text = bindingColumn.BIND }
+         }
+      }
+
+      local bindingFuncTreeViewColumn = Gtk.TreeViewColumn {
+         title = 'Function',
+         expand = true,
+         sort_column_id = bindingColumn.FUNC - 1,
+         {
+            bindingFuncCellRenderer, { text = bindingColumn.FUNC }
+         }
+      }
+
+      local bindingTreeView = Gtk.TreeView {
+         model = bindingListStore,
+         reorderable = reorderable,
+         expand = true,
+         bindingBindTreeViewColumn,
+         bindingFuncTreeViewColumn
+      }
+
+      local bindingSelection = bindingTreeView:get_selection()
+      bindingSelection.mode = 'SINGLE'
+
+      local addButton = Gtk.Button {
+         use_stock = true,
+         label = Gtk.STOCK_ADD,
+      }
+
+      local removeButton = Gtk.Button {
+         use_stock = true,
+         label = Gtk.STOCK_REMOVE,
+      }
+
+      local editButton = Gtk.Button {
+         use_stock = true,
+         label = Gtk.STOCK_EDIT,
+      }
+
+      local function editBindingDialog(bindDef)
+         if bindDef.bind == nil then
+            bindDef.bind = ""
+         end
+
+         if bindDef.func == nil then
+            bindDef.func = ""
+         end
+
+         local bindEntry = Gtk.Entry {
+            hexpand = true,
+            activates_default = true,
+            text = bindDef.bind
+         }
+
+         local bindLabel = Gtk.Label {
+            label = "_Binding:",
+            halign = 'END',
+            use_underline = true,
+            mnemonic_widget = entry
+         }
+
+         local funcComboBox = widgets.functionComboBox(valid, bindDef.func)
+         local funcEntry = funcComboBox:get_child()
+         funcEntry:set_activates_default(true)
+
+         local funcLabel = Gtk.Label {
+            label = "Function:",
+            halign = 'END',
+            use_underline = true,
+            mnemonic_widget = funcComboBox
+         }
+
+         local grid = Gtk.Grid {
+            row_spacing = 6,
+            column_spacing = 6,
+            margin = 6,
+            expand = true,
+         }
+
+         local row = -1;
+         local function nextRow()
+            row = row + 1
+            return row
+         end
+
+         grid:attach(bindLabel, 0, nextRow(), 1, 1)
+         grid:attach(bindEntry, 1, row, 1, 1)
+
+         grid:attach(funcLabel, 0, nextRow(), 1, 1)
+         grid:attach(funcComboBox, 1, row, 1, 1)
+
+         local dialog = Gtk.Dialog {
+            title = 'Edit Binding',
+            transient_for = window,
+            default_width = 600,
+            buttons = {
+               { Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL },
+               { Gtk.STOCK_OK, Gtk.ResponseType.OK },
+            },
+         }
+
+         dialog:get_content_area():add(grid)
+
+         dialog:set_default_response(Gtk.ResponseType.OK)
+
+         function dialog:on_response(response)
+            if response == Gtk.ResponseType.OK then
+               --local funcEntry = funcComboBox:get_child()
+
+               bindDef.bind = bindEntry:get_text()
+               bindDef.func = funcComboBox:get_active_text()
+            end
+
+            dialog:destroy()
+         end
+
+         dialog:show_all()
+         dialog:run()
+
+         return bindDef
+      end
+
+      local function updateBindingListStore()
+         log.debug("Updating binding type " .. name)
+         settings[name] = {}
+
+         local iter = bindingListStore:get_iter_first()
+         while iter do
+            bind = bindingListStore[iter][bindingColumn.BIND]
+            func = bindingListStore[iter][bindingColumn.FUNC]
+
+            if bind ~= "" and func ~= "" then
+               settings[name][bind] = func
+            end
+            iter = bindingListStore:next(iter)
+         end
+      end
+
+      bindingListStore.on_row_deleted = updateBindingListStore
+      bindingListStore.on_row_changed = updateBindingListStore
+
+      function removeButton:on_clicked()
+         local model, iter = bindingSelection:get_selected()
+         if model and iter then
+            model:remove(iter)
+         end
+      end
+
+      local function editSelected()
+         local model, iter = bindingSelection:get_selected()
+         if model and iter then
+            local bindDef = {
+               bind = bindingListStore[iter][bindingColumn.BIND],
+               func = bindingListStore[iter][bindingColumn.FUNC]
+            }
+
+            editBindingDialog(bindDef)
+
+            if bindDef.bind ~= nil and bindDef.func ~= nil then
+               bindingListStore:set(iter, {
+                                       [bindingColumn.BIND] = bindDef.bind,
+                                       [bindingColumn.FUNC] = bindDef.func
+               })
+            end
+         end
+      end
+
+      editButton.on_clicked = editSelected
+      bindingTreeView.on_row_activated = editSelected
+
+      function addButton:on_clicked()
+         local bindDef = editBindingDialog({})
+         if bindDef.bind ~= nil and bindDef.func ~= nil then
+            local iter = bindingListStore:append()
+            bindingListStore:set(iter, {
+                                    [bindingColumn.BIND] = bindDef.bind,
+                                    [bindingColumn.FUNC] = bindDef.func
+            })
+         end
+      end
+
+      return Gtk.Box {
+         orientation = 'VERTICAL',
+         spacing = 6,
+         margin = 6,
+         Gtk.ScrolledWindow {
+            shadow_type = 'ETCHED_IN',
+            bindingTreeView
+         },
+         Gtk.Box {
+            orientation = 'HORIZONTAL',
+            spacing = 4,
+            homogeneous = true,
+            addButton,
+            removeButton,
+            editButton
+         }
+      }
+   end
+
+   local grid = Gtk.Grid {
+      row_spacing = 6,
+      column_spacing = 6,
+      hexpand = true,
+   }
+
+
+   local altKeyEntry = Gtk.Entry {
+      hexpand = true
+   }
+
+   altKeyEntry:set_text(settings.altKey)
+
+   function altKeyEntry:on_changed()
+      settings.altKey = self:get_text()
+   end
+
+   local altKeyLabel = Gtk.Label {
+      label = 'Alt Key:',
+      halign = 'END',
+      use_underline = true,
+      mnemonic_widget = altKeyEntry
+   }
+
+
+   local modKeyEntry = Gtk.Entry {
+      hexpand = true
+   }
+
+   modKeyEntry:set_text(settings.modKey)
+
+   function modKeyEntry:on_changed()
+      settings.modKey = self:get_text()
+   end
+
+   local modKeyLabel = Gtk.Label {
+      label = 'Mod Key:',
+      halign = 'END',
+      use_underline = true,
+      mnemonic_widget = modKeyEntry
+   }
+
+   local row = -1;
+   local function nextRow()
+      row = row + 1
+      return row
+   end
+
+   grid:attach(modKeyLabel, 0, nextRow(), 1, 1)
+   grid:attach(modKeyEntry, 1, row, 1, 1)
+
+   grid:attach(altKeyLabel, 0, nextRow(), 1, 1)
+   grid:attach(altKeyEntry, 1, row, 1, 1)
+
+   local globalKeysBindingUi = makeBindingUi(settings, 'globalKeys', 'global')
+   local rootButtonsBindingUi = makeBindingUi(settings, 'rootButtons', 'global')
+   local clientKeysBindingUi = makeBindingUi(settings, 'clientKeys', 'client')
+   local clientButtonsBindingUi = makeBindingUi(settings, 'clientButtons', 'client')
+
+   return Gtk.Box {
+      orientation = 'VERTICAL',
+      spacing = 6,
+      margin = 6,
+      grid,
+      Gtk.Frame {
+         label = "Bindings",
+         Gtk.Notebook {
+            margin = 6,
+            expand = true,
+            { tab_label = "Global Keys", globalKeysBindingUi },
+            { tab_label = "Root Mouse Buttons", rootButtonsBindingUi },
+            { tab_label = "Client Keys", clientKeysBindingUi },
+            { tab_label = "Client Mouse Buttons", clientButtonsBindingUi }
+         }
+      }
+   }
+end
+
 return plugin
