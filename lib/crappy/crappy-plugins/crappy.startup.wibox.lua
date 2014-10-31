@@ -140,7 +140,7 @@ function plugin.buildUi(window, settings)
          posComboBox,
       },
       Gtk.Frame {
-         label = "Widgets:",
+         label = "Widgets",
          Gtk.Notebook {
             margin = 6,
             { tab_label = "Left", leftWidgets },
