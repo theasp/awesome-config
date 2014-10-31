@@ -69,8 +69,7 @@ function fallback.buildUiOptions(plugin, window, settings, log)
          }
 
          function comboBox:on_changed()
-            local entry = self:get_child()
-            settings[def.name] = entry:get_text()
+            settings[def.name] = self:get_active_text()
          end
 
          grid:attach(label, 0, nextRow(), 1, 1)
