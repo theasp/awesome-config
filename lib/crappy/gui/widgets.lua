@@ -288,7 +288,6 @@ function widgets.functionList(valid, current, reorderable)
       if model and iter then
          model:remove(iter)
       end
-      updateCurrent()
    end
 
    buttonBox:add(removeButton)
