@@ -13,7 +13,12 @@ local plugins = {}
 function plugins.buildPluginUi(window, pluginId, pluginConfig, log, updateUi)
    local plugin = pluginManager.plugins[pluginId]
    if plugin == nil then
-      plugin = {name='Unknown', id=pluginId, description='Unknown'}
+      plugin = {id=pluginId}
+   end
+
+   unknownTypes = {"name", "description", "author"}
+   for i, v in ipairs(unknownTypes) do
+      plugin[v] = 'Unknown';
    end
 
    local row = -1;
