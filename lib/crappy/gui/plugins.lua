@@ -18,7 +18,9 @@ function plugins.buildPluginUi(window, pluginId, pluginConfig, log, updateUi)
 
    unknownTypes = {"name", "description", "author"}
    for i, v in ipairs(unknownTypes) do
-      plugin[v] = 'Unknown';
+      if plugin[v] == nil then
+         plugin[v] = 'Unknown';
+      end
    end
 
    local row = -1;
