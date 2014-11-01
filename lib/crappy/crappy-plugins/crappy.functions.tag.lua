@@ -1,10 +1,10 @@
 local lgi = require('lgi')
-local misc = require('crappy.misc')
 
 local plugin = {
+   id = 'crappy.functions.tag',
    name = 'Tag Functions',
    description = 'Functions that act on tags',
-   id = 'crappy.functions.tag',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    requires = {},
    provides = {},
    options = {},

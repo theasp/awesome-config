@@ -3,9 +3,10 @@ local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 
 local plugin = {
+   id = 'crappy.startup.rules',
    name = 'Rules',
    description = 'Rules',
-   id = 'crappy.startup.rules',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    requires = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons", "crappy.shared.tags", "crappy.startup.signals"},
    provides = {},
    defaults = {

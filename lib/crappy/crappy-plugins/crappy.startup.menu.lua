@@ -3,9 +3,10 @@ local misc = require('crappy.misc')
 local functionManager = require('crappy.functionManager')
 
 local plugin = {
+   id = 'crappy.startup.menu',
    name = 'Menu',
    description = 'Build the menu',
-   id = 'crappy.startup.menu',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    requires = {"crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.startup.theme"},
    provides = {"crappy.shared.mainmenu", "crappy.shared.launcher"},
    defaults = {

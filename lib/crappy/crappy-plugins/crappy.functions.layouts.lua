@@ -2,9 +2,10 @@ local lgi = require('lgi')
 local misc = require('crappy.misc')
 
 local plugin = {
+   id = 'crappy.functions.layouts',
    name = 'Layout Functions',
    description = 'Functions that are used to layout the windows',
-   id = 'crappy.functions.layouts',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    requires = {},
    provides = {},
    options = {},

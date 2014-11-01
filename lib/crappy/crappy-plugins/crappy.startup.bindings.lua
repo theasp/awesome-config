@@ -4,9 +4,10 @@ local functionManager = require('crappy.functionManager')
 local shared = require('crappy.shared')
 
 local plugin = {
+   id = 'crappy.startup.bindings',
    name = 'Bindings',
    description = 'Build standards keybindings',
-   id = 'crappy.startup.bindings',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    requires = {"crappy.shared.mainmenu", "crappy.shared.layouts", "crappy.functions.client", "crappy.functions.global", "crappy.shared.settings.terminal"},
    provides = {"crappy.shared.clientkeys", "crappy.shared.clientbuttons"},
    defaults = {

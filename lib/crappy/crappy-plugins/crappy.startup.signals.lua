@@ -1,8 +1,10 @@
 local functionManager = require('crappy.functionManager')
+
 local plugin = {
-   name = 'Signals',
-   description = 'Set the signals for clients',
    id = 'crappy.startup.signals',
+   name = 'Signals',
+   author = 'Andrew Phillips <theasp@gmail.com>',
+   description = 'Set the signals for clients',
    requires = {"crappy.functions.signals"},
    provides = {},
    options = {

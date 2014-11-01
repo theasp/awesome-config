@@ -1,9 +1,10 @@
 local functionManager = require('crappy.functionManager')
 
 local plugin = {
+   id = 'crappy.startup.tags',
    name = 'Tags',
    description = 'Tags',
-   id = 'crappy.startup.tags',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    provides = {'crappy.shared.tags', 'crappy.startup.tags'}
 }
 

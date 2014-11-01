@@ -2,9 +2,10 @@ local lgi = require('lgi')
 local misc = require('crappy.misc')
 
 local plugin = {
+   id = 'crappy.functions.global',
    name = 'Global Functions',
    description = 'Functions that are used globally',
-   id = 'crappy.functions.global',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    requires = {},
    provides = {},
    options = {},

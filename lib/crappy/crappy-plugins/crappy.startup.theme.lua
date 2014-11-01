@@ -2,9 +2,10 @@ local lgi = require('lgi')
 local misc = require("crappy.misc")
 
 local plugin = {
+   id = 'crappy.startup.theme',
    name = 'Theme',
    description = 'Set the theme used by beautiful',
-   id = 'crappy.startup.theme',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    provides = {},
    options = {
       {

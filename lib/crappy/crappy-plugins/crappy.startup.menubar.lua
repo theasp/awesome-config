@@ -2,9 +2,10 @@ local lgi = require('lgi')
 local shared = require('crappy.shared')
 
 local plugin = {
+   id = 'crappy.startup.menubar',
    name = 'Menubar',
    description = 'Set up the menubar, for 3.5+ only',
-   id = 'crappy.startup.menubar',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    requires = {"crappy.shared.settings.terminal"},
    provides = {"crappy.shared.menubar"},
    before = {"crappy.startup.bindings"},

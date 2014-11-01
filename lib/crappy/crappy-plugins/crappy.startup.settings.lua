@@ -2,9 +2,10 @@ local configManager = require("crappy.configManager")
 local shared = require("crappy.shared")
 
 local plugin = {
+   id = 'crappy.startup.settings',
    name = 'Settings',
    description = "Settings that don't belong anywhere else",
-   id = 'crappy.startup.settings',
+   author = 'Andrew Phillips <theasp@gmail.com>',
    requires = {},
    provides = {"crappy.shared.settings.titlebar", "crappy.shared.settings.sloppyfocus", "crappy.shared.settings.terminal", "crappy.shared.settings.editor", "crappy.shared.settings"},
    options = {
