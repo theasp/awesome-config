@@ -12,6 +12,12 @@ package.path = package.path .. ';/usr/share/awesome/lib/?/init.lua'
 
 local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
+local GLib = lgi.require('GLib')
+local Gdk = lgi.require('Gdk')
+
+-- The following is annoying:
+GLib.set_prgname('awesome-config')
+Gdk.set_program_class('Awesome-config')
 
 local gui = require('crappy.gui')
 
