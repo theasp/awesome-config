@@ -9,22 +9,22 @@ local widgets = {}
 function widgets.simpleListItemDialog(valid)
    assert(valid)
 
-   local column = {
+   local validColumn = {
       NAME = 1,
       DESC = 2
    }
 
    local validListStore = Gtk.ListStore.new {
-      [column.NAME] = GObject.Type.STRING,
-      [column.DESC] = GObject.Type.STRING
+      [validColumn.NAME] = GObject.Type.STRING,
+      [validColumn.DESC] = GObject.Type.STRING
    }
 
    for i, v in ipairs(valid) do
       if v ~= '' then
          local funcDef = functionManager.functions[v]
          local iter = validListStore:append()
-         validListStore[iter][column.NAME] = funcDef.id
-         validListStore[iter][column.DESC] = funcDef.description
+         validListStore[iter][validColumn.NAME] = funcDef.id
+         validListStore[iter][validColumn.DESC] = funcDef.description
       end
    end
 
@@ -35,7 +35,7 @@ function widgets.simpleListItemDialog(valid)
       title = 'Name',
       expand = true,
       {
-         validNameCellRenderer, { text = column.NAME }
+         validNameCellRenderer, { text = validColumn.NAME }
       }
    }
 
@@ -43,7 +43,7 @@ function widgets.simpleListItemDialog(valid)
       title = 'Description',
       expand = true,
       {
-         validDescCellRenderer, { text = column.DESC }
+         validDescCellRenderer, { text = validColumn.DESC }
       }
    }
 
@@ -66,7 +66,7 @@ function widgets.simpleListItemDialog(valid)
    function validSelection:on_changed()
       local model, iter = validSelection:get_selected()
       if iter then
-         local id = validListStore[iter][column.NAME]
+         local id = validListStore[iter][validColumn.NAME]
          functionEntry:set_text(id)
       end
    end
@@ -126,14 +126,14 @@ function widgets.functionList(valid, current, reorderable)
    assert(current)
    assert(reorderable ~= nil)
 
-   local column = {
+   local currentColumn = {
       NAME = 1,
       DESC = 2
    }
 
    local currentListStore = Gtk.ListStore.new {
-      [column.NAME] = GObject.Type.STRING,
-      [column.DESC] = GObject.Type.STRING
+      [currentColumn.NAME] = GObject.Type.STRING,
+      [currentColumn.DESC] = GObject.Type.STRING
    }
 
    local function appendCurrent(id)
@@ -141,11 +141,11 @@ function widgets.functionList(valid, current, reorderable)
       local iter = currentListStore:append()
 
       if funcDef then
-         currentListStore[iter][column.NAME] = funcDef.id
-         currentListStore[iter][column.DESC] = funcDef.description
+         currentListStore[iter][currentColumn.NAME] = funcDef.id
+         currentListStore[iter][currentColumn.DESC] = funcDef.description
       else
-         currentListStore[iter][column.NAME] = id
-         currentListStore[iter][column.DESC] = '(Custom)'
+         currentListStore[iter][currentColumn.NAME] = id
+         currentListStore[iter][currentColumn.DESC] = '(Custom)'
       end
    end
 
@@ -162,7 +162,7 @@ function widgets.functionList(valid, current, reorderable)
       title = 'Function',
       expand = true,
       {
-         currentNameCellRenderer, { text = column.NAME }
+         currentNameCellRenderer, { text = currentColumn.NAME }
       }
    }
 
@@ -170,7 +170,7 @@ function widgets.functionList(valid, current, reorderable)
       title = 'Description',
       expand = true,
       {
-         currentDescCellRenderer, { text = column.DESC }
+         currentDescCellRenderer, { text = currentColumn.DESC }
       }
    }
 
@@ -198,7 +198,7 @@ function widgets.functionList(valid, current, reorderable)
 
       local iter = currentListStore:get_iter_first()
       while iter do
-         val = currentListStore[iter][column.NAME]
+         val = currentListStore[iter][currentColumn.NAME]
 
          if val ~= "" then
             table.insert(current, val)
