@@ -1,0 +1,21 @@
+* Core
+** TODO Allow plugins to be duplicated
+- This would allow multiple wibox's
+:LOGBOOK:  
+- State "TODO"       from ""           [2014-12-06 Sat 11:17]
+:END:      
+** TODO Investigate switching to other config format, or dconf
+:LOGBOOK:  
+- State "TODO"       from ""           [2014-12-06 Sat 13:03]
+:END:      
+* Documentation
+** TODO API documentation
+:LOGBOOK:  
+- State "TODO"       from ""           [2014-12-06 Sat 13:04]
+:END:      
+* Plugins
+** crappy.startup.rules
+*** TODO Finish UI
+:LOGBOOK:  
+- State "TODO"       from ""           [2014-12-06 Sat 11:19]
+:END:      
