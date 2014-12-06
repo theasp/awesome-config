@@ -219,9 +219,7 @@ function plugins.buildUi(window, config, updateUi)
       end
    end
 
-   function pluginsSelection:on_changed()
-      replacePluginInfo()
-   end
+   pluginsSelection.on_changed = replacePluginInfo
 
    local function updatePlugins()
       local iter = pluginsListStore:get_iter_first()
