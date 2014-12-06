@@ -30,6 +30,7 @@ local plugin = {
       }
    }
 }
+
 local log = lgi.log.domain(plugin.id)
 
 function plugin.startup(awesomever, settings)
