@@ -32,6 +32,7 @@ function gui.on_activate(app)
 
    local window = Gtk.ApplicationWindow {
       type = Gtk.WindowType.TOPLEVEL,
+      id = 'Awesome-Config',
       application = app,
       title = 'Awesome Config',
       default_width = 600,
