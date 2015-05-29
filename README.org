@@ -10,14 +10,14 @@ This repository includes the following:
 * Crappy
 Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is to be able to move between multiple versions of Awesome and maintain the same basic configuration in a relatively easy to edit file.  JSON was chosen to allow for tools to be written in languages other than Lua to modify the configuration.
 ** Installation from Git
-Backup your configuration directory:
-#+BEGIN_SRC sh
-cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
-#+END_SRC
-
 Clone the repository anywhere you want:
 #+BEGIN_SRC sh
 git clone https://github.com/theasp/awesome-config.git
+#+END_SRC
+
+Backup your configuration directory:
+#+BEGIN_SRC sh
+cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
 #+END_SRC
 
 Make a symlink from your awesome config directory to the libraries:
