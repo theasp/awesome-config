@@ -31,6 +31,34 @@ cp awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
 #+END_SRC
 
 Start awesome.
+** Installation from APT on Ubuntu
+For the released version:
+#+BEGIN_SRC sh
+sudo add-apt-repository ppa:theasp/awesome-config
+#+END_SRC
+
+For the latest snapshot version:
+#+BEGIN_SRC sh
+sudo add-apt-repository ppa:theasp/awesome-config-snapshot
+#+END_SRC
+
+Then run:
+#+BEGIN_SRC sh
+sudo apt-get update
+sudo apt-get install awesome-config
+#+END_SRC
+
+Backup your configuration directory:
+#+BEGIN_SRC sh
+cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
+#+END_SRC
+
+Copy the example =rc.lua= and =crappy.json= to your config directory:
+#+BEGIN_SRC sh
+cp /usr/share/doc/awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
+#+END_SRC
+
+Start awesome.
 * Configuration
 You can use your own functions with crappy by defining or requiring them =rc.lua= before starting crappy, or using anonymous functions.
 ** Awesome Config GUI
