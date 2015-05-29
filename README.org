@@ -64,7 +64,7 @@ You can use your own functions with crappy by defining or requiring them ~rc.lua
 ** Awesome Config GUI
 Run ~awesome-config~ to start the configuration GUI.
 ** Manual Configuration
-Edit ~\~/.config/awesome/config.json~ as desired.
+Edit ~.config/awesome/config.json~ as desired.
 
 A more detailed description of the configuration file is provided in the ~docs/config~ directory.
 * Plugin API

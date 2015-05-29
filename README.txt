@@ -109,7 +109,7 @@ This repository includes the following:
 2.2 Manual Configuration
 ────────────────────────
 
-  Edit `\~/.config/awesome/config.json' as desired.
+  Edit `.config/awesome/config.json' as desired.
 
   A more detailed description of the configuration file is provided in
   the `docs/config' directory.
