@@ -11,6 +11,7 @@ Table of Contents
 
 1 Crappy
 .. 1.1 Installation from Git
+.. 1.2 Installation from APT on Ubuntu
 2 Configuration
 .. 2.1 Awesome Config GUI
 .. 2.2 Manual Configuration
@@ -27,7 +28,7 @@ This repository includes the following:
 ════════
 
   Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.
-  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is to be
+  Specifically tested on 3.4.11 and 3.5.5+.  The goal of this is to be
   able to move between multiple versions of Awesome and maintain the
   same basic configuration in a relatively easy to edit file.  JSON was
   chosen to allow for tools to be written in languages other than Lua to
@@ -37,14 +38,14 @@ This repository includes the following:
 1.1 Installation from Git
 ─────────────────────────
 
-  Backup your configuration directory:
-  ┌────
-  │ cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
-  └────
-
   Clone the repository anywhere you want:
   ┌────
   │ git clone https://github.com/theasp/awesome-config.git
+  └────
+
+  Backup your configuration directory:
+  ┌────
+  │ cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
   └────
 
   Make a symlink from your awesome config directory to the libraries:
@@ -55,6 +56,38 @@ This repository includes the following:
   Copy the example `rc.lua' and `crappy.json' to your config directory:
   ┌────
   │ cp awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
+  └────
+
+  Start awesome.
+
+
+1.2 Installation from APT on Ubuntu
+───────────────────────────────────
+
+  For the released version:
+  ┌────
+  │ sudo add-apt-repository ppa:theasp/awesome-config
+  └────
+
+  For the latest snapshot version:
+  ┌────
+  │ sudo add-apt-repository ppa:theasp/awesome-config-snapshot
+  └────
+
+  Then run:
+  ┌────
+  │ sudo apt-get update
+  │ sudo apt-get install awesome-config
+  └────
+
+  Backup your configuration directory:
+  ┌────
+  │ cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
+  └────
+
+  Copy the example `rc.lua' and `crappy.json' to your config directory:
+  ┌────
+  │ cp /usr/share/doc/awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
   └────
 
   Start awesome.
@@ -76,7 +109,7 @@ This repository includes the following:
 2.2 Manual Configuration
 ────────────────────────
 
-  Edit `~/.config/awesome/config.json' as desired.
+  Edit `\~/.config/awesome/config.json' as desired.
 
   A more detailed description of the configuration file is provided in
   the `docs/config' directory.

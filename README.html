@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Awesome Configuration</title>
-<!-- 2014-10-29 Wed 14:51 -->
+<!-- 2015-05-29 Fri 13:49 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Andrew Phillips" />
@@ -146,6 +146,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1">1. Crappy</a>
 <ul>
 <li><a href="#sec-1-1">1.1. Installation from Git</a></li>
+<li><a href="#sec-1-2">1.2. Installation from APT on Ubuntu</a></li>
 </ul>
 </li>
 <li><a href="#sec-2">2. Configuration</a>
@@ -173,27 +174,27 @@ This repository includes the following:
 <h2 id="sec-1"><span class="section-number-2">1</span> Crappy</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5.  The goal of this is to be able to move between multiple versions of Awesome and maintain the same basic configuration in a relatively easy to edit file.  JSON was chosen to allow for tools to be written in languages other than Lua to modify the configuration.
+Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5+.  The goal of this is to be able to move between multiple versions of Awesome and maintain the same basic configuration in a relatively easy to edit file.  JSON was chosen to allow for tools to be written in languages other than Lua to modify the configuration.
 </p>
 </div>
 <div id="outline-container-sec-1-1" class="outline-3">
 <h3 id="sec-1-1"><span class="section-number-3">1.1</span> Installation from Git</h3>
 <div class="outline-text-3" id="text-1-1">
 <p>
-Backup your configuration directory:
-</p>
-<div class="org-src-container">
-
-<pre class="src src-sh">cp -a ~/.config/awesome ~/.config/awesome.bak-$(<span style="color: #fa8072;">date</span> +%F-%T)
-</pre>
-</div>
-
-<p>
 Clone the repository anywhere you want:
 </p>
 <div class="org-src-container">
 
 <pre class="src src-sh">git clone https://github.com/theasp/awesome-config.git
+</pre>
+</div>
+
+<p>
+Backup your configuration directory:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">cp -a ~/.config/awesome ~/.config/awesome.bak-$(<span style="color: #fa8072;">date</span> +%F-%T)
 </pre>
 </div>
 
@@ -212,6 +213,60 @@ Copy the example <code>rc.lua</code> and <code>crappy.json</code> to your config
 <div class="org-src-container">
 
 <pre class="src src-sh">cp awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
+</pre>
+</div>
+
+<p>
+Start awesome.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Installation from APT on Ubuntu</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+For the released version:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo add-apt-repository ppa:theasp/awesome-config
+</pre>
+</div>
+
+<p>
+For the latest snapshot version:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo add-apt-repository ppa:theasp/awesome-config-snapshot
+</pre>
+</div>
+
+<p>
+Then run:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">sudo apt-get update
+sudo apt-get install awesome-config
+</pre>
+</div>
+
+<p>
+Backup your configuration directory:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">cp -a ~/.config/awesome ~/.config/awesome.bak-$(<span style="color: #fa8072;">date</span> +%F-%T)
+</pre>
+</div>
+
+<p>
+Copy the example <code>rc.lua</code> and <code>crappy.json</code> to your config directory:
+</p>
+<div class="org-src-container">
+
+<pre class="src src-sh">cp /usr/share/doc/awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
 </pre>
 </div>
 
@@ -240,7 +295,7 @@ Run <code>awesome-config</code> to start the configuration GUI.
 <h3 id="sec-2-2"><span class="section-number-3">2.2</span> Manual Configuration</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
-Edit <code>~/.config/awesome/config.json</code> as desired. 
+Edit <code>\~/.config/awesome/config.json</code> as desired.
 </p>
 
 <p>
@@ -289,7 +344,7 @@ See the plugin API documentation in <code>docs/plugins</code>.
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Andrew Phillips &lt;<a href="mailto:theasp@gmail.com">theasp@gmail.com</a>&gt;</p>
-<p class="date">Date: 2014-10-29 Wed 14:51</p>
+<p class="date">Date: 2015-05-29 Fri 13:49</p>
 </div>
 </body>
 </html>
