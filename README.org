@@ -25,7 +25,7 @@ Make a symlink from your awesome config directory to the libraries:
 ln -s $(pwd)/awesome-config/lib/* ~/.config/awesome/
 #+END_SRC
 
-Copy the example =rc.lua= and =crappy.json= to your config directory:
+Copy the example ~rc.lua~ and ~crappy.json~ to your config directory:
 #+BEGIN_SRC sh
 cp awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
 #+END_SRC
@@ -53,22 +53,22 @@ Backup your configuration directory:
 cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
 #+END_SRC
 
-Copy the example =rc.lua= and =crappy.json= to your config directory:
+Copy the example ~rc.lua~ and ~crappy.json~ to your config directory:
 #+BEGIN_SRC sh
 cp /usr/share/doc/awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
 #+END_SRC
 
 Start awesome.
 * Configuration
-You can use your own functions with crappy by defining or requiring them =rc.lua= before starting crappy, or using anonymous functions.
+You can use your own functions with crappy by defining or requiring them ~rc.lua~ before starting crappy, or using anonymous functions.
 ** Awesome Config GUI
-Run =awesome-config= to start the configuration GUI.
+Run ~awesome-config~ to start the configuration GUI.
 ** Manual Configuration
-Edit =~/.config/awesome/config.json= as desired. 
+Edit ~\~/.config/awesome/config.json~ as desired.
 
-A more detailed description of the configuration file is provided in the =docs/config= directory.
+A more detailed description of the configuration file is provided in the ~docs/config~ directory.
 * Plugin API
-See the plugin API documentation in =docs/plugins=.
+See the plugin API documentation in ~docs/plugins~.
 * Code Used
 - crappy by Andrew Phillips <theasp@gmail.com> [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]] includes code from:
   - ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]]
