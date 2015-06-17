@@ -50,6 +50,8 @@ function configManager.save(file, config)
    local f = assert(io.open(file, "w"), "Unable to open file: " .. file)
    f:write(configManager.json:encode_pretty(config))
    f:close()
+
+   return true
 end
 
 function configManager.json:onDecodeError(message, text, location, etc)
