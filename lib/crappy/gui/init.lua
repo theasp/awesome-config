@@ -312,7 +312,7 @@ function gui.on_activate(app)
          title = "About Awesome Config",
          program_name = "Awesome Config",
          version = gui.version,
-         copyright = "© 2014 Andrew Phillips",
+         copyright = "© 2015 Andrew Phillips",
          license_type = 'GPL_2_0',
          website = 'http://github.com/theasp/awesome-config',
          authors = gui.authors
