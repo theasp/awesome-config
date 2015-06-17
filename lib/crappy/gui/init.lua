@@ -18,13 +18,16 @@ gui.authors = {
 gui.plugins = require('crappy.gui.plugins')
 
 function gui.on_startup(app)
+   log.message("Starting up application")
    pluginManager.loadAllPlugins()
 end
 
 function gui.on_shutdown(app)
+   log.message("Shutting down application")
 end
 
 function gui.on_activate(app)
+   log.message("Activating new GUI")
    local file = nil
    local pluginTabs = {}
    local pluginsUi = nil
