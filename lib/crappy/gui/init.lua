@@ -18,6 +18,8 @@ gui.authors = {
 }
 gui.plugins = require('crappy.gui.plugins')
 
+gui.windows = {}
+
 function gui.on_startup(app)
    log.message("Starting up application")
    pluginManager.loadAllPlugins()
@@ -156,12 +158,6 @@ function gui.on_activate(app)
       updateUi()
    end
 
-   local function quit()
-      log.message("Quitting...")
-      app:quit()
-   end
-   window.on_destroy = quit
-
    local function newFile()
       log.message('New file')
 
@@ -204,6 +200,9 @@ function gui.on_activate(app)
 
       if configManager.save(file, config) then
          setConfigModified(false)
+         return true
+      else
+         return false
       end
    end
 
@@ -221,12 +220,91 @@ function gui.on_activate(app)
       }
 
       local res = dialog:run()
+      dialog:destroy()
 
       if res == Gtk.ResponseType.ACCEPT then
          file = dialog:get_filename()
-         saveFile()
+         return saveFile()
+      else
+         return false
       end
-      dialog:destroy()
+   end
+
+   local function close()
+      if configModified then
+         local fileName = file
+         local saveStockButton = {Gtk.STOCK_SAVE, Gtk.ResponseType.ACCEPT}
+
+         if fileName == nil then
+            fileName = "<Unknown>"
+            local saveStockButton = {Gtk.STOCK_SAVE_AS, Gtk.ResponseType.ACCEPT}
+         end
+
+         local dialog = Gtk.Dialog {
+            title = fileName,
+            transient_for = window,
+            buttons = {
+               {Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE},
+               {Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL},
+               saveStockButton
+            }
+         }
+
+         local hbox = Gtk.Box {
+            orientation = 'HORIZONTAL',
+            spacing = 8,
+            border_width = 8,
+            Gtk.Image {
+               stock = Gtk.STOCK_DIALOG_QUESTION,
+               icon_size = Gtk.IconSize.DIALOG,
+            },
+            Gtk.Label {
+               label = "Save changes to document \"" .. fileName .. "\" before closing?"
+            }
+         }
+         dialog:get_content_area():add(hbox)
+         hbox:show_all()
+
+         local res = dialog:run()
+         dialog:destroy()
+
+         if res == Gtk.ResponseType.CANCEL then
+            return true
+         end
+
+         if res == Gtk.ResponseType.ACCEPT then
+            if file == nil then
+               if saveFileDialog() == false then
+                  return true
+               end
+            else
+               if saveFile() == false then
+                  return true
+               end
+            end
+         end
+      end
+
+      log.message("Closing window...")
+
+      window:destroy()
+
+      -- for i, oldWindow in ipairs(gui.windows) do
+      --    if oldWindow == window then
+      --       gui.windows[i] = nil
+      --    end
+      -- end
+   end
+
+   local function quit()
+      log.message("Quitting...")
+
+      for i, oldWindow in ipairs(gui.windows) do
+         if window then
+            log.message("Window " .. i .. " is still open")
+            oldWindow:close()
+         end
+      end
    end
 
    local function about()
@@ -285,6 +363,7 @@ function gui.on_activate(app)
                <menuitem action='Save'/>
                <menuitem action='SaveAs'/>
                <separator/>
+               <menuitem action='Close'/>
                <menuitem action='Quit'/>
             </menu>
                <menu action='HelpMenu'>
@@ -294,7 +373,7 @@ function gui.on_activate(app)
                <toolbar  name='ToolBar'>
                <toolitem action='Open'/>
                <toolitem action='Save'/>
-               <toolitem action='Quit'/>
+               <toolitem action='Close'/>
             </toolbar>
                </ui>
       ]], -1)
@@ -318,6 +397,10 @@ function gui.on_activate(app)
    HOME=os.getenv('HOME')
    file = HOME .. "/.config/awesome/crappy.json"
    loadFile()
+
+   window.on_delete_event = close
+
+   table.insert(gui.windows, window)
 
    return window
 end
