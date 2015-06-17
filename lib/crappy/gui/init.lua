@@ -61,6 +61,21 @@ function gui.on_activate(app)
 
       window:set_title(gui.title .. ' - ' .. modifiedFlag .. fileName)
    end
+
+   local function setConfigModified(modified)
+      configModified = modified
+      if file == nil then
+         configModified = true
+      end
+
+      if configModified then
+         log.message("Modified state changed to true")
+      else
+         log.message("Modified state changed to false")
+      end
+
+      setWindowTitle()
+   end
    end
 
    -- Function to add a plugin tab
@@ -149,7 +164,7 @@ function gui.on_activate(app)
 
       file = nil
       config = configManager.new()
-      setWindowTitle()
+      setConfigModified(true)
       resetUi()
    end
 
@@ -157,7 +172,7 @@ function gui.on_activate(app)
       log.message("Loading file " .. file)
 
       config = configManager.load(file)
-      setWindowTitle()
+      setConfigModified(false)
       resetUi()
    end
 
@@ -184,8 +199,9 @@ function gui.on_activate(app)
    local function saveFile()
       log.message('Save file')
 
-      setWindowTitle()
-      configManager.save(file, config)
+      if configManager.save(file, config) then
+         setConfigModified(false)
+      end
    end
 
    local function saveFileDialog()
