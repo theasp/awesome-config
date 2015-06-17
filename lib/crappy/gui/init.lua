@@ -11,6 +11,7 @@ local fallback = require('crappy.gui.fallback')
 
 local gui = {}
 
+gui.title = "Awesome Config"
 gui.version = "0.2"
 gui.authors = {
    "Andrew Phillips",
@@ -37,7 +38,7 @@ function gui.on_activate(app)
       type = Gtk.WindowType.TOPLEVEL,
       id = 'Awesome-Config',
       application = app,
-      title = 'Awesome Config',
+      title = gui.title,
       default_width = 600,
       default_height = 400,
    }
