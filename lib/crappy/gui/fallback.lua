@@ -6,18 +6,18 @@ local widgets = require('crappy.gui.widgets')
 
 local fallback = {}
 
-function fallback.buildUi(plugin, window, settings)
+function fallback.buildUi(plugin, window, settings, modifiedCallback)
    local log = lgi.log.domain('crappy.gui.fallback/' .. plugin.id)
 
    if plugin.options then
-      return fallback.buildUiOptions(plugin, window, settings, log)
+      return fallback.buildUiOptions(plugin, window, settings, log, modifiedCallback)
    else
       -- Can't generate a UI, just show the JSON editor
-      return widgets.jsonEditor(window, settings)
+      return widgets.jsonEditor(window, settings, modifiedCallback)
    end
 end
 
-function fallback.buildUiOptions(plugin, window, settings, log)
+function fallback.buildUiOptions(plugin, window, settings, log, modifiedCallback)
    local grid = Gtk.Grid {
       row_spacing = 6,
       column_spacing = 6,
@@ -48,6 +48,10 @@ function fallback.buildUiOptions(plugin, window, settings, log)
 
          function entry:on_changed()
             settings[def.name] = entry:get_text()
+
+            if modifiedCallback then
+               modifiedCallback()
+            end
          end
 
          grid:attach(label, 0, nextRow(), 1, 1)
@@ -69,6 +73,10 @@ function fallback.buildUiOptions(plugin, window, settings, log)
 
          function comboBox:on_changed()
             settings[def.name] = self:get_active_text()
+
+            if modifiedCallback then
+               modifiedCallback()
+            end
          end
 
          grid:attach(label, 0, nextRow(), 1, 1)
@@ -85,6 +93,10 @@ function fallback.buildUiOptions(plugin, window, settings, log)
 
          function checkButton:on_toggled()
             settings[def.name] = checkButton:get_active()
+
+            if modifiedCallback then
+               modifiedCallback()
+            end
          end
 
          grid:attach(checkButton, 0, nextRow(), 2, 1)

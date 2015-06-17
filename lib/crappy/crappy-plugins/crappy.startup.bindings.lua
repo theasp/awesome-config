@@ -175,7 +175,7 @@ function plugin.startup(awesomever, settings)
    shared.clientbuttons = awful.util.table.join(unpack(clientButtons))
 end
 
-function plugin.buildUi(window, settings)
+function plugin.buildUi(window, settings, modifiedCallback)
    local Gtk = lgi.require('Gtk')
    local GObject = lgi.require('GObject')
    local widgets = require('crappy.gui.widgets')
@@ -320,6 +320,10 @@ function plugin.buildUi(window, settings)
 
                bindDef.bind = bindEntry:get_text()
                bindDef.func = funcComboBox:get_active_text()
+
+               if modifiedCallback then
+                  modifiedCallback()
+               end
             end
 
             dialog:destroy()
@@ -354,6 +358,10 @@ function plugin.buildUi(window, settings)
          local model, iter = bindingSelection:get_selected()
          if model and iter then
             model:remove(iter)
+
+            if modifiedCallback then
+               modifiedCallback()
+            end
          end
       end
 
@@ -387,6 +395,10 @@ function plugin.buildUi(window, settings)
                                     [bindingColumn.BIND] = bindDef.bind,
                                     [bindingColumn.FUNC] = bindDef.func
             })
+
+            if modifiedCallback then
+               modifiedCallback()
+            end
          end
       end
 
@@ -424,6 +436,10 @@ function plugin.buildUi(window, settings)
 
    function altKeyEntry:on_changed()
       settings.altKey = self:get_text()
+
+      if modifiedCallback then
+         modifiedCallback()
+      end
    end
 
    local altKeyLabel = Gtk.Label {
@@ -442,6 +458,10 @@ function plugin.buildUi(window, settings)
 
    function modKeyEntry:on_changed()
       settings.modKey = self:get_text()
+
+      if modifiedCallback then
+         modifiedCallback()
+      end
    end
 
    local modKeyLabel = Gtk.Label {

@@ -8,7 +8,7 @@ local json = require('crappy.JSON')
 
 local widgets = {}
 
-function widgets.simpleListItemDialog(valid)
+function widgets.simpleListItemDialog(valid, modifiedCallback)
    assert(valid)
 
    local validColumn = {
@@ -70,6 +70,9 @@ function widgets.simpleListItemDialog(valid)
       if iter then
          local id = validListStore[iter][validColumn.NAME]
          functionEntry:set_text(id)
+         if modifiedCallback then
+            modifiedCallback()
+         end
       end
    end
 
@@ -112,6 +115,10 @@ function widgets.simpleListItemDialog(valid)
    function dialog:on_response(response)
       if response == Gtk.ResponseType.OK then
          result = functionEntry:get_text()
+
+         if modifiedCallback then
+            modifiedCallback()
+         end
       end
 
       dialog:destroy()
@@ -123,7 +130,7 @@ function widgets.simpleListItemDialog(valid)
    return result
 end
 
-function widgets.functionList(valid, current, reorderable)
+function widgets.functionList(valid, current, reorderable, modifiedCallback)
    assert(valid)
    assert(current)
    assert(reorderable ~= nil)
@@ -209,7 +216,13 @@ function widgets.functionList(valid, current, reorderable)
       end
    end
 
-   currentListStore.on_row_deleted = updateCurrent
+   currentListStore.on_row_deleted = function()
+      if modifiedCallback then
+         modifiedCallback()
+      end
+      updateCurrent()
+   end
+
    currentListStore.on_row_changed = updateCurrent
 
    if (reorderable) then
@@ -228,6 +241,10 @@ function widgets.functionList(valid, current, reorderable)
                local prevIter = currentListStore:get_iter(path)
                if prevIter then
                   currentListStore:swap(iter, prevIter)
+
+                  if modifiedCallback then
+                     modifiedCallback()
+                  end
                end
             end
          end
@@ -253,6 +270,10 @@ function widgets.functionList(valid, current, reorderable)
                local nextIter = currentListStore:get_iter(path)
                if nextIter then
                   currentListStore:swap(iter, nextIter)
+
+                  if modifiedCallback then
+                     modifiedCallback()
+                  end
                end
             end
          end
@@ -273,6 +294,10 @@ function widgets.functionList(valid, current, reorderable)
       if new and new ~= '' then
          appendCurrent(new)
          updateCurrent()
+
+         if modifiedCallback then
+            modifiedCallback()
+         end
       end
    end
 
@@ -289,6 +314,10 @@ function widgets.functionList(valid, current, reorderable)
       local model, iter = currentSelection:get_selected()
       if model and iter then
          model:remove(iter)
+
+         if modifiedCallback then
+            modifiedCallback()
+         end
       end
    end
 
@@ -328,7 +357,7 @@ function widgets.functionComboBox(valid, current)
    return comboBox
 end
 
-function widgets.jsonEditor(window, settings, applyCallback)
+function widgets.jsonEditor(window, settings, modifiedCallback)
    local settingsJson = json:encode_pretty(settings)
    local buffer = Gtk.TextBuffer {}
    buffer.text = settingsJson
@@ -404,8 +433,8 @@ function widgets.jsonEditor(window, settings, applyCallback)
          settingsJson = json:encode_pretty(settings)
          buffer.text = settingsJson
          disableButtons()
-         if applyCallback then
-            applyCallback()
+         if modifiedCallback then
+            modifiedCallback()
          end
       else
          if not errstr then

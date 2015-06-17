@@ -35,14 +35,14 @@ function plugin.startup(awesomever, settings)
    end
 end
 
-function plugin.buildUi(window, settings)
+function plugin.buildUi(window, settings, modifiedCallback)
    local Gtk = lgi.require('Gtk')
    local widgets = require('crappy.gui.widgets')
 
    local valid = functionManager.getFunctionsForClass('layout')
    table.sort(valid)
 
-   local layoutsBox = widgets.functionList(valid, settings.layouts, true, true)
+   local layoutsBox = widgets.functionList(valid, settings.layouts, true, modifiedCallback)
 
    return layoutsBox
 end

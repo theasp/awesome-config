@@ -102,7 +102,7 @@ function plugin.startup(awesomever, settings)
    end
 end
 
-function plugin.buildUi(window, settings)
+function plugin.buildUi(window, settings, modifiedCallback)
    local Gtk = lgi.require('Gtk')
    local widgets = require('crappy.gui.widgets')
 
@@ -118,14 +118,18 @@ function plugin.buildUi(window, settings)
 
    function posComboBox:on_changed()
       settings.position = posComboBox:get_active_id()
+
+      if modifiedCallback then
+         modifiedCallback()
+      end
    end
 
    local valid = functionManager.getFunctionsForClass('widget')
    table.sort(valid)
 
-   local leftWidgets = widgets.functionList(valid, settings.left, true, true)
-   local middleWidgets = widgets.functionList(valid, settings.middle, true, true)
-   local rightWidgets = widgets.functionList(valid, settings.right, true, true)
+   local leftWidgets = widgets.functionList(valid, settings.left, true, modifiedCallback)
+   local middleWidgets = widgets.functionList(valid, settings.middle, true, modifiedCallback)
+   local rightWidgets = widgets.functionList(valid, settings.right, true, modifiedCallback)
 
    return Gtk.Box {
       orientation = 'VERTICAL',

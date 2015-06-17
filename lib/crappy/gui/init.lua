@@ -76,6 +76,9 @@ function gui.on_activate(app)
 
       setWindowTitle()
    end
+
+   local function modifiedCallback()
+      setConfigModified(true)
    end
 
    -- Function to add a plugin tab
@@ -88,9 +91,9 @@ function gui.on_activate(app)
       -- otherwise use the fallback.
       local ui
       if plugin.buildUi then
-         ui = plugin.buildUi(window, settings)
+         ui = plugin.buildUi(window, settings, modifiedCallback)
       else
-         ui = fallback.buildUi(plugin, window, settings)
+         ui = fallback.buildUi(plugin, window, settings, modifiedCallback)
       end
 
       -- Don't add a tab if the plugin's buildUi function returned nil
@@ -107,7 +110,7 @@ function gui.on_activate(app)
       configManager.makeFullConfig(config)
 
       if not pluginsUi then
-         pluginsUi = gui.plugins.buildUi(window, config, updateUi)
+         pluginsUi = gui.plugins.buildUi(window, config, updateUi, modifiedCallback)
          local pluginsUiLabel = Gtk.Label { label = "Plugins"}
 
          pluginsUi:show_all()

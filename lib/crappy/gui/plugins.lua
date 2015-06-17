@@ -10,7 +10,7 @@ local misc = require('crappy.misc')
 
 local plugins = {}
 
-function plugins.buildPluginUi(window, pluginId, pluginConfig, log, updateUi)
+function plugins.buildPluginUi(window, pluginId, pluginConfig, log, updateUi, modifiedCallback)
    local plugin = pluginManager.plugins[pluginId]
    if plugin == nil then
       plugin = {id=pluginId}
@@ -92,7 +92,7 @@ function plugins.buildPluginUi(window, pluginId, pluginConfig, log, updateUi)
    }
 end
 
-function plugins.buildUi(window, config, updateUi)
+function plugins.buildUi(window, config, updateUi, modifiedCallback)
    local pluginsColumns = {
       ENABLED = 1,
       NAME = 2,
@@ -174,6 +174,10 @@ function plugins.buildUi(window, config, updateUi)
    function pluginsEnabledCellRenderer:on_toggled(path, text)
       local iter = pluginsListStore:get_iter(Gtk.TreePath.new_from_string(path))
       pluginsListStore[iter][pluginsColumns.ENABLED] = not pluginsListStore[iter][pluginsColumns.ENABLED]
+
+      if modifiedCallback then
+         modifiedCallback()
+      end
       updateUi()
    end
 
@@ -302,6 +306,10 @@ function plugins.buildUi(window, config, updateUi)
                pluginsListStore[iter][pluginsColumns.ID] = func
                pluginsListStore[iter][pluginsColumns.TYPE] = 'func'
                pluginsListStore[iter][pluginsColumns.ENABLED] = true
+
+               if modifiedCallback then
+                  modifiedCallback()
+               end
             end
          end
 
@@ -323,6 +331,10 @@ function plugins.buildUi(window, config, updateUi)
       local model, iter = pluginsSelection:get_selected()
       if model and iter then
          model:remove(iter)
+
+         if modifiedCallback then
+            modifiedCallback()
+         end
       end
    end
 

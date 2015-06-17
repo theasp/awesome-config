@@ -75,7 +75,7 @@ function plugin.startup(awesomever, settings)
    awful.rules.rules = rules
 end
 
-function plugin.buildUi(window, settings)
+function plugin.buildUi(window, settings, modifiedCallback)
    local Gtk = lgi.require('Gtk')
    local GObject = lgi.require('GObject')
    local widgets = require('crappy.gui.widgets')
@@ -169,10 +169,14 @@ function plugin.buildUi(window, settings)
       function nameEntry:on_changed()
          ruleDef.name = nameEntry:get_text()
          ruleListStore:set(ruleIter, {[ruleColumn.NAME] = ruleDef.name})
+
+         if modifiedCallback then
+            modifiedCallback()
+         end
       end
 
-      local ruleJsonEditor = widgets.jsonEditor(window, ruleDef.rule)
-      local propertiesJsonEditor = widgets.jsonEditor(window, ruleDef.properties)
+      local ruleJsonEditor = widgets.jsonEditor(window, ruleDef.rule, modifiedCallback)
+      local propertiesJsonEditor = widgets.jsonEditor(window, ruleDef.properties, modifiedCallback)
 
       return Gtk.Box {
          orientation = 'VERTICAL',
@@ -231,6 +235,10 @@ function plugin.buildUi(window, settings)
             [ruleColumn.NAME] = ruleDef.name,
             [ruleColumn.ID] = id
       })
+
+      if modifiedCallback then
+         modifiedCallback()
+      end
    end
 
    local removeButton = Gtk.Button {
