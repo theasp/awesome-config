@@ -33,6 +33,7 @@ function gui.on_activate(app)
    local pluginTabs = {}
    local pluginsUi = nil
    local config = configManager.new()
+   local configModified = true
 
    local window = Gtk.ApplicationWindow {
       type = Gtk.WindowType.TOPLEVEL,
@@ -53,7 +54,13 @@ function gui.on_activate(app)
          fileName = "<Unknown>"
       end
 
-      window:set_title('Awesome Config - ' .. fileName)
+      local modifiedFlag = ""
+      if configModified then
+         modifiedFlag = "*"
+      end
+
+      window:set_title(gui.title .. ' - ' .. modifiedFlag .. fileName)
+   end
    end
 
    -- Function to add a plugin tab
