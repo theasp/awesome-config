@@ -188,7 +188,7 @@ function gui.newWindow(app, file)
    local function saveFile()
       log.message('Save file')
 
-      if configManager.save(file, config) then
+      if configManager.save(file:get_path(), config) then
          setConfigModified(false)
          return true
       else
