@@ -16,17 +16,35 @@ local GLib = lgi.require('GLib')
 local Gdk = lgi.require('Gdk')
 local Gio = lgi.require('Gio')
 
+local pluginManager = require('crappy.pluginManager')
+local gui = require('crappy.gui')
+
 -- The following is annoying:
 GLib.set_prgname('awesome-config')
 Gdk.set_program_class('Awesome-config')
 
-local gui = require('crappy.gui')
-
 local app = Gtk.Application.new('awesome-config.crappy.gui', Gio.ApplicationFlags.HANDLES_OPEN)
 
-app.on_activate = gui.on_activate
-app.on_open = gui.on_open
-app.on_startup = gui.on_startup
-app.on_shutdown = gui.on_shutdown
+function app:on_startup()
+   pluginManager.loadAllPlugins()
+end
+
+function app:on_shutdown()
+end
+
+function app:on_activate()
+   local HOME = os.getenv('HOME')
+   local fileName = HOME .. "/.config/awesome/crappy.json"
+   local file = Gio.File.new_for_path(fileName)
+
+   gui.newWindow(app, file)
+end
+
+function app:on_open(files)
+   for i, file in ipairs(files) do
+      log.message("Opening file " .. file:get_parse_name())
+      gui.newWindow(app, file)
+   end
+end
 
 app:run { arg[0], ... }

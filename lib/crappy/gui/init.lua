@@ -19,32 +19,6 @@ gui.authors = {
 }
 gui.plugins = require('crappy.gui.plugins')
 
-function gui.on_startup(app)
-   log.message("Starting up application")
-   pluginManager.loadAllPlugins()
-end
-
-function gui.on_shutdown(app)
-   log.message("Shutting down application")
-end
-
-function gui.on_activate(app)
-   log.message("Activating application")
-
-   local HOME = os.getenv('HOME')
-   local fileName = HOME .. "/.config/awesome/crappy-new.json"
-   local file = Gio.File.new_for_path(fileName)
-
-   gui.newWindow(app, file)
-end
-
-function gui.on_open(app, files)
-   for i, file in ipairs(files) do
-      log.message("Opening file " .. file:get_parse_name())
-      gui.newWindow(app, file)
-   end
-end
-
 function gui.newWindow(app, file)
    log.message("Opening new window")
    local pluginTabs = {}
