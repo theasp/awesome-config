@@ -14,6 +14,7 @@ local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
 local GLib = lgi.require('GLib')
 local Gdk = lgi.require('Gdk')
+local Gio = lgi.require('Gio')
 
 -- The following is annoying:
 GLib.set_prgname('awesome-config')
@@ -21,8 +22,10 @@ Gdk.set_program_class('Awesome-config')
 
 local gui = require('crappy.gui')
 
-local app = Gtk.Application {application_id = 'awesome-config.crappy.gui'}
+local app = Gtk.Application.new('awesome-config.crappy.gui', Gio.ApplicationFlags.HANDLES_OPEN)
+
 app.on_activate = gui.on_activate
+app.on_open = gui.on_open
 app.on_startup = gui.on_startup
 app.on_shutdown = gui.on_shutdown
 

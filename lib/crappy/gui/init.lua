@@ -1,5 +1,6 @@
 local lgi = require('lgi')
 local Gtk = lgi.require('Gtk')
+local Gio = lgi.require('Gio')
 
 local log = lgi.log.domain('crappy.gui')
 
@@ -18,8 +19,6 @@ gui.authors = {
 }
 gui.plugins = require('crappy.gui.plugins')
 
-gui.windows = {}
-
 function gui.on_startup(app)
    log.message("Starting up application")
    pluginManager.loadAllPlugins()
@@ -30,8 +29,24 @@ function gui.on_shutdown(app)
 end
 
 function gui.on_activate(app)
-   log.message("Activating new GUI")
-   local file = nil
+   log.message("Activating application")
+
+   local HOME = os.getenv('HOME')
+   local fileName = HOME .. "/.config/awesome/crappy-new.json"
+   local file = Gio.File.new_for_path(fileName)
+
+   gui.newWindow(app, file)
+end
+
+function gui.on_open(app, files)
+   for i, file in ipairs(files) do
+      log.message("Opening file " .. file:get_parse_name())
+      gui.newWindow(app, file)
+   end
+end
+
+function gui.newWindow(app, file)
+   log.message("Opening new window")
    local pluginTabs = {}
    local pluginsUi = nil
    local config = configManager.new()
@@ -51,7 +66,7 @@ function gui.on_activate(app)
    }
 
    local function setWindowTitle()
-      local fileName = file
+      local fileName = file and file:get_parse_name()
       if fileName == nil then
          fileName = "<Unknown>"
       end
@@ -156,21 +171,21 @@ function gui.on_activate(app)
       end
 
       updateUi()
+      setWindowTitle()
    end
 
    local function newFile()
       log.message('New file')
 
-      file = nil
-      config = configManager.new()
-      setConfigModified(true)
-      resetUi()
+      gui.newWindow(app, nil)
    end
 
-   local function loadFile()
-      log.message("Loading file " .. file)
+   local function loadFile(f)
+      print("Loading file")
+      file = f
+      local configJson = f:load_contents()
 
-      config = configManager.load(file)
+      config = configManager.parse(tostring(configJson))
       setConfigModified(false)
       resetUi()
    end
@@ -189,8 +204,9 @@ function gui.on_activate(app)
       local res = dialog:run()
 
       if res == Gtk.ResponseType.ACCEPT then
-         file = dialog:get_filename()
-         loadFile()
+         local fileName = dialog:get_uri()
+         file = Gio.File.new_for_uri(fileName)
+         gui.newWindow(app, file)
       end
       dialog:destroy()
    end
@@ -232,7 +248,7 @@ function gui.on_activate(app)
 
    local function close()
       if configModified then
-         local fileName = file
+         local fileName = file and file:get_parse_name()
          local saveStockButton = {Gtk.STOCK_SAVE, Gtk.ResponseType.ACCEPT}
 
          if fileName == nil then
@@ -299,7 +315,7 @@ function gui.on_activate(app)
    local function quit()
       log.message("Quitting...")
 
-      for i, oldWindow in ipairs(gui.windows) do
+      for i, oldWindow in ipairs(Gtk.Application.get_windows()) do
          if window then
             log.message("Window " .. i .. " is still open")
             oldWindow:close()
@@ -340,6 +356,10 @@ function gui.on_activate(app)
       Gtk.Action { name = 'SaveAs', stock_id = Gtk.STOCK_SAVE,
                    label = "Save _As...", tooltip = "Save to a file",
                    on_activate = saveFileDialog },
+      { Gtk.Action { name = 'Close', stock_id = Gtk.STOCK_CLOSE,
+                     tooltip = "Close",
+                     on_activate = close },
+        accelerator = '<control>C', },
       { Gtk.Action { name = 'Quit', stock_id = Gtk.STOCK_QUIT,
                      tooltip = "Quit",
                      on_activate = quit },
@@ -394,13 +414,14 @@ function gui.on_activate(app)
    -- Show window and start the loop.
    window:show_all()
 
-   HOME=os.getenv('HOME')
-   file = HOME .. "/.config/awesome/crappy.json"
-   loadFile()
+   if file then
+      loadFile(file)
+   else
+      config = configManager.new()
+      resetUi()
+   end
 
    window.on_delete_event = close
-
-   table.insert(gui.windows, window)
 
    return window
 end
