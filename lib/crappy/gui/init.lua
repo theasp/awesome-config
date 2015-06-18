@@ -315,8 +315,8 @@ function gui.newWindow(app, file)
    local function quit()
       log.message("Quitting...")
 
-      for i, oldWindow in ipairs(Gtk.Application.get_windows()) do
-         if window then
+      for i, oldWindow in ipairs(app:get_windows()) do
+         if oldWindow then
             log.message("Window " .. i .. " is still open")
             oldWindow:close()
          end
