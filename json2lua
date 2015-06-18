@@ -1,0 +1,18 @@
+#! /usr/bin/env lua
+
+HOME=os.getenv('HOME')
+package.path = package.path .. ';lib/?.lua'
+package.path = package.path .. ';lib/?/init.lua'
+package.path = package.path .. ';' .. HOME .. '/.config/awesome/?.lua'
+package.path = package.path .. ';' .. HOME .. '/.config/awesome/?/init.lua'
+package.path = package.path .. ';/usr/local/share/awesome/lib/?.lua'
+package.path = package.path .. ';/usr/local/share/awesome/lib/?/init.lua'
+package.path = package.path .. ';/usr/share/awesome/lib/?.lua'
+package.path = package.path .. ';/usr/share/awesome/lib/?/init.lua'
+
+local json = require('crappy.JSON')
+local serpent = require('crappy.serpent')
+
+local data = io.read("*all")
+local dataParsed = json:decode(tostring(data))
+print(serpent.block(dataParsed, {comment=false}))
