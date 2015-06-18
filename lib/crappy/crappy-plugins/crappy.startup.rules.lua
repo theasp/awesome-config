@@ -175,8 +175,8 @@ function plugin.buildUi(window, settings, modifiedCallback)
          end
       end
 
-      local ruleJsonEditor = widgets.jsonEditor(window, ruleDef.rule, modifiedCallback)
-      local propertiesJsonEditor = widgets.jsonEditor(window, ruleDef.properties, modifiedCallback)
+      local ruleSerpentEditor = widgets.serpentEditor(window, ruleDef.rule, modifiedCallback)
+      local propertiesSerpentEditor = widgets.serpentEditor(window, ruleDef.properties, modifiedCallback)
 
       return Gtk.Box {
          orientation = 'VERTICAL',
@@ -186,12 +186,12 @@ function plugin.buildUi(window, settings, modifiedCallback)
          Gtk.Frame {
             expand = true,
             label = "Rule",
-            ruleJsonEditor
+            ruleSerpentEditor
          },
          Gtk.Frame {
             expand = true,
             label = "Properties",
-            propertiesJsonEditor
+            propertiesSerpentEditor
          }
       }
    end

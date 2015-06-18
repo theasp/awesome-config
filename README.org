@@ -72,11 +72,13 @@ See the plugin API documentation in ~docs/plugins~.
 * Code Used
 - crappy by Andrew Phillips <theasp@gmail.com> [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]] includes code from:
   - ezconfig.lua by Georgi Valkov <georgi.t.valkov@gmail.com> [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]]
-    -  https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua
+    - https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua
   - JSON Encode/Decode in Pure LUA by Jeffrey Friedl  [[http://creativecommons.org/licenses/by/3.0/][CC-BY 3.0]]
-    -  http://regex.info/blog/lua/json
+    - http://regex.info/blog/lua/json
+  - Serpent by Paul Kulchenko [[http://opensource.org/licenses/MIT][MIT]]
+   - https://github.com/pkulchenko/serpent
   - rc.lua from Awesome by the awesome project [[http://www.gnu.org/licenses/gpl-2.0.html][GPLv2]]
-    -  http://awesome.naquadah.org/
+    - http://awesome.naquadah.org/
 
 # Local variables:
 # org-ascii-charset: utf-8

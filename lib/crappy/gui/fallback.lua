@@ -12,8 +12,8 @@ function fallback.buildUi(plugin, window, settings, modifiedCallback)
    if plugin.options then
       return fallback.buildUiOptions(plugin, window, settings, log, modifiedCallback)
    else
-      -- Can't generate a UI, just show the JSON editor
-      return widgets.jsonEditor(window, settings, modifiedCallback)
+      -- Can't generate a UI, just show the editor
+      return widgets.serpentEditor(window, settings, modifiedCallback)
    end
 end
 

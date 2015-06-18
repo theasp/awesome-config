@@ -130,6 +130,8 @@ This repository includes the following:
       • [https://raw.githubusercontent.com/gvalkov/dotfiles-awesome/master/ezconfig.lua]
     • JSON Encode/Decode in Pure LUA by Jeffrey Friedl  [CC-BY 3.0]
       • [http://regex.info/blog/lua/json]
+    • Serpent by Paul Kulchenko [MIT]
+      • [https://github.com/pkulchenko/serpent]
     • rc.lua from Awesome by the awesome project [GPLv2]
       • [http://awesome.naquadah.org/]
 
@@ -137,3 +139,5 @@ This repository includes the following:
   [GPLv2] http://www.gnu.org/licenses/gpl-2.0.html
 
   [CC-BY 3.0] http://creativecommons.org/licenses/by/3.0/
+
+  [MIT] http://opensource.org/licenses/MIT

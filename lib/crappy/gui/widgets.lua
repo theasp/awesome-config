@@ -4,7 +4,7 @@ local lgi = require 'lgi'
 local Gtk = lgi.require('Gtk')
 local GObject = lgi.require('GObject')
 local Pango = lgi.require('Pango')
-local json = require('crappy.JSON')
+local serpent = require('crappy.serpent')
 
 local widgets = {}
 
@@ -357,10 +357,10 @@ function widgets.functionComboBox(valid, current)
    return comboBox
 end
 
-function widgets.jsonEditor(window, settings, modifiedCallback)
-   local settingsJson = json:encode_pretty(settings)
+function widgets.serpentEditor(window, settings, modifiedCallback)
+   local settingsSerpent = serpent.block(settings, {comment=false})
    local buffer = Gtk.TextBuffer {}
-   buffer.text = settingsJson
+   buffer.text = settingsSerpent
 
    local textview = Gtk.TextView {
       buffer = buffer,
@@ -391,35 +391,10 @@ function widgets.jsonEditor(window, settings, modifiedCallback)
       local ok = true
       local errstr
 
-      function json:assert(state, message)
-      end
+      local ok, res = serpent.load(buffer.text)
 
-      function json:onDecodeError(message, text, location, etc)
-         if text then
-            if location then
-               message = string.format("%s at char %d", message, location)
-            else
-               message = string.format("%s", message)
-            end
-         end
-
-         if etc ~= nil then
-            message = message .. " (" .. OBJDEF:encode(etc) .. ")"
-         end
-
-         errstr = message
-         ok = false
-
-         if self.assert then
-            self.assert(false, message)
-         else
-            assert(false, message)
-         end
-      end
-
-      newSettings = json:decode(buffer.text)
-
-      if ok and type(newSettings) == 'table' then
+      if ok and type(res) == 'table' then
+         local newSettings = res
          -- Clear the settings table, we want to keep the same
          -- reference
          for k in pairs(settings) do
@@ -430,18 +405,18 @@ function widgets.jsonEditor(window, settings, modifiedCallback)
             settings[k] = v
          end
 
-         settingsJson = json:encode_pretty(settings)
-         buffer.text = settingsJson
+         settingsSerpent = serpent.block(settings, {comment=false})
+         buffer.text = settingsSerpent
          disableButtons()
          if modifiedCallback then
             modifiedCallback()
          end
       else
+         local errstr = res
          if not errstr then
-            errstr = "Unkown error decoding JSON"
+            errstr = "Unkown error parsing text"
          end
 
-         log.message("Error: %s", errstr)
          if errstr then
             local dialog = Gtk.MessageDialog {
                transient_for = window,
@@ -461,7 +436,7 @@ function widgets.jsonEditor(window, settings, modifiedCallback)
    end
 
    function undoButton:on_clicked()
-      buffer.text = settingsJson
+      buffer.text = settingsSerpent
       disableButtons()
    end
 
