@@ -2,15 +2,19 @@ local lgi = require 'lgi'
 local Gio = lgi.require('Gio')
 
 local misc = require('crappy.misc')
+local serpent = require('crappy.serpent')
 local pluginManager = require('crappy.pluginManager')
 
 local log = lgi.log.domain('crappy.configManager')
 
 local configManager = {}
 
-configManager.configver = 0.2
+configManager.configver = 1
 
-configManager.json = require('crappy.JSON')
+function configManager.getDefaultFilename()
+   local HOME = os.getenv('HOME')
+   return HOME .. "/.config/awesome/crappy-config.lua"
+end
 
 function configManager.new()
    return {
@@ -22,62 +26,41 @@ end
 function configManager.load(fileName)
    -- TODO: Error handling
    local f = Gio.File.new_for_path(fileName)
-   local configJson = f:load_contents()
+   local configText = f:load_contents()
 
-   return configManager.parse(configJson)
+   return configManager.parse(configText)
 end
 
-function configManager.parse(configJson)
+function configManager.parse(configText)
    -- TODO: Error handling
-   local config = configManager.json:decode(configJson)
-   if not config then
-      config = {}
-   end
+   local config = configManager.new()
+   local ok, res = serpent.load(configText)
 
-   -- Stupid numbers!
-   if tonumber(config.configver) ~= tonumber(configManager.configver) then
-      if config.configver then
-         log.warning("The configuration is not a supported, version " .. config.configver .. ", using default")
-      else
+   if ok and type(res) == 'table' then
+      -- Stupid numbers!
+      if tonumber(res.configver) ~= tonumber(configManager.configver) then
          log.warning("The configuration is not a supported, using default")
+      else
+         config = res
       end
-      config = configManager.new()
+   else
+      log.warning("Error parsing configuration, using default: " .. res)
    end
 
    return config
 end
 
 function configManager.show(config)
-   log.message("JSON:\n" .. configManager.json:encode_pretty(config))
+   log.message("Config:\n" .. serpent.block(config, {comment=false}))
 end
 
 function configManager.save(file, config)
    -- TODO: Error handling
    local f = assert(io.open(file, "w"), "Unable to open file: " .. file)
-   f:write(configManager.json:encode_pretty(config))
+   f:write(serpent.block(config, {comment=false}))
    f:close()
 
    return true
-end
-
-function configManager.json:onDecodeError(message, text, location, etc)
-   if text then
-      if location then
-         message = string.format("Error reading JSON at char %d: %s", location, message)
-      else
-         message = string.format("Error reading JSON: %s", message)
-      end
-   end
-
-   if etc ~= nil then
-      message = message .. " (" .. OBJDEF:encode(etc) .. ")"
-   end
-
-   if self.assert then
-      self.assert(false, message)
-   else
-      assert(false, message)
-   end
 end
 
 function configManager.buildFunctionPlugins(config)

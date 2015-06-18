@@ -8,7 +8,7 @@ This repository includes the following:
 - crappy - A library for reading configuration files for Awesome
 
 * Crappy
-Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5+.  The goal of this is to be able to move between multiple versions of Awesome and maintain the same basic configuration in a relatively easy to edit file.  JSON was chosen to allow for tools to be written in languages other than Lua to modify the configuration.
+Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.  Specifically tested on 3.4.11 and 3.5.5+.  The goal of this is to be able to move between multiple versions of Awesome and maintain the same basic configuration in a relatively easy to edit file.
 ** Installation from Git
 Clone the repository anywhere you want:
 #+BEGIN_SRC sh
@@ -25,9 +25,9 @@ Make a symlink from your awesome config directory to the libraries:
 ln -s $(pwd)/awesome-config/lib/* ~/.config/awesome/
 #+END_SRC
 
-Copy the example ~rc.lua~ and ~crappy.json~ to your config directory:
+Copy the example ~rc.lua~ and ~crappy-config.lua~ to your config directory:
 #+BEGIN_SRC sh
-cp awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
+cp awesome-config/examples/{crappy-config.lua,rc.lua} ~/.config/awesome/
 #+END_SRC
 
 Start awesome.
@@ -53,9 +53,9 @@ Backup your configuration directory:
 cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
 #+END_SRC
 
-Copy the example ~rc.lua~ and ~crappy.json~ to your config directory:
+Copy the example ~rc.lua~ and ~crappy-config.lua~ to your config directory:
 #+BEGIN_SRC sh
-cp /usr/share/doc/awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
+cp /usr/share/doc/awesome-config/examples/{crappy-config.lua,rc.lua} ~/.config/awesome/
 #+END_SRC
 
 Start awesome.
@@ -64,7 +64,7 @@ You can use your own functions with crappy by defining or requiring them ~rc.lua
 ** Awesome Config GUI
 Run ~awesome-config~ to start the configuration GUI.
 ** Manual Configuration
-Edit ~.config/awesome/config.json~ as desired.
+Edit ~.config/awesome/crappy-config.lua~ as desired.
 
 A more detailed description of the configuration file is provided in the ~docs/config~ directory.
 * Plugin API

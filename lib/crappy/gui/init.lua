@@ -157,9 +157,9 @@ function gui.newWindow(app, file)
    local function loadFile(f)
       print("Loading file")
       file = f
-      local configJson = f:load_contents()
+      local configText = f:load_contents()
 
-      config = configManager.parse(tostring(configJson))
+      config = configManager.parse(tostring(configText))
       setConfigModified(false)
       resetUi()
    end

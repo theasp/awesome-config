@@ -17,6 +17,7 @@ local Gdk = lgi.require('Gdk')
 local Gio = lgi.require('Gio')
 
 local pluginManager = require('crappy.pluginManager')
+local configManager = require('crappy.configManager')
 local gui = require('crappy.gui')
 
 -- The following is annoying:
@@ -33,9 +34,7 @@ function app:on_shutdown()
 end
 
 function app:on_activate()
-   local HOME = os.getenv('HOME')
-   local fileName = HOME .. "/.config/awesome/crappy.json"
-   local file = Gio.File.new_for_path(fileName)
+   local file = Gio.File.new_for_path(configManager.getDefaultFilename())
 
    gui.newWindow(app, file)
 end

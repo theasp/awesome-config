@@ -30,9 +30,7 @@ This repository includes the following:
   Crappy reads a configuration file to configure Awesome 3.4.x or 3.5.x.
   Specifically tested on 3.4.11 and 3.5.5+.  The goal of this is to be
   able to move between multiple versions of Awesome and maintain the
-  same basic configuration in a relatively easy to edit file.  JSON was
-  chosen to allow for tools to be written in languages other than Lua to
-  modify the configuration.
+  same basic configuration in a relatively easy to edit file.
 
 
 1.1 Installation from Git
@@ -53,9 +51,10 @@ This repository includes the following:
   │ ln -s $(pwd)/awesome-config/lib/* ~/.config/awesome/
   └────
 
-  Copy the example `rc.lua' and `crappy.json' to your config directory:
+  Copy the example `rc.lua' and `crappy-config.lua' to your config
+  directory:
   ┌────
-  │ cp awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
+  │ cp awesome-config/examples/{crappy-config.lua,rc.lua} ~/.config/awesome/
   └────
 
   Start awesome.
@@ -85,9 +84,10 @@ This repository includes the following:
   │ cp -a ~/.config/awesome ~/.config/awesome.bak-$(date +%F-%T)
   └────
 
-  Copy the example `rc.lua' and `crappy.json' to your config directory:
+  Copy the example `rc.lua' and `crappy-config.lua' to your config
+  directory:
   ┌────
-  │ cp /usr/share/doc/awesome-config/examples/{crappy.json,rc.lua} ~/.config/awesome/
+  │ cp /usr/share/doc/awesome-config/examples/{crappy-config.lua,rc.lua} ~/.config/awesome/
   └────
 
   Start awesome.
@@ -109,7 +109,7 @@ This repository includes the following:
 2.2 Manual Configuration
 ────────────────────────
 
-  Edit `.config/awesome/config.json' as desired.
+  Edit `.config/awesome/crappy-config.lua' as desired.
 
   A more detailed description of the configuration file is provided in
   the `docs/config' directory.

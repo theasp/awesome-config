@@ -1,7 +1,6 @@
 -- TODO:
 -- Error checking
 
-local util = require('awful.util')
 local pluginManager = require('crappy.pluginManager')
 local configManager = require('crappy.configManager')
 local functionManager = require('crappy.functionManager')
@@ -26,7 +25,7 @@ function crappy.start(file)
    log.message("Initializing")
 
    if file == nil then
-      file = util.getdir("config") .. "/crappy.json"
+      file = configManager.getDefaultFilename()
    end
 
    crappy.config = configManager.load(file)
