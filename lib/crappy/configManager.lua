@@ -1,4 +1,6 @@
 local lgi = require 'lgi'
+local Gio = lgi.require('Gio')
+
 local misc = require('crappy.misc')
 local pluginManager = require('crappy.pluginManager')
 
@@ -17,12 +19,16 @@ function configManager.new()
    }
 end
 
-function configManager.load(file)
+function configManager.load(fileName)
    -- TODO: Error handling
-   local f = assert(io.open(file, "r"), "Unable to open file: " .. file)
-   local configJson = f:read("*all")
-   f:close()
+   local f = Gio.File.new_for_path(fileName)
+   local configJson = f:load_contents()
 
+   return configManager.parse(configJson)
+end
+
+function configManager.parse(configJson)
+   -- TODO: Error handling
    local config = configManager.json:decode(configJson)
    if not config then
       config = {}
@@ -31,9 +37,9 @@ function configManager.load(file)
    -- Stupid numbers!
    if tonumber(config.configver) ~= tonumber(configManager.configver) then
       if config.configver then
-         log.warning("The configuration in " .. file .. " is not a supported, version " .. config.configver .. ", using default")
+         log.warning("The configuration is not a supported, version " .. config.configver .. ", using default")
       else
-         log.warning("The configuration in " .. file .. " is not a supported, using default")
+         log.warning("The configuration is not a supported, using default")
       end
       config = configManager.new()
    end
