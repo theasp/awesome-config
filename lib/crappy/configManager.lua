@@ -67,7 +67,7 @@ function configManager.buildFunctionPlugins(config)
    -- Loop over the plugins in the config to detect missing plugins,
    -- and generate function based plugins.
    for pluginId, pluginDef in pairs(config.plugins) do
-      if config.type and config.type == 'func' then
+      if pluginDef.type and pluginDef.type == 'func' then
          pluginManager.makePluginFromFunc(pluginId, pluginDef)
       end
    end
