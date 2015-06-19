@@ -28,7 +28,7 @@ function configManager.load(fileName)
    local f = Gio.File.new_for_path(fileName)
    local configText = f:load_contents()
 
-   return configManager.parse(configText)
+   return configManager.parse(tostring(configText))
 end
 
 function configManager.parse(configText)
