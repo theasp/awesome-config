@@ -13,7 +13,7 @@ local fallback = require('crappy.gui.fallback')
 local gui = {}
 
 gui.title = "Awesome Config"
-gui.version = "0.2"
+gui.version = "0.3"
 gui.authors = {
    "Andrew Phillips",
 }
